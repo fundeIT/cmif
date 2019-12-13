@@ -60,7 +60,7 @@ def get_data(obj='', office='', details=False):
             obj, 
             office, 
             detail_stmt, 
-            detail_stmt
+            detail_stmt,
         )
     conn = sqlite3.connect(DBNAME)
     data = pd.read_sql(stmt, conn)
@@ -125,8 +125,7 @@ def make_table():
         )
     ])
 
-def generate_figure(obj='', office=''):
-    df = get_data(obj, office)
+def generate_figure(df):
     data = df.groupby('Año').sum() / 1e6
     data = data.reset_index()
     data.replace(0, np.NaN, inplace=True)
@@ -147,7 +146,7 @@ def make_figure():
     return html.Div([
         dcc.Graph(
             id = 'object_plot',
-            figure = generate_figure(),
+            figure = generate_figure(get_data()),
         )
     ])
 
@@ -267,20 +266,10 @@ content = dbc.Container([
 layout = html.Div([content,])
 
 @app.callback(
-    Output(component_id='object_table', component_property='columns'),
-    [
-        Input(component_id='detail_control', component_property='value'),
-    ]
-)
-def remake_table(details):
-    data = get_data(details=True if len(details)>0 else   False)
-    columns = [{'name': col, 'id': col} for col in data.columns]
-    return columns
-
-@app.callback(
     [
         Output(component_id='object_table', component_property='data'),
         Output(component_id='object_plot', component_property='figure'),
+        Output(component_id='object_table', component_property='columns'),
     ],
     [
         Input(component_id='object_control', component_property='value'),
@@ -288,12 +277,13 @@ def remake_table(details):
         Input(component_id='detail_control', component_property='value'),
     ]
 )
-def update_table(object_index, office_index, details):
+def update_outputs(object_index, office_index, details):
     object_id = '' if object_index == None \
         else objects.iloc[object_index].object
     office_id = '' if office_index == None \
         else offices.iloc[office_index].office
     data = get_data(object_id, office_id, 
         details=True if len(details)>0 else   False)
-    fig = generate_figure(object_id, office_id)
-    return data.to_dict('records'), fig
+    fig = generate_figure(data)
+    columns = [{'name': col, 'id': col} for col in data.columns]
+    return data.to_dict('records'), fig, columns
