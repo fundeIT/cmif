@@ -3,7 +3,7 @@
 import sqlite3
 import pandas as pd
 
-DBNAME = 'output/budget.db'
+DBNAME = 'budget.db'
 
 moments = {
     'Preliminary': 1,

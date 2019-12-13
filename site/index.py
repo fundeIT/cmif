@@ -13,7 +13,7 @@ from tornado.web import FallbackHandler, RequestHandler, Application, \
                         StaticFileHandler
 
 from app import app
-from apps import by_object
+from apps import budget_explorer
 
 navbar = dbc.NavbarSimple(
     children=[
@@ -23,7 +23,7 @@ navbar = dbc.NavbarSimple(
             in_navbar=True,
             label="Menu",
             children=[
-                dbc.DropdownMenuItem(html.A("Explorador de presupuestos", href='/by_object')),
+                dbc.DropdownMenuItem(html.A("Explorador de presupuestos", href='/budget_explorer')),
                 dbc.DropdownMenuItem(divider=True),
                 dbc.DropdownMenuItem("Otros..."),
             ],
@@ -56,7 +56,7 @@ comprensibles para la población en general.
 Este sitio estará compuesto por aplicaciones o **dashboards**, por medio de los cuales
 los usuarios podrán hacer consultas, visualizar gráficas interactivas,
 ordenar o filtrar los resultados y descargar los datos. Inicialmente se presenta
-el dashboard [Explorador de presupuestos](/by_object), para consultar presupuestos desde el
+el dashboard [Explorador de presupuestos](/budget_explorer), para consultar presupuestos desde el
 año 2012. Más adelante se agregarán nuevos dashboards sobre ingresos,
 transferencias presupuestarias, proyectos de inversión, deuda pública y otros
 tópicos.
@@ -70,7 +70,7 @@ dar sentido y carácter humano a las tradicionalmente frías cifras financieras.
 '''
 
 budget_explorer_text = '''
-Este [dashboard](/by_object) permite consultar la evolución de los presupuestos de las instituciones
+Este [dashboard](/budget_explorer) permite consultar la evolución de los presupuestos de las instituciones
 públicas según los clasificadores de egresos. Contiene datos desde el año 2012
 para diferentes momentos: cuando los presupuestos son propuestos a la Asamblea Legislativa,
 cuando son aprobados por los diputados, cuando son modificados durante el ejercicio fiscal y,
@@ -92,9 +92,9 @@ default_content = html.Div([
         dbc.Row([
             dbc.Col([
                 dcc.Markdown(budget_explorer_text),
-                html.A('Entrar', href='/by_object', className='btn btn-primary'),
+                html.A('Entrar', href='/budget_explorer', className='btn btn-primary'),
             ], md=8),
-            dbc.Col(html.A(html.Img(src='assets/icons/budget.svg', width='120px'), href='/by_object')),
+            dbc.Col(html.A(html.Img(src='assets/icons/budget.svg', width='120px'), href='/budget_explorer')),
         ]),
     ]),
 ])
@@ -105,10 +105,8 @@ default_content = html.Div([
 def display_page(pathname):
     if pathname == '/':
         return default_content 
-    elif pathname == '/by_object':
-        return by_object.layout
-    elif pathname == '/budget_by_object':
-        return budget_by_object.layout
+    elif pathname == '/budget_explorer':
+        return budget_explorer.layout
     else:
         return '404'
 
