@@ -53,9 +53,17 @@ def get_structure():
     data['line'] = data.line.apply(lambda s: s.replace('NA', ''))
     data = data[data.line.apply(len) >= 3]
     data['line'] = data.line.apply(lambda s: s[-2:])
-    data['unit'] = prepare.num_to_code(data['unit'], 2)
-    data['office'] = prepare.num_to_code(data['office'], 4)
+    data['unit'] = num_to_code(data['unit'], 2)
+    data['office'] = num_to_code(data['office'], 4)
     conn = sqlite3.connect(DBNAME)
+    unit = data[['year', 'office', 'unit', 'unit_name']]
+    unit.set_index(['year', 'office', 'unit'], inplace=True)
+    unit.to_sql('unit', conn, if_exists='replace')
+    line = data[['year', 'office', 'unit', 'line', 'line_name']]
+    line.set_index(['year', 'office', 'unit', 'line'], inplace=True)
+    line.to_sql('line', conn, if_exists='replace')
+    conn.close()
+    return data
 
 def get_budget_2012_2017():
     print('Ejecutado 2012-2017')

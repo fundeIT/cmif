@@ -19,13 +19,15 @@ RENAMES = {
     'office_name': 'Nombre de la oficina', 
     'level': 'Nivel',
     'unit': 'Unidad',
+    'unit_name': 'Nombre de la unidad',
     'line': 'Línea',
+    'line_name': 'Nombre de la línea',
     'source': 'Fuente',
     'object': 'Clasificador',
     'moment': 'Momento',
 }
 INDEX_LARGE = list(RENAMES.keys())
-INDEX_SHORT = INDEX_LARGE[0:4] + INDEX_LARGE[-2:]
+INDEX_SHORT = ['year', 'office', 'office_name', 'level', 'object', 'moment'] 
  
 MOMENTS = {
     'PL': '1. Preliminar',
@@ -41,27 +43,41 @@ def get_data(obj='', office='', details=False):
     global old_data
     # Optional SQL segment statement for
     # the 'details' condition
-    detail_stmt = "unit, line, source," if details else ""
+    detail_stmt = "budget.unit, unit_name, budget.line, line_name, source," if details else ""
+    join_stmt = """
+    LEFT JOIN unit ON
+        budget.year = unit.year AND
+        budget.office = unit.office AND
+        budget.unit = unit.unit
+    LEFT JOIN line ON
+        budget.year = line.year AND
+        budget.office = line.office AND
+        budget.unit = line.unit AND
+        budget.line = line.line
+    """ if details else ""
     # The SQL query
     stmt = """
     SELECT 
-        year, budget.office AS office, office_name, level, {} 
+        budget.year, budget.office AS office, office_name, level, {} 
         '{}' AS object, moment, ROUND(SUM(amount), 2) AS amount
     FROM budget, office
+    {}
     WHERE 
         object LIKE '{}%' AND 
         budget.office LIKE '{}%' AND 
         budget.office = office.office
-    GROUP BY year, level, budget.office, {} moment
-    ORDER BY year, level, budget.office, {} moment
+    GROUP BY budget.year, level, budget.office, {} moment
+    ORDER BY budget.year, level, budget.office, {} moment
     """.format(
             detail_stmt, 
             obj, 
+            join_stmt,
             obj, 
             office, 
             detail_stmt, 
             detail_stmt,
         )
+    print(stmt)
     conn = sqlite3.connect(DBNAME)
     data = pd.read_sql(stmt, conn)
     conn.close()
@@ -93,7 +109,9 @@ def get_data(obj='', office='', details=False):
         if details:
             df.rename(columns={
                     'unit': 'Unidad',
+                    'unit_name': 'Nombre de la unidad',
                     'line': 'Línea',
+                    'line_name': 'Nombre de la línea',
                     'source': 'Fuente',
                 },
                 inplace=True
