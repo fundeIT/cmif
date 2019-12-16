@@ -125,10 +125,14 @@ def get_data(obj='', office='', details=False):
 
 def make_table():
     data = get_data() 
+    columns = [{'name': col, 'id': col} for col in data.columns]
+    for i, col in enumerate(columns):
+        if col['name'] in MOMENTS.values():
+           columns[i]['format'] = {'specifier': '$,'}
     return html.Div([
         dash_table.DataTable(
             id = 'object_table',
-            columns = [{'name': col, 'id': col} for col in data.columns],
+            columns = columns, 
             data = data.to_dict('records'),
             sort_action = 'native',
             style_data = {
@@ -139,7 +143,10 @@ def make_table():
             style_header = {
                 'backgroundColor': 'white',
                 'fontWeight': 'bold'
-            }
+            },
+            export_format = 'csv',
+            page_size = 50,
+            fill_width = False,
         )
     ])
 
@@ -248,20 +255,20 @@ content = dbc.Container([
             dbc.Row(dbc.Col([
                 make_office_control(),
             ])),
-            dbc.Row(dbc.Col([
-                html.A(
-                    'Descargar CSV', 
-                    href='static/budget_by_object.csv', 
-                    className='btn btn-primary'
-                ),
-                ' ',
-                html.A(
-                    'Descargar XLS', 
-                    href='static/budget_by_object.xlsx', 
-                    className='btn btn-primary'
-                ),
- 
-            ])),
+#            dbc.Row(dbc.Col([
+#                html.A(
+#                    'Descargar CSV', 
+#                    href='static/budget_by_object.csv', 
+#                    className='btn btn-primary'
+#                ),
+#                ' ',
+#                html.A(
+#                    'Descargar XLS', 
+#                    href='static/budget_by_object.xlsx', 
+#                    className='btn btn-primary'
+#                ),
+# 
+#            ])),
         ], md=8),
     ]),
     dbc.Row(dbc.Col(
