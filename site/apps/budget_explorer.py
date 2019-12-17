@@ -1,7 +1,10 @@
+import io
 import numpy as np
 import pandas as pd
 import sqlite3
+import urllib
 import dash_table
+from dash_table.Format import Format
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
@@ -128,7 +131,8 @@ def make_table():
     columns = [{'name': col, 'id': col} for col in data.columns]
     for i, col in enumerate(columns):
         if col['name'] in MOMENTS.values():
-           columns[i]['format'] = {'specifier': '$,'}
+            columns[i]['type'] = 'numeric'
+            columns[i]['format'] = Format(group=',')
     return html.Div([
         dash_table.DataTable(
             id = 'object_table',
@@ -144,7 +148,6 @@ def make_table():
                 'backgroundColor': 'white',
                 'fontWeight': 'bold'
             },
-            export_format = 'csv',
             page_size = 50,
             fill_width = False,
         )
@@ -255,20 +258,21 @@ content = dbc.Container([
             dbc.Row(dbc.Col([
                 make_office_control(),
             ])),
-#            dbc.Row(dbc.Col([
-#                html.A(
-#                    'Descargar CSV', 
-#                    href='static/budget_by_object.csv', 
-#                    className='btn btn-primary'
-#                ),
-#                ' ',
-#                html.A(
-#                    'Descargar XLS', 
-#                    href='static/budget_by_object.xlsx', 
-#                    className='btn btn-primary'
-#                ),
-# 
-#            ])),
+            dbc.Row(dbc.Col([
+                html.A(
+                    'Descargar CSV', 
+                    href='static/budget_by_object.csv', 
+                    id='download_csv',
+                    className='btn btn-primary'
+                ),
+                ' ',
+                html.A(
+                    'Descargar XLS', 
+                    href='static/budget_by_object.xlsx', 
+                    id='download_xlsx',
+                    className='btn btn-primary'
+                ),
+            ])),
         ], md=8),
     ]),
     dbc.Row(dbc.Col(
@@ -285,7 +289,7 @@ content = dbc.Container([
                 ])),
             ], label='Tabla', tab_id='table'),
         ], id='tabs'),
-    )),
+    ), className='center'),
 ])
 
 layout = html.Div([content,])
@@ -312,3 +316,30 @@ def update_outputs(object_index, office_index, details):
     fig = generate_figure(data)
     columns = [{'name': col, 'id': col} for col in data.columns]
     return data.to_dict('records'), fig, columns
+
+@app.callback(
+    Output(component_id='download_csv', component_property='href'),
+    [
+        Input(component_id='object_table', component_property='data'),
+    ]
+)
+def download_csv(data):
+    df = pd.DataFrame(data)
+    csv_string = df.to_csv(index=False)
+    csv_string = 'data:text/csv;charset=utf-8,' + urllib.parse.quote(csv_string)
+    return csv_string
+
+@app.callback(
+    Output(component_id='download_xlsx', component_property='href'),
+    [
+        Input(component_id='object_table', component_property='data'),
+    ]
+)
+def download_xlsx(data):
+    df = pd.DataFrame(data)
+    output = io.BytesIO()
+    writer = pd.ExcelWriter(output)
+    df.to_excel(writer)
+    writer.save()
+    xlsx_string = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8," + urllib.parse.quote(output.getvalue())
+    return xlsx_string
