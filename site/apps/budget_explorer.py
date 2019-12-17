@@ -119,8 +119,8 @@ def get_data(obj='', office='', details=False):
                 },
                 inplace=True
             )
-        df.to_csv('static/budget.csv', index=False)
-        df.to_excel('static/budget.xlsx', index=False)
+        # df.to_csv('static/budget.csv', index=False)
+        # df.to_excel('static/budget.xlsx', index=False)
         old_data = df.copy()
         return df
     else:
@@ -261,14 +261,16 @@ content = dbc.Container([
             dbc.Row(dbc.Col([
                 html.A(
                     'Descargar CSV', 
-                    href='static/budget_by_object.csv', 
+                    # href='static/budget_by_object.csv', 
+                    download='budget.csv',
                     id='download_csv',
                     className='btn btn-primary'
                 ),
                 ' ',
                 html.A(
                     'Descargar XLS', 
-                    href='static/budget_by_object.xlsx', 
+                    # href='static/budget_by_object.xlsx', 
+                    download='budget.xlsx',
                     id='download_xlsx',
                     className='btn btn-primary'
                 ),
