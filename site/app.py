@@ -17,3 +17,25 @@ app = dash.Dash(
 app.config.suppress_callback_exceptions = True
 
 
+app.index_string = '''
+<!DOCTYPE html>
+<html>
+    <head>
+        {%metas%}
+        <title>FUNDE - Centro de Monitoreo e Incidencia Fiscal</title>
+        {%favicon%}
+        {%css%}
+    </head>
+    <body>
+        <div></div>
+        {%app_entry%}
+        <footer>
+            {%config%}
+            {%scripts%}
+            {%renderer%}
+        </footer>
+        <div></div>
+    </body>
+</html>
+'''
+
