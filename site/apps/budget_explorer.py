@@ -46,7 +46,9 @@ def get_data(obj='', office='', details=False):
     global old_data
     # Optional SQL segment statement for
     # the 'details' condition
-    detail_stmt = "budget.unit, unit_name, budget.line, line_name, source," if details else ""
+    detail_stmt = """
+        budget.unit, unit_name, budget.line, line_name, source,
+    """ if details else ""
     join_stmt = """
     LEFT JOIN unit ON
         budget.year = unit.year AND
@@ -80,6 +82,7 @@ def get_data(obj='', office='', details=False):
             detail_stmt, 
             detail_stmt,
         )
+    print(stmt)
     conn = sqlite3.connect(DBNAME)
     data = pd.read_sql(stmt, conn)
     conn.close()
@@ -340,7 +343,7 @@ def download_xlsx(data):
     df = pd.DataFrame(data)
     output = io.BytesIO()
     writer = pd.ExcelWriter(output)
-    df.to_excel(writer)
+    df.to_excel(writer, index=False)
     writer.save()
     xlsx_string = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8," + urllib.parse.quote(output.getvalue())
     return xlsx_string

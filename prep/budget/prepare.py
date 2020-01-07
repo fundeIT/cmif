@@ -143,12 +143,13 @@ def get_budget_2018():
             'UNID. PRESUP.': 'unit',
             'LINEA DE TRAB.': 'line',
             'ESPECIFICO': 'object',
+            'PROGRAMADO': 'approved',
             'MODIFICADO': 'modified',
             'DEVENGADO': 'accrued'
         },
         inplace=True
     )
-    del data['PROGRAMADO']
+    # del data['PROGRAMADO']
     del data['COMPROMETIDO']
     # Converting code columns to strings
     set_as_codes(data, {
@@ -158,10 +159,13 @@ def get_budget_2018():
         'line': 2,
         'object': 5
     })
-    data = data.groupby(['year', 'office', 'source', 'unit', 'line', 'object']).sum().reset_index()
+    data = data.groupby(
+        ['year', 'office', 'source', 'unit', 'line', 'object']
+    ).sum().reset_index()
     data['month'] = 12
     data['line'] = data['line'].apply(lambda s: s[2:])
     moments = {
+        'AP': 'approved',
         'MD': 'modified',
         'DV': 'accrued',
     }
@@ -172,6 +176,7 @@ def get_budget_2018():
         aux['amount'] = data[moments[label]]
         dfs.append(aux)
     ret = pd.concat(dfs)
+    del ret['approved']
     del ret['modified']
     del ret['accrued']
     del ret['MES']
