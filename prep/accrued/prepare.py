@@ -6,6 +6,7 @@ import zipfile
 from dotenv import load_dotenv
 import pandas as pd
 import sqlite3
+from multiprocessing import Pool
 
 load_dotenv()
 
@@ -91,13 +92,14 @@ def extractData(filename):
         ])
     df.to_sql('accrued', conn, if_exists='append', index=True)
     conn.close()
-    return data, df
+    return data
     
 def processFiles(path='.'):
     csvFiles = glob.glob(path + '/*.csv')
     os.remove('accrued.db')
-    for ds in csvFiles:
-        data, df = extractData(ds)
+    with Pool(4) as p:
+        ret = p.map(extractData, csvFiles)    
+    data = pd.concat(ret, sort=False)
     conn = sqlite3.connect(os.getenv('DBNAME'))
     office = data[['office', 'office_name', 'level']].drop_duplicates()
     office.set_index('office', inplace=True)
@@ -114,9 +116,19 @@ def processFiles(path='.'):
     financier = data[['financier', 'financier_name']].drop_duplicates()
     financier.set_index('financier', inplace=True)
     financier.to_sql('financier', conn)
+    unit = data[['year', 'office', 'unit', 'unit_name']].drop_duplicates()
+    unit.set_index(['year', 'office', 'unit'], inplace=True)
+    unit.to_sql('unit', conn)
+    line = data[['year', 'office', 'unit', 'line', 'line_name']].drop_duplicates()
+    line.set_index(['year', 'office', 'unit', 'line'], inplace=True)
+    line.to_sql('line', conn)
     conn.close()
 
+def cleanWorkSpace():
+    for fileName in glob.glob('*.zip') + glob.glob('*.csv'):
+        os.remove(fileName)
 
 if __name__ == '__main__':
     downloadDatasets()
     processFiles()
+    # cleanWorkSpace()
