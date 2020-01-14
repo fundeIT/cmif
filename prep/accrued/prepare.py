@@ -1,3 +1,16 @@
+#!/usr/bin/env python
+#
+# Prepare the accrued database
+#
+# This script download the accrued datasets from
+# Portal de Transparencia Fiscal and build a
+# database with them.
+#
+# (2020) Fundación Nacional para el Desarrollo
+#
+# Contributors:
+#   Jaime Lopez <jailop AT gmail DOT com>
+
 import os
 import sys
 import glob
@@ -6,11 +19,21 @@ import zipfile
 from dotenv import load_dotenv
 import pandas as pd
 import sqlite3
-from multiprocessing import Pool
+import multiprocessing as mp
 
 load_dotenv()
 
 def tableExists(tableName, conn=None):
+    """
+    It checks if a table exists in a SQLite database.
+    
+    Params:
+        tableName: the name of the table to be checked
+        conn: SQLite database connection
+    
+    Return:
+        True is table exists, False otherwise
+    """
     if conn == None:
         conn = sqlite3.connect(os.getenv('DBNAME'))
     c = conn.cursor()
@@ -22,35 +45,57 @@ def tableExists(tableName, conn=None):
     conn.close()
     return flag
 
-def downloadDatasets(verbose=False):
-    success = True
-    years = range(int(os.getenv('START_YEAR')), int(os.getenv('END_YEAR')))
-    url = 'http://www.transparenciafiscal.gob.sv/downloads/zip/700-DINAFI-DA-{}-CPG.zip'
-    for y in years:
-        address = url.format(y)
-        pos = url.rfind('/') + 1
-        filename = address[pos:]
-        if os.path.exists(filename):
-            if verbose:
-                print('File {} has been already downloaded.'.format(filename))
-            continue
+def downloadFile(year):
+    """
+    It downloads a file from the web. An URL address template must be given
+    in the env file. The URL will formed merging the year. The dataset
+    downloaded is saved as a file.
+    
+    Params:
+        year : Year of the dataset to be downloaded
+    
+    Return:
+        True is success, False otherwise
+    """
+    flag = True
+    address = os.getenv('URL').format(year)
+    pos = address.rfind('/') + 1
+    filename = address[pos:]
+    if not os.path.exists(filename):
         try:
-            if verbose:
-                sys.stdout.write('Getting {} ... '.format(filename))
             resource = requests.get(address)
             with open(filename, 'wb') as fd:
                 fd.write(resource.content)
-            if verbose:
-                sys.stdout.write('unzipping ... ')
             with zipfile.ZipFile(filename, 'r') as fz:
                 fz.extractall('.')
-            if verbose:
-                sys.stdout.write(' done.\n')
         except:
-            success = success and False
-    return success
+            flag = False
+    return flag
+
+def downloadDatasets():
+    """
+    It downloads the datasets for the period given in the env file.
+    START_YEAR and END_YEAR must be defined.
+    
+    Return:
+        True if successing downloading all datasets, False otherwise
+    """
+    years = range(int(os.getenv('START_YEAR')), int(os.getenv('END_YEAR')))
+    with mp.Pool(mp.cpu_count()) as p:
+        ret = p.map(downloadFile, years)    
+    flag = True
+    for r in ret:
+        flag &= r
+    return flag
 
 def extractData(filename):
+    """
+    It extract key data from the downloaded datasets and build
+    the 'accrued' table in the database.
+
+    Return:
+        The dataset in mid processed
+    """
     data = pd.read_csv(filename, sep=';')
     data.rename(columns={
         'EJERCICIO': 'year', 
@@ -93,42 +138,61 @@ def extractData(filename):
     df.to_sql('accrued', conn, if_exists='append', index=True)
     conn.close()
     return data
-    
-def processFiles(path='.'):
-    csvFiles = glob.glob(path + '/*.csv')
-    os.remove('accrued.db')
-    with Pool(4) as p:
-        ret = p.map(extractData, csvFiles)    
-    data = pd.concat(ret, sort=False)
+   
+def buildDict(data, fields, upper_index, table_name_index):
+    """
+    It builds a dictionary for data lookup.
+
+    Params:
+        data : Dataframe containing the data
+        fields: List of fields to be included in the dictionary
+        upper_index: Index of the upper bond field for index
+        table_name_index: Index of the field which will be used
+                          to name the dictionary
+    """
+    df = data[fields].drop_duplicates()
+    df.set_index(fields[:upper_index], inplace=True)
     conn = sqlite3.connect(os.getenv('DBNAME'))
-    office = data[['office', 'office_name', 'level']].drop_duplicates()
-    office.set_index('office', inplace=True)
-    office.to_sql('office', conn)
-    level = data[['level', 'level_name']].drop_duplicates()
-    level.set_index('level', inplace=True)
-    level.to_sql('level', conn)
-    area = data[['area', 'area_name']].drop_duplicates()
-    area.set_index('area', inplace=True)
-    area.to_sql('area', conn)
-    source = data[['source', 'source_name']].drop_duplicates()
-    source.set_index('source', inplace=True)
-    source.to_sql('source', conn)
-    financier = data[['financier', 'financier_name']].drop_duplicates()
-    financier.set_index('financier', inplace=True)
-    financier.to_sql('financier', conn)
-    unit = data[['year', 'office', 'unit', 'unit_name']].drop_duplicates()
-    unit.set_index(['year', 'office', 'unit'], inplace=True)
-    unit.to_sql('unit', conn)
-    line = data[['year', 'office', 'unit', 'line', 'line_name']].drop_duplicates()
-    line.set_index(['year', 'office', 'unit', 'line'], inplace=True)
-    line.to_sql('line', conn)
+    df.to_sql(fields[table_name_index], conn)
     conn.close()
 
+def createDictionaries(data):
+    """
+    It builds all dictionaries from the dataset
+
+    Params:
+        data: Dataframe containing the data
+    """
+    buildDict(data, ['office', 'office_name', 'level'], 1, 0)
+    buildDict(data, ['level', 'level_name'], 1, 0)
+    buildDict(data, ['area', 'area_name'], 1, 0)
+    buildDict(data, ['source', 'source_name'], 1, 0)
+    buildDict(data, ['financier', 'financier_name'], 1, 0)
+    buildDict(data, ['year', 'office', 'unit', 'unit_name'], 3, 2)
+    buildDict(data, ['year', 'office', 'unit', 'line', 'line_name'], 4, 3)
+
+def processFiles(path='.'):
+    """
+    It convert CSV files to a SQL database
+
+    Params:
+        path : Optional path where CSV files are located
+    """
+    csvFiles = glob.glob(path + '/*.csv')
+    os.remove('accrued.db')
+    with mp.Pool(mp.cpu_count()) as p:
+        ret = p.map(extractData, csvFiles)    
+    data = pd.concat(ret, sort=False)
+    createDictionaries(data)
+
 def cleanWorkSpace():
+    """
+    It cleans the work space deleting the zip and csv files.
+    """
     for fileName in glob.glob('*.zip') + glob.glob('*.csv'):
         os.remove(fileName)
 
 if __name__ == '__main__':
     downloadDatasets()
     processFiles()
-    # cleanWorkSpace()
+    cleanWorkSpace()
