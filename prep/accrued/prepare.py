@@ -179,7 +179,10 @@ def processFiles(path='.'):
         path : Optional path where CSV files are located
     """
     csvFiles = glob.glob(path + '/*.csv')
-    os.remove('accrued.db')
+    try:
+        os.remove('accrued.db')
+    except:
+        print(OSError.strerror)
     with mp.Pool(mp.cpu_count()) as p:
         ret = p.map(extractData, csvFiles)    
     data = pd.concat(ret, sort=False)
