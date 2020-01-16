@@ -82,7 +82,6 @@ def get_data(obj='', office='', details=False):
             detail_stmt, 
             detail_stmt,
         )
-    print(stmt)
     conn = sqlite3.connect(DBNAME)
     data = pd.read_sql(stmt, conn)
     conn.close()

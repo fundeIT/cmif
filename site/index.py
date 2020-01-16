@@ -13,7 +13,7 @@ from tornado.web import FallbackHandler, RequestHandler, Application, \
                         StaticFileHandler
 
 from app import app
-from apps import budget_explorer
+from apps import budget_explorer, budget_monitor
 
 navbar = dbc.NavbarSimple(
     children=[
@@ -107,6 +107,8 @@ def display_page(pathname):
         return default_content 
     elif pathname == '/budget_explorer':
         return budget_explorer.layout
+    elif pathname == '/budget_monitor':
+        return budget_monitor.layout
     else:
         return '404'
 

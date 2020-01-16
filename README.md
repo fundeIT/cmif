@@ -13,15 +13,9 @@ Create virtual environment and install requirements:
 
 Build the budget database:
 
-    $ cd prep/budget
-    $ python prepare.py
+    $ make
 
-Setup the webserver:
-
-    $ cd ../../site/
-    $ mkdir data
-    $ ln ../prep/budget/budget.db data/
-    
 Run the webserver:
 
+    $ cd site
     $ python index.py -d
