@@ -221,6 +221,23 @@ content = dbc.Container([
             dbc.Row(dbc.Col([
                 make_office_control(),
             ])),
+            dbc.Row(dbc.Col([
+                html.A(
+                    'Descargar CSV',
+                    # href='static/budget_by_object.csv',
+                    download='budget.csv',
+                    id='accrued_csv',
+                    className='btn btn-primary'
+                ),
+                ' ',
+                html.A(
+                    'Descargar XLS',
+                    # href='static/budget_by_object.xlsx',
+                    download='budget.xlsx',
+                    id='accrued_xlsx',
+                    className='btn btn-primary'
+                ),
+            ])),
         ]),
     ]),
     dbc.Row(dbc.Col(
@@ -260,3 +277,31 @@ def update_tabs(year, office, accum):
     data = get_data(YEAR, OFFICE, cum = True if len(accum) > 0 else False)
     fig = generate_figure(data)
     return data.to_dict('records'), fig
+
+
+@app.callback(
+    Output(component_id='accrued_csv', component_property='href'),
+    [
+        Input(component_id='accrued_table', component_property='data'),
+    ]
+)
+def download_csv(data):
+    df = pd.DataFrame(data)
+    csv_string = df.to_csv(index=False)
+    csv_string = 'data:text/csv;charset=utf-8,' + urllib.parse.quote(csv_string)
+    return csv_string
+
+@app.callback(
+    Output(component_id='accrued_xlsx', component_property='href'),
+    [
+        Input(component_id='accrued_table', component_property='data'),
+    ]
+)
+def download_xlsx(data):
+    df = pd.DataFrame(data)
+    output = io.BytesIO()
+    writer = pd.ExcelWriter(output)
+    df.to_excel(writer, index=False)
+    writer.save()
+    xlsx_string = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8," + urllib.parse.quote(output.getvalue())
+    return xlsx_string
