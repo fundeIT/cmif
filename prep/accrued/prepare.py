@@ -21,16 +21,21 @@ import pandas as pd
 import sqlite3
 import multiprocessing as mp
 
+"""
+sys.path.append('..')
+import utils
+"""
+
 load_dotenv()
 
 def tableExists(tableName, conn=None):
     """
     It checks if a table exists in a SQLite database.
-    
+
     Params:
         tableName: the name of the table to be checked
         conn: SQLite database connection
-    
+
     Return:
         True is table exists, False otherwise
     """
@@ -45,15 +50,24 @@ def tableExists(tableName, conn=None):
     conn.close()
     return flag
 
+def num_to_code(col, zeros=0):
+    col_zfill = lambda value: value.zfill(zeros)
+    ret = col.apply(int).apply(str).apply(col_zfill)
+    return ret
+
+def set_as_codes(data, cols):
+    for col in cols.keys():
+        data.loc[col] = num_to_code(data[col], cols[col])
+
 def downloadFile(year):
     """
     It downloads a file from the web. An URL address template must be given
     in the env file. The URL will formed merging the year. The dataset
     downloaded is saved as a file.
-    
+
     Params:
         year : Year of the dataset to be downloaded
-    
+
     Return:
         True is success, False otherwise
     """
@@ -76,13 +90,13 @@ def downloadDatasets():
     """
     It downloads the datasets for the period given in the env file.
     START_YEAR and END_YEAR must be defined.
-    
+
     Return:
         True if successing downloading all datasets, False otherwise
     """
     years = range(int(os.getenv('START_YEAR')), int(os.getenv('END_YEAR')))
     with mp.Pool(mp.cpu_count()) as p:
-        ret = p.map(downloadFile, years)    
+        ret = p.map(downloadFile, years)
     flag = True
     for r in ret:
         flag &= r
@@ -96,49 +110,78 @@ def extractData(filename):
     Return:
         The dataset in mid processed
     """
-    data = pd.read_csv(filename, sep=';')
+    data = pd.read_csv(filename, sep=';',
+        dtype={
+            'EJERCICIO': int,
+            'TIPO_INSTITUCION': str,
+            'BD_TIPO_INSTITUCION': str,
+            'INSTITUCION': str,
+            'BD_INSTITUCION': str,
+            'UNIDAD_PRES': str,
+            'BD_UNIDAD_PRES': str,
+            'LINEA_TRABAJO': str,
+            'BD_LINEA_TRABAJO': str,
+            'AREA_GESTION': str,
+            'BD_AREA_GESTION': str,
+            'FUENTE_FINANC': str,
+            'BD_FTE_FINANCIAMIENTO': str,
+            'FUENTE_RECURS': str,
+            'BD_FTE_RECURSOS': str,
+            'RUBRO': str,
+            'DESCRIPCION_DE_RUBRO': str,
+            'CUENTA': str,
+            'DESCRIPCION_DE_CUENTA': str,
+            'MES': int,
+            'PROGRAMADO': float,
+            'MODIFICACION': float,
+            'PROGRAMADO_MODIFICADO': float,
+            'COMPROMISO': float,
+            'DEVENGADO': float
+        }
+    )
     data.rename(columns={
-        'EJERCICIO': 'year', 
-        'MES': 'month', 
-        'TIPO_INSTITUCION': 'level', 
+        'EJERCICIO': 'year',
+        'MES': 'month',
+        'TIPO_INSTITUCION': 'level',
         'BD_TIPO_INSTITUCION': 'level_name',
-        'INSTITUCION': 'office', 
-        'BD_INSTITUCION': 'office_name', 
-        'UNIDAD_PRES': 'unit', 
+        'INSTITUCION': 'office',
+        'BD_INSTITUCION': 'office_name',
+        'UNIDAD_PRES': 'unit',
         'BD_UNIDAD_PRES': 'unit_name',
-        'LINEA_TRABAJO': 'line', 
-        'BD_LINEA_TRABAJO': 'line_name', 
-        'AREA_GESTION': 'area', 
+        'LINEA_TRABAJO': 'line',
+        'BD_LINEA_TRABAJO': 'line_name',
+        'AREA_GESTION': 'area',
         'BD_AREA_GESTION': 'area_name',
-        'FUENTE_FINANC': 'source', 
-        'BD_FTE_FINANCIAMIENTO': 'source_name', 
+        'FUENTE_FINANC': 'source',
+        'BD_FTE_FINANCIAMIENTO': 'source_name',
         'FUENTE_RECURS': 'financier',
-        'BD_FTE_RECURSOS': 'financier_name', 
-        'RUBRO': 'heading', 
-        'DESCRIPCION_DE_RUBRO': 'heading_name', 
+        'BD_FTE_RECURSOS': 'financier_name',
+        'RUBRO': 'heading',
+        'DESCRIPCION_DE_RUBRO': 'heading_name',
         'CUENTA': 'subheading',
-        'DESCRIPCION_DE_CUENTA': 'subheading_name', 
-        'PROGRAMADO': 'approved', 
+        'DESCRIPCION_DE_CUENTA': 'subheading_name',
+        'PROGRAMADO': 'approved',
         'MODIFICACION': 'shifted',
-        'PROGRAMADO_MODIFICADO': 'modified', 
-        'COMPROMISO': 'reserved', 
+        'PROGRAMADO_MODIFICADO': 'modified',
+        'COMPROMISO': 'reserved',
         'DEVENGADO': 'accrued'
         }, inplace=True)
-    data['object'] = data['subheading']
+    data['object'] = data['subheading'].apply(str.strip)
+    data['line'] = data['line'].apply(str.strip)
     df = data[[
-        'year', 'month', 'office', 'unit', 
-            'line', 'area', 'source', 'financier', 'object', 
+            'year', 'month', 'office', 'unit',
+            'line', 'area', 'source', 'financier', 'object',
             'approved', 'shifted', 'modified', 'accrued',
         ]]
     conn = sqlite3.connect(os.getenv('DBNAME'))
-    df.set_index([ 
+    df.set_index([
             'year', 'month', 'office', 'unit',
             'line', 'area', 'source', 'financier', 'object'
-        ])
+        ], inplace=True)
     df.to_sql('accrued', conn, if_exists='append', index=True)
     conn.close()
     return data
-   
+
 def buildDict(data, fields, upper_index, table_name_index):
     """
     It builds a dictionary for data lookup.
@@ -182,9 +225,9 @@ def processFiles(path='.'):
     try:
         os.remove('accrued.db')
     except:
-        print(OSError.strerror)
+        print(OSError.strerror())
     with mp.Pool(mp.cpu_count()) as p:
-        ret = p.map(extractData, csvFiles)    
+        ret = p.map(extractData, csvFiles)
     data = pd.concat(ret, sort=False)
     createDictionaries(data)
 
@@ -198,4 +241,4 @@ def cleanWorkSpace():
 if __name__ == '__main__':
     downloadDatasets()
     processFiles()
-    cleanWorkSpace()
+    # cleanWorkSpace()

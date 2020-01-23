@@ -2,6 +2,7 @@
 
 import sqlite3
 import pandas as pd
+import sys
 
 DBNAME = 'budget.db'
 
@@ -23,31 +24,29 @@ def set_as_codes(data, cols):
         data[col] = num_to_code(data[col], cols[col])
 
 def get_classificator():
-    print('Budget classifications')
     source = 'sources/ClasificadorPresupuestario.csv'
     data = pd.read_csv(source, sep=';')
     data.columns = ['object', 'object_name']
     data['object'] = data['object'].astype(str)
     data['object_name'] = data.object_name.apply(str.strip)
-    data.set_index('object', inplace=True) 
+    data.set_index('object', inplace=True)
     conn = sqlite3.connect(DBNAME)
     data.to_sql('object', conn, if_exists='replace')
     conn.close()
     return data
 
 def get_structure():
-    print('Budget structures')
     source = 'sources/Estructura-Presupuestaria-2007-2019.csv'
     data = pd.read_csv(source, sep=';', skiprows=1)
     data.rename(
         columns={
-            'EJERCICIO': 'year', 
-            'INSTITUCION': 'office', 
-            'UNIDAD_PRES': 'unit', 
-            'BD_UNIDAD_PRES': 'unit_name', 
-            'LINEA_TRABAJO': 'line', 
-            'BD_LINEA_TRABAJO': 
-            'line_name'}, 
+            'EJERCICIO': 'year',
+            'INSTITUCION': 'office',
+            'UNIDAD_PRES': 'unit',
+            'BD_UNIDAD_PRES': 'unit_name',
+            'LINEA_TRABAJO': 'line',
+            'BD_LINEA_TRABAJO':
+            'line_name'},
         inplace=True
     )
     data['line'] = data.line.apply(lambda s: s.replace('NA', ''))
@@ -66,7 +65,6 @@ def get_structure():
     return data
 
 def get_budget_2012_2017():
-    print('Ejecutado 2012-2017')
     data = pd.read_excel('sources/ejecucion_2012-2017.xlsx', skiprows=7)
     data.rename(
         columns={
@@ -133,7 +131,6 @@ def get_budget_2012_2017():
     return ret
 
 def get_budget_2018():
-    print('Ejecutado 2018')
     data = pd.read_excel('sources/ejecucion_2018.xlsx')
     data.rename(
         columns={
@@ -185,7 +182,6 @@ def get_budget_2018():
     return ret
 
 def get_approved_2019():
-    print('Aprobado 2019')
     source_file = 'sources/2019_approved.xlsx'
     data = pd.read_excel(source_file)
     data.rename(
@@ -239,7 +235,6 @@ def get_approved_2019():
     return data
 
 def get_proposed_2019():
-    print('Propuesto 2019')
     source_file = 'sources/2019_proposed.xlsx'
     data = pd.read_excel(source_file)
     data.rename(
@@ -290,7 +285,6 @@ def get_proposed_2019():
     return data
 
 def get_proposed_2020():
-    print('Propuesto 2020')
     # Two alternative address are given for the source data
     # Choose the most convinient
     source_file = 'sources/2020_proposed.xlsx'
@@ -357,6 +351,78 @@ def get_proposed_2020():
     data.to_sql('budget', conn, if_exists='append', index=False)
     return data
 
+def get_approved_2020():
+    source_file = 'sources/2020_approved.xlsx'
+    data = pd.read_excel(source_file)
+    # Column names are standarized
+    data.rename(columns={
+        'EJERCICIO': 'year',
+        'INSTITUCION': 'office',
+        'NOMB_INSTITUCION': 'office_name',
+        'FUENTE DE FINANCIAMIENTÓ': 'source',
+        'NOMB_FUENTE DE FINANCIAMIENTÓ': 'source_name',
+        # 'RUBRO ECONOMICO': 'economic',
+        # 'NOMBRE RUBRO ECONOMICO': 'economic_name',
+        'AREA GESTION': 'area',
+        'NOMB_AREA GESTION': 'area_name',
+        'UNIDAD PRESUPUESTARIA': 'unit',
+        'NOMB_UNIDAD PRESUPUESTARIA': 'unit_name',
+        'LINEA DE TRABAJO': 'line',
+        'NOMB_LINEA DE TRABAJO': 'line_name',
+        'ESPECIFICO DE GASTO': 'object',
+        'NOMB_ESPECIFICO DE GASTO': 'object_name',
+        'MONTO VOTADO': 'amount'
+    }, inplace=True)
+    # Deleting rows in invalid office codes
+    invalid_offices = data[data.office.isna()].index
+    data = data.drop(invalid_offices)
+    invalid_amounts = data[data.amount.isna() == True].index
+    data = data.drop(invalid_amounts)
+    # Converting code columns to strings
+    set_as_codes(data, {
+        'office': 4,
+        'source': 1,
+        'unit': 2,
+        'line': 4,
+        'object': 5
+    })
+    # Loading data for secret expenses
+    secret_expenses = pd.read_excel('sources/2020_secret_expenses.xlsx')
+    # Converting code for secret expenses
+    set_as_codes(secret_expenses, {
+        'office': 4,
+        'source': 1,
+        'unit': 2,
+        'line': 4,
+        'object': 5
+    })
+    # Concataning datasets
+    data = pd.concat([data, secret_expenses], sort=False)
+    data['line'] = data['line'].apply(lambda s: s[2:])
+    data['moment'] = 'AP'
+    data['month'] = 12
+    df = data[[
+        'office',
+        'year',
+        'source',
+        'unit',
+        'line',
+        'object',
+        'month',
+        'moment',
+        'amount'
+    ]]
+    conn = sqlite3.connect(DBNAME)
+    df.to_sql('budget', conn, if_exists='append', index=False)
+    unit = data[['year', 'office', 'unit', 'unit_name']]
+    unit.set_index(['year', 'office', 'unit'], inplace=True)
+    unit.to_sql('unit', conn, if_exists='append')
+    line = data[['year', 'office', 'unit', 'line', 'line_name']]
+    line.set_index(['year', 'office', 'unit', 'line'], inplace=True)
+    line.to_sql('line', conn, if_exists='append')
+    conn.close()
+    return df
+
 if __name__ == '__main__':
     get_classificator()
     get_structure()
@@ -365,3 +431,4 @@ if __name__ == '__main__':
     get_approved_2019()
     get_proposed_2019()
     get_proposed_2020()
+    get_approved_2020()

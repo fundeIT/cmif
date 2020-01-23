@@ -23,7 +23,10 @@ navbar = dbc.NavbarSimple(
             in_navbar=True,
             label="Menu",
             children=[
-                dbc.DropdownMenuItem(html.A("Explorador de presupuestos", href='/budget_explorer')),
+                dbc.DropdownMenuItem(html.A("Explorador de presupuestos", 
+                    href='/budget_explorer')),
+                dbc.DropdownMenuItem(html.A("Monitor presupuestario",
+                    href='/budget_monitor')),
                 dbc.DropdownMenuItem(divider=True),
                 dbc.DropdownMenuItem("Otros..."),
             ],
