@@ -225,7 +225,7 @@ def processFiles(path='.'):
     try:
         os.remove('accrued.db')
     except:
-        print(OSError.strerror())
+        print('accrued.bd does not exist yet.')
     with mp.Pool(mp.cpu_count()) as p:
         ret = p.map(extractData, csvFiles)
     data = pd.concat(ret, sort=False)
