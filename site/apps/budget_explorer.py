@@ -17,9 +17,9 @@ from app import app
 DBNAME = 'data/budget.db'
 
 RENAMES = {
-    'year': 'Año', 
-    'office': 'Oficina', 
-    'office_name': 'Nombre de la oficina', 
+    'year': 'Año',
+    'office': 'Oficina',
+    'office_name': 'Nombre de la oficina',
     'level': 'Nivel',
     'unit': 'Unidad',
     'unit_name': 'Nombre de la unidad',
@@ -30,8 +30,8 @@ RENAMES = {
     'moment': 'Momento',
 }
 INDEX_LARGE = list(RENAMES.keys())
-INDEX_SHORT = ['year', 'office', 'office_name', 'level', 'object', 'moment'] 
- 
+INDEX_SHORT = ['year', 'office', 'office_name', 'level', 'object', 'moment']
+
 MOMENTS = {
     'PL': '1. Preliminar',
     'PR': '2. Propuesto',
@@ -41,7 +41,7 @@ MOMENTS = {
 }
 
 def get_data(obj='', office='', details=False):
-    # A global variable is defined in case data 
+    # A global variable is defined in case data
     # are not found for the given parameters
     global old_data
     # Optional SQL segment statement for
@@ -62,24 +62,24 @@ def get_data(obj='', office='', details=False):
     """ if details else ""
     # The SQL query
     stmt = """
-    SELECT 
-        budget.year, budget.office AS office, office_name, level, {} 
+    SELECT
+        budget.year, budget.office AS office, office_name, level, {}
         '{}' AS object, moment, ROUND(SUM(amount), 2) AS amount
     FROM budget, office
     {}
-    WHERE 
-        object LIKE '{}%' AND 
-        budget.office LIKE '{}%' AND 
+    WHERE
+        object LIKE '{}%' AND
+        budget.office LIKE '{}%' AND
         budget.office = office.office
     GROUP BY budget.year, level, budget.office, {} moment
     ORDER BY budget.year, level, budget.office, {} moment
     """.format(
-            detail_stmt, 
-            obj, 
+            detail_stmt,
+            obj,
             join_stmt,
-            obj, 
-            office, 
-            detail_stmt, 
+            obj,
+            office,
+            detail_stmt,
             detail_stmt,
         )
     conn = sqlite3.connect(DBNAME)
@@ -92,8 +92,8 @@ def get_data(obj='', office='', details=False):
         colnames = [MOMENTS[label] for label in labels]
         data['moment'].replace(labels, colnames, inplace=True)
         data['level'].replace(
-            ['CG', 'DE'], 
-            ['Gobierno central', 'Descentralizadas'], 
+            ['CG', 'DE'],
+            ['Gobierno central', 'Descentralizadas'],
             inplace=True
         )
         data.set_index(INDEX_LARGE if details else INDEX_SHORT, inplace=True)
@@ -102,9 +102,9 @@ def get_data(obj='', office='', details=False):
         df = df.reset_index()
         df.rename(
             columns={
-                'year': 'Año', 
-                'office': 'Oficina', 
-                'office_name': 'Nombre de la oficina', 
+                'year': 'Año',
+                'office': 'Oficina',
+                'office_name': 'Nombre de la oficina',
                 'level': 'Nivel',
                 'object': 'Clasificador',
             },
@@ -128,16 +128,16 @@ def get_data(obj='', office='', details=False):
         return old_data
 
 def make_table():
-    data = get_data() 
+    data = get_data()
     columns = [{'name': col, 'id': col} for col in data.columns]
     for i, col in enumerate(columns):
         if col['name'] in MOMENTS.values():
             columns[i]['type'] = 'numeric'
-            columns[i]['format'] = Format(group=',')
+            columns[i]['format'] = Format(group=',', precision=2, scheme='f')
     return html.Div([
         dash_table.DataTable(
             id = 'object_table',
-            columns = columns, 
+            columns = columns,
             data = data.to_dict('records'),
             sort_action = 'native',
             style_data = {
@@ -151,6 +151,11 @@ def make_table():
             },
             page_size = 50,
             fill_width = False,
+            locale_format = {
+                'decimal': '2',
+                'symbol': ['$', ','],
+                'separate_4digits': True,
+            }
         )
     ])
 
@@ -202,7 +207,7 @@ def make_object_control():
             id = 'object_control',
             options = [
                 {
-                    'label': item[1].object + ' - ' + item[1].object_name, 
+                    'label': item[1].object + ' - ' + item[1].object_name,
                     'value': item[0]
                 } for item in objects.iterrows()
             ],
@@ -222,7 +227,7 @@ def make_office_control():
             id = 'office_control',
             options = [
                 {
-                    'label': item[1].office + ' - ' + item[1].office_name, 
+                    'label': item[1].office + ' - ' + item[1].office_name,
                     'value': item[0]
                 } for item in offices.iterrows()
             ],
@@ -261,16 +266,16 @@ content = dbc.Container([
             ])),
             dbc.Row(dbc.Col([
                 html.A(
-                    'Descargar CSV', 
-                    # href='static/budget_by_object.csv', 
+                    'Descargar CSV',
+                    # href='static/budget_by_object.csv',
                     download='budget.csv',
                     id='download_csv',
                     className='btn btn-primary'
                 ),
                 ' ',
                 html.A(
-                    'Descargar XLS', 
-                    # href='static/budget_by_object.xlsx', 
+                    'Descargar XLS',
+                    # href='static/budget_by_object.xlsx',
                     download='budget.xlsx',
                     id='download_xlsx',
                     className='btn btn-primary'
@@ -314,7 +319,7 @@ def update_outputs(object_index, office_index, details):
         else objects.iloc[object_index].object
     office_id = '' if office_index == None \
         else offices.iloc[office_index].office
-    data = get_data(object_id, office_id, 
+    data = get_data(object_id, office_id,
         details=True if len(details)>0 else   False)
     fig = generate_figure(data)
     columns = [{'name': col, 'id': col} for col in data.columns]

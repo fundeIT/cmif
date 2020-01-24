@@ -1,7 +1,15 @@
-Obtenido mediante solicitud de acceso a la información publica dirigda al
-Ministerio de Hacienda. Resolución UAIP/RES.018.2/2020 del 20 de enero de 2020.
+Este dataset fue obtenido mediante solicitud de acceso a la información publica
+dirigda al Ministerio de Hacienda girada desde el Centro de Asesoría Legal
+Anticorrupción de la Fundación Nacional para el Desarrollo.
+
+Resolución UAIP/RES.018.2/2020 del 20 de enero de 2020.
 
 Enlace del expediente de la solicitud de información:
 http://alac.funde.org/requests/5e178c640634d8e44d841e1d
 
 Dataset agregado el 22 de enero de 2020.
+
+Los datos correspondientes al Organismo de Inteligencia del Estado de la
+Presidencia de la República fueron incorporados manualmente, debido a que no
+fueron proporcionados por el Ministerio de Hacienda bajo el argumento de que es
+información reservada.
