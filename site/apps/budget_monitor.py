@@ -60,12 +60,36 @@ def get_first_office(year=None):
 YEAR = get_last_year()
 OFFICE = get_first_office(YEAR)
 
-def get_data(year=None, office=None, unit='', line='', object='', cum=False):
+def get_structure(year, office):
+    stmt = """
+        SELECT est, est_name FROM
+            (
+	            SELECT year, office, line AS est, line_name AS est_name 
+	                FROM line
+	            UNION
+	            SELECT year, office, unit AS est, unit_name AS est_name 
+	                FROM unit
+            )
+        WHERE year={} AND office='{}'
+        ORDER BY year, office, est, est_name
+    """.format(year, office)
+    conn = sqlite3.connect(DBNAME)
+    data = pd.read_sql(stmt, conn)
+    conn.close()
+    return data
+
+def get_data(year=None, office=None, unit='', line='', classifier='', cum=False):
     global old_data
     if year == None:
         year = get_last_year()
     if office == None:
         office = get_first_office(year)
+    opt_line = "  AND line LIKE '{}%' ".format(line) \
+        if line != None and line != '' \
+        else ''
+    class_line = " AND object LIKE '{}%' ".format(classifier) \
+        if classifier != None and classifier != '' \
+        else ''
     stmt = """
         SELECT
             year, accrued.office, office_name, month,
@@ -79,12 +103,14 @@ def get_data(year=None, office=None, unit='', line='', object='', cum=False):
         WHERE
             year = {} AND
             accrued.office = '{}'
+            {}
+            {}
         GROUP BY year, accrued.office, month
         ORDER BY year, accrued.office, month
     """
-    stmt = stmt.format(year, office)
+    stmt = stmt.format(year, office, opt_line, class_line)
     conn = sqlite3.connect(DBNAME)
-    data = pd.read_sql(stmt, conn)
+    data = pd.read_sql(stmt, conn).round(2)
     conn.close()
     if cum:
         for key in ['approved', 'modified', 'accrued']:
@@ -94,6 +120,7 @@ def get_data(year=None, office=None, unit='', line='', object='', cum=False):
 def make_table():
     data = get_data(YEAR, OFFICE)
     columns = [{'name': col, 'id': col} for col in data.columns]
+    print(columns)
     """
     for i, col in enumerate(columns):
         if col['name'] in MOMENTS.values():
@@ -196,6 +223,42 @@ def make_office_control():
     ])
     return control
 
+def make_structure_control():
+    structure = get_structure(YEAR, OFFICE).to_dict('records')
+    control = html.Div([
+        html.Label('Unidades/Líneas'),
+        dcc.Dropdown(
+            id = 'object_structure_control',
+            options = [
+                {
+                    'label': '{} - {}'.format(rec['est'], rec['est_name']),
+                    'value': rec['est']
+                } for i, rec in enumerate(structure)
+            ]
+        )
+    ])
+    return control
+
+def make_object_control():
+    conn = sqlite3.connect('data/budget.db')
+    stmt = "SELECT object, object_name FROM object WHERE object >= '5'"
+    objects = pd.read_sql(stmt, conn)
+    conn.close()
+    control = html.Div([
+        html.Label('Clasificador presupuestario (rubro, cuenta o especifico)'),
+        dcc.Dropdown(
+            id = 'object_classifier',
+            options = [
+                {
+                    'label': item[1].object + ' - ' + item[1].object_name,
+                    'value': objects.iloc[item[0]]['object']
+                } for item in objects.iterrows()
+            ],
+        )
+    ])
+    return control
+
+
 txt_header = '''
 # Monitor presupuestario
 '''
@@ -220,6 +283,12 @@ content = dbc.Container([
             ])),
             dbc.Row(dbc.Col([
                 make_office_control(),
+            ])),
+            dbc.Row(dbc.Col([
+                make_structure_control(),
+            ])),
+            dbc.Row(dbc.Col([
+                make_object_control(),
             ])),
             dbc.Row(dbc.Col([
                 html.A(
@@ -268,16 +337,35 @@ layout = html.Div([content,])
     [
         Input(component_id='object_year_control', component_property='value'),
         Input(component_id='object_office_control', component_property='value'),
+        Input(component_id='object_structure_control', component_property='value'),
+        Input(component_id='object_classifier', component_property='value'),
         Input(component_id='cumsum_control', component_property='value'),
     ]
 )
-def update_tabs(year, office, accum):
+def update_tabs(year, office, est, classifier, accum):
     YEAR = year
     OFFICE = office
-    data = get_data(YEAR, OFFICE, cum = True if len(accum) > 0 else False)
+    data = get_data(YEAR, OFFICE, line=est, classifier=classifier, 
+        cum = True if len(accum) > 0 else False)
     fig = generate_figure(data)
     return data.to_dict('records'), fig
-
+   
+@app.callback(
+    Output(component_id='object_structure_control', component_property='options'),
+    [
+        Input(component_id='object_year_control', component_property='value'),
+        Input(component_id='object_office_control', component_property='value'),
+    ]
+)
+def update_structure(year, office):
+    structure = get_structure(year, office).to_dict('records')
+    options = [
+                {
+                    'label': '{} - {}'.format(rec['est'], rec['est_name']),
+                    'value': rec['est']
+                } for i, rec in enumerate(structure)
+    ]
+    return options
 
 @app.callback(
     Output(component_id='accrued_csv', component_property='href'),
