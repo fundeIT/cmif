@@ -23,6 +23,17 @@ from app import app
 
 DBNAME = 'data/accrued.db'
 
+COLNAMES = {
+    'year': 'Año',
+    'office': 'Código',
+    'office_name': 'Institución',
+    'month': 'Mes',
+    'approved': 'Aprobado',
+    'shifted': 'Modificaciones',
+    'modified': 'Modificado',
+    'accrued': 'Devengado'
+}
+
 def get_years():
     stmt = 'SELECT DISTINCT(year) FROM accrued ORDER BY year'
     conn = sqlite3.connect(DBNAME)
@@ -119,8 +130,7 @@ def get_data(year=None, office=None, unit='', line='', classifier='', cum=False)
 
 def make_table():
     data = get_data(YEAR, OFFICE)
-    columns = [{'name': col, 'id': col} for col in data.columns]
-    print(columns)
+    columns = [{'name': COLNAMES[col], 'id': col} for col in data.columns]
     """
     for i, col in enumerate(columns):
         if col['name'] in MOMENTS.values():
@@ -275,9 +285,9 @@ content = dbc.Container([
     ]),
     dbc.Row([
         dbc.Col([
-            dcc.Markdown(txt_by_object),
-        ], md=4),
-        dbc.Col([
+            dbc.Row(dbc.Col([
+                dcc.Markdown(txt_by_object),    
+            ])),
             dbc.Row(dbc.Col([
                 make_year_control(),
             ])),
@@ -290,40 +300,40 @@ content = dbc.Container([
             dbc.Row(dbc.Col([
                 make_object_control(),
             ])),
-            dbc.Row(dbc.Col([
-                html.A(
-                    'Descargar CSV',
-                    # href='static/budget_by_object.csv',
-                    download='budget.csv',
-                    id='accrued_csv',
-                    className='btn btn-primary'
-                ),
-                ' ',
-                html.A(
-                    'Descargar XLS',
-                    # href='static/budget_by_object.xlsx',
-                    download='budget.xlsx',
-                    id='accrued_xlsx',
-                    className='btn btn-primary'
-                ),
-            ])),
-        ]),
-    ]),
-    dbc.Row(dbc.Col(
-        dbc.Tabs([
-            dbc.Tab([
-                dbc.Row(dbc.Col([
-                    make_check_details(),
-                ])),
-                dbc.Row(dbc.Col([
-                    make_figure()
-                ])),
-            ], label='Gráfica', tab_id='plot'),
-            dbc.Tab([
-                make_table(),
-            ], label='Tabla', tab_id='table'),
-        ], id='tabs'),
-    ), className='center'),
+        ], md=4),
+        dbc.Col(
+            dbc.Tabs([
+                dbc.Tab([
+                    dbc.Row(dbc.Col([
+                        make_check_details(),
+                    ])),
+                    dbc.Row(dbc.Col([
+                        make_figure()
+                    ])),
+                ], label='Gráfica', tab_id='plot'),
+                dbc.Tab([
+                    dbc.Row(dbc.Col([
+                        html.A(
+                            'Descargar CSV',
+                            # href='static/budget_by_object.csv',
+                            download='budget.csv',
+                            id='accrued_csv',
+                            className='btn btn-primary'
+                        ),
+                        ' ',
+                        html.A(
+                            'Descargar XLS',
+                            # href='static/budget_by_object.xlsx',
+                            download='budget.xlsx',
+                            id='accrued_xlsx',
+                            className='btn btn-primary'
+                        ),
+                    ])),
+                    dbc.Row(dbc.Col(make_table())),
+                ], label='Tabla', tab_id='table'),
+            ], id='tabs'),
+        className='center'),
+    ])        
 ])
 
 layout = html.Div([content,])

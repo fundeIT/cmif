@@ -252,52 +252,48 @@ content = dbc.Container([
         dbc.Col(dcc.Markdown(txt_header))
     ]),
     dbc.Row([
-    ]),
-    dbc.Row([
         dbc.Col([
-            dcc.Markdown(txt_by_object),
+            dbc.Row(dbc.Col([
+                    dcc.Markdown(txt_by_object),
+                ])),
+                dbc.Row(dbc.Col([
+                    make_object_control(),
+                ])),
+                dbc.Row(dbc.Col([
+                    make_office_control(),
+                ])),
         ], md=4),
-        dbc.Col([
-            dbc.Row(dbc.Col([
-                make_object_control(),
-            ])),
-            dbc.Row(dbc.Col([
-                make_office_control(),
-            ])),
-            dbc.Row(dbc.Col([
-                html.A(
-                    'Descargar CSV',
-                    # href='static/budget_by_object.csv',
-                    download='budget.csv',
-                    id='download_csv',
-                    className='btn btn-primary'
-                ),
-                ' ',
-                html.A(
-                    'Descargar XLS',
-                    # href='static/budget_by_object.xlsx',
-                    download='budget.xlsx',
-                    id='download_xlsx',
-                    className='btn btn-primary'
-                ),
-            ])),
-        ], md=8),
+        dbc.Col(
+            dbc.Tabs([
+                dbc.Tab([
+                    make_figure()
+                ], label='Gráfica', tab_id='plot'),
+                dbc.Tab([
+                    dbc.Row(dbc.Col([
+                        make_check_details(),
+                        html.A(
+                            'Descargar CSV',
+                            # href='static/budget_by_object.csv',
+                            download='budget.csv',
+                            id='download_csv',
+                            className='btn btn-primary'
+                        ),
+                        ' ',
+                        html.A(
+                            'Descargar XLS',
+                            # href='static/budget_by_object.xlsx',
+                            download='budget.xlsx',
+                            id='download_xlsx',
+                            className='btn btn-primary'
+                        ),
+                    ])),
+                    dbc.Row(dbc.Col([
+                        make_table(),
+                    ])),
+                ], label='Tabla', tab_id='table'),
+            ], id='tabs'),
+        ),
     ]),
-    dbc.Row(dbc.Col(
-        dbc.Tabs([
-            dbc.Tab([
-                make_figure()
-            ], label='Gráfica', tab_id='plot'),
-            dbc.Tab([
-                dbc.Row(dbc.Col([
-                    make_check_details(),
-                ])),
-                dbc.Row(dbc.Col([
-                    make_table(),
-                ])),
-            ], label='Tabla', tab_id='table'),
-        ], id='tabs'),
-    ), className='center'),
 ])
 
 layout = html.Div([content,])
