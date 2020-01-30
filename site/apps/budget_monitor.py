@@ -25,8 +25,8 @@ DBNAME = 'data/accrued.db'
 
 COLNAMES = {
     'year': 'Año',
-    'office': 'Código',
-    'office_name': 'Institución',
+    'office': 'Oficina',
+    'office_name': 'Nombre de la oficina',
     'month': 'Mes',
     'approved': 'Aprobado',
     'shifted': 'Modificaciones',

@@ -234,6 +234,39 @@ def get_approved_2019():
     data.to_sql('budget', conn, if_exists='append', index=False)
     return data
 
+def get_proposed_2017():
+    data = pd.read_excel('sources/2017_proposed.xlsx')
+    data.rename(
+        columns = {
+            'ejercicio': 'year',
+            'institucion': 'office',
+            'fuente_financ': 'source',
+            'unid_pres': 'unit',
+            'line_pres': 'line',
+            'clasif_presup': 'object',
+            'monto_recome': 'amount'
+        },
+        inplace=True
+    )
+    del data['sector']
+    del data['rubro_ecom']
+    del data['rubro']
+    del data['cuenta']
+    data['moment'] = 'PR'
+    data['month'] = '12'
+    set_as_codes(data, {
+        'office': 4,
+        'source': 1,
+        'unit': 2,
+        'line': 2,
+        'object': 5
+    })
+    conn = sqlite3.connect(DBNAME)
+    data.to_sql('budget', conn, if_exists='append', index=False)
+    conn.close()
+    return data
+    
+
 def get_proposed_2019():
     source_file = 'sources/2019_proposed.xlsx'
     data = pd.read_excel(source_file)
@@ -282,6 +315,7 @@ def get_proposed_2019():
     ]]
     conn = sqlite3.connect(DBNAME)
     data.to_sql('budget', conn, if_exists='append', index=False)
+    conn.close()
     return data
 
 def get_proposed_2020():
@@ -427,6 +461,7 @@ if __name__ == '__main__':
     get_classificator()
     get_structure()
     get_budget_2012_2017()
+    get_proposed_2017()
     get_budget_2018()
     get_approved_2019()
     get_proposed_2019()
