@@ -15,6 +15,7 @@ from tornado.web import FallbackHandler, RequestHandler, Application, \
 from app import app
 from apps import budget_explorer, budget_monitor
 
+"""
 navbar = dbc.NavbarSimple(
     children=[
         dbc.NavItem(dbc.NavLink("Inicio", href="/")),
@@ -27,21 +28,70 @@ navbar = dbc.NavbarSimple(
                     href='/budget_explorer')),
                 dbc.DropdownMenuItem(html.A("Monitor presupuestario",
                     href='/budget_monitor')),
-                dbc.DropdownMenuItem(divider=True),
-                dbc.DropdownMenuItem("Otros..."),
+                # dbc.DropdownMenuItem(divider=True),
+                # dbc.DropdownMenuItem("Otros..."),
             ],
         ),
+        dbc.NavItem(html.Img(src='assets/images/logo_small.png', width='240px')),
     ],
-    brand="FUNDE | Centro de Monitoreo e Incidencia Fiscal",
+    # brand= 'FUNDE | Centro de Monitoreo e Incidencia Fiscal',
+    # brand = [html.Img(src='assets/images/logo_small.png')],
     brand_href="#",
     sticky="top",
     className='bg-success',
 )
+"""
+
+navbar = dbc.Navbar(
+    children = [
+        html.A(
+            html.Img(src='assets/images/logo_small.png', width='120px'), 
+            href='/'
+        ),
+        dbc.DropdownMenu(
+            nav=True,
+            in_navbar=True,
+            label="Tableros",
+            children=[
+                dbc.DropdownMenuItem(html.A("Explorador de presupuestos", 
+                    href='/budget_explorer')),
+                dbc.DropdownMenuItem(html.A("Monitor presupuestario",
+                    href='/budget_monitor')),
+            ],
+        ),
+        dbc.DropdownMenu(
+            nav=True,
+            in_navbar=True,
+            label="Ayuda",
+            children=[
+                dbc.DropdownMenuItem(html.A("Acerca de", 
+                    href='/about')),
+                dbc.DropdownMenuItem(html.A("Código fuente",
+                    href='https://github.com/fundeIT/cmif', target='blank')),
+            ],
+        ),
+    ],
+    sticky="top",
+    # className='bg-success',
+)
+
+footer = html.Div([
+    dbc.Container([
+        dbc.Row(dbc.Col([
+            'Fundación Nacional para el Desarrollo',
+            html.Br(),
+            '2020 - Derechos reservados bajo licencia Creative Commons',
+        ])),
+    ]),
+])
+
 
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
     navbar,
     html.Div(id='page-content'),
+    html.Hr(),
+    footer,
 ])
 
 
@@ -49,21 +99,17 @@ main_text = '''
 FUNDE está ejecutando el proyecto “Monitoreo ciudadano de la transparencia
 fiscal en El Salvador”. Este proyecto contribuirá a la transparencia fiscal y
 la lucha contra la corrupción a través del uso intensivo de bases de datos y de
-aplicaciones informáticas.  Consiste en un **observatorio ciudadano**, denominado
-Centro de Monitoreo e Incidencia Fiscal, que dará seguimiento al presupuesto
-general del Estado, orientado hacia la promoción del acceso, uso y análisis de
+aplicaciones informáticas.
+
+El proyecto consiste en un **observatorio ciudadano**, denominado
+Centro de Monitoreo e Incidencia Fiscal, que da seguimiento al presupuesto
+general del Estado. Está orientado hacia la promoción del acceso, uso y análisis de
 información sobre las finanzas públicas, en formatos que sean asequibles, de fácil acceso y
 comprensibles para la población en general.
 
-
-Este sitio estará compuesto por aplicaciones o **dashboards**, por medio de los cuales
-los usuarios podrán hacer consultas, visualizar gráficas interactivas,
-ordenar o filtrar los resultados y descargar los datos. Inicialmente se presenta
-el dashboard [Explorador de presupuestos](/budget_explorer), para consultar presupuestos desde el
-año 2012. Más adelante se agregarán nuevos dashboards sobre ingresos,
-transferencias presupuestarias, proyectos de inversión, deuda pública y otros
-tópicos.
-
+Este sitio está compuesto por aplicaciones o **dashboards**, por medio de los cuales
+los usuarios pueden hacer consultas, visualizar gráficas interactivas,
+ordenar o filtrar los resultados y descargar los datos. 
 
 Además, con el apoyo de los dashboards, se elaborarán **artículos de análisis**
 sobre diferentes aspectos de las finanzas públicas en El Salvador, para explicar
@@ -80,15 +126,15 @@ cuando son aprobados por los diputados, cuando son modificados durante el ejerci
 finalmente, cuando han sido ejecutados (devengados).
 '''
 
+budget_monitor_text = '''
+Este [dashboard](/budget_moitor) concentra la atención en la ejecución presupuestaria
+mes a mes. Permite revisar los montos programados y erogados por cada institución
+pública de manera mensual en sus diferentes unidades o códigos de egreso.
+'''
+
+
 default_content = html.Div([
     dbc.Container([
-        dbc.Row([
-            dbc.Col(html.H1('Centro de Monitoreo e Incidencia Fiscal')),
-        ]),
-        dbc.Row([
-            dbc.Col(dcc.Markdown(main_text), md=8),
-            dbc.Col(html.Img(src='assets/icons/plot.svg', width='120px')),
-        ]),
         dbc.Row([
             dbc.Col(html.H2('Explorador de presupuestos')),
         ]),
@@ -99,9 +145,31 @@ default_content = html.Div([
             ], md=8),
             dbc.Col(html.A(html.Img(src='assets/icons/budget.svg', width='120px'), href='/budget_explorer')),
         ]),
+        dbc.Row([
+            dbc.Col(html.H2('Monitor presupuestario')),
+        ]),
+        dbc.Row([
+            dbc.Col([
+                dcc.Markdown(budget_monitor_text), 
+                html.A('Entrar', href='/budget_monitor', className='btn btn-primary'),
+            ], md=8),
+            dbc.Col(html.Img(src='assets/icons/plot.svg', width='120px')),
+        ]),
     ]),
 ])
 
+about = html.Div([
+    dbc.Container([
+        dbc.Row([
+            dbc.Col(html.H1('Centro de Monitoreo e Incidencia Fiscal')),
+        ]),
+        dbc.Row([
+            dbc.Col([
+                dcc.Markdown(main_text), 
+            ]),
+        ]),
+    ]),
+])
 
 @app.callback(Output('page-content', 'children'),
               [Input('url', 'pathname')])
@@ -112,6 +180,8 @@ def display_page(pathname):
         return budget_explorer.layout
     elif pathname == '/budget_monitor':
         return budget_monitor.layout
+    elif pathname == '/about':
+        return about
     else:
         return '404'
 
