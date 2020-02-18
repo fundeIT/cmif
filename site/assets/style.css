@@ -1,6 +1,6 @@
 body {
     font-family: 'Raleway', sans-serif;
-    font-size: 10px;
+    font-size: 12px;
 }
 
 th, td {
@@ -14,4 +14,12 @@ select, option {
 
 .row {
     padding-top: 10px;
+}
+
+.dropdown-menu, .dropdown-item {
+  font-size: 12px;
+}
+
+.navbar{
+  list-style-type: none;
 }

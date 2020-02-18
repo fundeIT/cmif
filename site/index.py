@@ -15,37 +15,10 @@ from tornado.web import FallbackHandler, RequestHandler, Application, \
 from app import app
 from apps import budget_explorer, budget_monitor
 
-"""
-navbar = dbc.NavbarSimple(
-    children=[
-        dbc.NavItem(dbc.NavLink("Inicio", href="/")),
-        dbc.DropdownMenu(
-            nav=True,
-            in_navbar=True,
-            label="Menu",
-            children=[
-                dbc.DropdownMenuItem(html.A("Explorador de presupuestos", 
-                    href='/budget_explorer')),
-                dbc.DropdownMenuItem(html.A("Monitor presupuestario",
-                    href='/budget_monitor')),
-                # dbc.DropdownMenuItem(divider=True),
-                # dbc.DropdownMenuItem("Otros..."),
-            ],
-        ),
-        dbc.NavItem(html.Img(src='assets/images/logo_small.png', width='240px')),
-    ],
-    # brand= 'FUNDE | Centro de Monitoreo e Incidencia Fiscal',
-    # brand = [html.Img(src='assets/images/logo_small.png')],
-    brand_href="#",
-    sticky="top",
-    className='bg-success',
-)
-"""
-
 navbar = dbc.Navbar(
     children = [
         html.A(
-            html.Img(src='assets/images/logo_small.png', width='120px'), 
+            html.Img(src='assets/images/logo_small.png', width='120px'),
             href='/'
         ),
         dbc.DropdownMenu(
@@ -53,7 +26,7 @@ navbar = dbc.Navbar(
             in_navbar=True,
             label="Tableros",
             children=[
-                dbc.DropdownMenuItem(html.A("Explorador de presupuestos", 
+                dbc.DropdownMenuItem(html.A("Explorador de presupuestos",
                     href='/budget_explorer')),
                 dbc.DropdownMenuItem(html.A("Monitor presupuestario",
                     href='/budget_monitor')),
@@ -64,34 +37,48 @@ navbar = dbc.Navbar(
             in_navbar=True,
             label="Ayuda",
             children=[
-                dbc.DropdownMenuItem(html.A("Acerca de", 
-                    href='/about')),
+                dbc.DropdownMenuItem(html.A("Acerca de", href='/about')),
                 dbc.DropdownMenuItem(html.A("Código fuente",
                     href='https://github.com/fundeIT/cmif', target='blank')),
             ],
         ),
     ],
-    sticky="top",
-    # className='bg-success',
 )
 
 footer = html.Div([
     dbc.Container([
-        dbc.Row(dbc.Col([
-            'Fundación Nacional para el Desarrollo',
-            html.Br(),
-            '2020 - Derechos reservados bajo licencia Creative Commons',
-        ])),
+        dbc.Row([
+            dbc.Col(
+                html.Img(src='assets/images/funde-ti.png', width='180px'),
+                className='text-center'
+            ),
+            dbc.Col(dcc.Markdown('''
+                El Centro de Monitoreo e Incidencia Fiscal (CEMIF) es
+                una iniciativa de la
+                [Fundación Nacional para el Desarrollo](http://funde.org/),
+                capítulo de
+                [Transparencia Internacional](https://www.transparency.org/)
+                en El Salvador
+            ''')),
+            dbc.Col(dcc.Markdown('''
+                Teléfono +503 2209-5300 |
+                Correo electrónico: <funde@funde.org> |
+                Calle Arturo Ambrogi No. 411, San Salvador,
+                El Salvador C.A.
+            ''')),
+        ]),
     ]),
 ])
 
 
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
-    navbar,
-    html.Div(id='page-content'),
-    html.Hr(),
-    footer,
+    dbc.Container([
+        navbar,
+        html.Div(id='page-content'),
+        html.Hr(),
+        footer,
+    ])
 ])
 
 
@@ -109,7 +96,7 @@ comprensibles para la población en general.
 
 Este sitio está compuesto por aplicaciones o **dashboards**, por medio de los cuales
 los usuarios pueden hacer consultas, visualizar gráficas interactivas,
-ordenar o filtrar los resultados y descargar los datos. 
+ordenar o filtrar los resultados y descargar los datos.
 
 Además, con el apoyo de los dashboards, se elaborarán **artículos de análisis**
 sobre diferentes aspectos de las finanzas públicas en El Salvador, para explicar
@@ -139,21 +126,33 @@ default_content = html.Div([
             dbc.Col(html.H2('Explorador de presupuestos')),
         ]),
         dbc.Row([
+            dbc.Col(
+                html.A(
+                    html.Img(src='assets/icons/budget.svg', width='120px'),
+                    href='/budget_explorer'
+                ),
+                className='text-center'
+            ),
             dbc.Col([
                 dcc.Markdown(budget_explorer_text),
                 html.A('Entrar', href='/budget_explorer', className='btn btn-primary'),
             ], md=8),
-            dbc.Col(html.A(html.Img(src='assets/icons/budget.svg', width='120px'), href='/budget_explorer')),
         ]),
         dbc.Row([
             dbc.Col(html.H2('Monitor presupuestario')),
         ]),
         dbc.Row([
+            dbc.Col(
+                html.A(
+                    html.Img(src='assets/icons/plot.svg', width='100px'),
+                    href='/budget-monitor'
+                ),
+                className='text-center'
+            ),
             dbc.Col([
-                dcc.Markdown(budget_monitor_text), 
+                dcc.Markdown(budget_monitor_text),
                 html.A('Entrar', href='/budget_monitor', className='btn btn-primary'),
             ], md=8),
-            dbc.Col(html.Img(src='assets/icons/plot.svg', width='120px')),
         ]),
     ]),
 ])
@@ -165,7 +164,7 @@ about = html.Div([
         ]),
         dbc.Row([
             dbc.Col([
-                dcc.Markdown(main_text), 
+                dcc.Markdown(main_text),
             ]),
         ]),
     ]),
@@ -175,7 +174,7 @@ about = html.Div([
               [Input('url', 'pathname')])
 def display_page(pathname):
     if pathname == '/':
-        return default_content 
+        return default_content
     elif pathname == '/budget_explorer':
         return budget_explorer.layout
     elif pathname == '/budget_monitor':

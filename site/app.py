@@ -5,10 +5,10 @@ from flask import Flask
 server = Flask(__name__)
 
 app = dash.Dash(
-    __name__, 
-    server=server, 
+    __name__,
+    server=server,
     external_stylesheets=[
-        dbc.themes.BOOTSTRAP, 
+        dbc.themes.BOOTSTRAP,
         'https://fonts.googleapis.com/css?family=Raleway&display=swap',
         'style.css'
     ]
@@ -23,6 +23,7 @@ app.index_string = '''
     <head>
         {%metas%}
         <title>FUNDE - Centro de Monitoreo e Incidencia Fiscal</title>
+        <meta name="viewport" content="width=device-width, initival-scale=1"/>
         {%favicon%}
         {%css%}
     </head>
@@ -38,4 +39,3 @@ app.index_string = '''
     </body>
 </html>
 '''
-
