@@ -332,7 +332,7 @@ content = dbc.Container([
                     dbc.Row(dbc.Col(make_table())),
                 ], label='Tabla', tab_id='table'),
             ], id='tabs'),
-        className='center'),
+        className='text-center'),
     ])        
 ])
 

@@ -247,6 +247,67 @@ def make_check_details():
         value=[],
     )
 
+
+def get_years():
+    stmt = 'SELECT DISTINCT(year) FROM budget ORDER BY year'
+    conn = sqlite3.connect(DBNAME)
+    c = conn.cursor()
+    years = [year[0] for year in c.execute(stmt)] 
+    conn.close()
+    return years
+
+years = get_years() 
+
+api_form = html.Form([
+    html.Div([
+        html.Label('Ejercicio fiscal: ', htmlFor='year'),
+        dcc.Dropdown(
+            id = 'api_budget_year',
+            options = [{'label': year, 'value': year} for year in years],
+            value = years[-1], 
+        ),
+    ], className='form-group'),
+    html.Div([
+        html.Label('Incluir:', htmlFor='struct'),
+        dcc.Checklist(
+            id='api_budget_include',
+            options=[
+                {'label': ' Estructura presupuestaria', 'value': 'struct'},
+                {'label': ' Fuentes de financiamiento', 'value': 'source'},
+
+            ]
+        ),
+    ], className='form-group'),
+    html.Div([
+        html.Label('Nivel de detalle', htmlFor='source'),
+        dcc.Dropdown(
+            id = 'api_budget_code_len',
+            options = [
+                {'label': 'Rubro', 'value': 2},
+                {'label': 'Cuenta', 'value': 3},
+                {'label': 'Específico', 'value': 5},
+            ],
+            value=2,
+        )
+    ], className='form-group'),
+    html.Div([
+        html.A(
+            'Descargar CSV',
+            id='api_budget_download',
+            className='btn btn-primary'
+        ),
+    ], className='form-group'),
+    html.Div([
+        dcc.Markdown("""
+        Diccionarios:
+
+        - [Oficinas](/api/v1/offices)
+        - [Clasificador presupuestario](/api/v1/budgetary_codes)
+        """)
+    ])
+    
+])
+
 content = dbc.Container([
     dbc.Row([
         dbc.Col(dcc.Markdown(txt_header))
@@ -291,6 +352,7 @@ content = dbc.Container([
                         make_table(),
                     ])),
                 ], label='Tabla', tab_id='table'),
+                dbc.Tab(api_form, label='API', tab_id='api'),
             ], id='tabs'),
         ),
     ]),
@@ -347,3 +409,18 @@ def download_xlsx(data):
     writer.save()
     xlsx_string = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8," + urllib.parse.quote(output.getvalue())
     return xlsx_string
+
+@app.callback(
+    Output(component_id='api_budget_download', component_property='href'),
+    [
+
+        Input(component_id='api_budget_year', component_property='value'),
+        Input(component_id='api_budget_include', component_property='value'),
+        Input(component_id='api_budget_code_len', component_property='value'),
+    ]
+)
+def api_download_budget(year, include, code_len):
+    include = include if include else []
+    struct = 1 if 'struct' in include else 0
+    source = 1 if 'source' in include else 0
+    return f"/api/v1/budget?year={year}&struct={struct}&source={source}&code_len={code_len}"

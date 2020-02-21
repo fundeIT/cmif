@@ -103,6 +103,6 @@ class apiYearlyBudget(Resource):
             output.headers["Content-type"] = "text/text"
         return output
 
-api.add_resource(apiYearlyBudget, '/api/v1/yearly_budget')
-api.add_resource(apiOffices, '/api/v1/office')
+api.add_resource(apiYearlyBudget, '/api/v1/budget')
+api.add_resource(apiOffices, '/api/v1/offices')
 api.add_resource(apiBudgetaryCodes, '/api/v1/budgetary_codes')

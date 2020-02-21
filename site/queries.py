@@ -17,7 +17,6 @@ def budgetary_codes():
     conn.close()
     return data
 
-
 def yearly_budget(year, struct=True, source=True, code_len=5):
 	q_struct = ' unit, line, ' if struct == 1 else ''
 	q_source = ' source, ' if source == 1 else ''
