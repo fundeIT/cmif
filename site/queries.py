@@ -10,6 +10,14 @@ def offices():
     conn.close()
     return data
 
+def budgetary_codes():
+    stmt = "SELECT * FROM object"
+    conn = sqlite3.connect(DB)
+    data = pd.read_sql(stmt, conn)
+    conn.close()
+    return data
+
+
 def yearly_budget(year, struct=True, source=True, code_len=5):
 	q_struct = ' unit, line, ' if struct == 1 else ''
 	q_source = ' source, ' if source == 1 else ''

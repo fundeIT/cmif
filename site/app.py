@@ -82,6 +82,14 @@ class apiOffices(Resource):
         output.headers["Content-type"] = "text/csv"
         return output
 
+class apiBudgetaryCodes(Resource):
+    def get(self):
+        data = queries.budgetary_codes()
+        output = make_response(data.to_csv(index=False))
+        output.headers["Content-Disposition"] = "attachment; filename=budgetary_codes_export.csv"
+        output.headers["Content-type"] = "text/csv"
+        return output
+
 class apiYearlyBudget(Resource):
     def get(self):
         args = parser.parse_args()
@@ -97,3 +105,4 @@ class apiYearlyBudget(Resource):
 
 api.add_resource(apiYearlyBudget, '/api/v1/yearly_budget')
 api.add_resource(apiOffices, '/api/v1/office')
+api.add_resource(apiBudgetaryCodes, '/api/v1/budgetary_codes')
