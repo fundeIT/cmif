@@ -1,4 +1,8 @@
-# Repositorio del Centro de Monitoreo e Incidencia Fiscal
+# Data Civic Platform - Centro de Monitoreo e Incidencia Fiscal
+
+Review online: <http://fiscal.funde.org>
+
+## Installation
 
 Clone the repository:
 
@@ -11,7 +15,7 @@ Create virtual environment and install requirements:
     $ cd cmif
     $ pip install -r requirements.txt
 
-Build the budget database:
+Build databases:
 
     $ make
 

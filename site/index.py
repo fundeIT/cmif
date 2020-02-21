@@ -119,7 +119,6 @@ mes a mes. Permite revisar los montos programados y erogados por cada instituci�
 pública de manera mensual en sus diferentes unidades o códigos de egreso.
 '''
 
-
 default_content = html.Div([
     dbc.Container([
         dbc.Row([
@@ -184,7 +183,10 @@ def display_page(pathname):
     else:
         return '404'
 
+# Interface between Dash & Tornado
+
 tr = WSGIContainer(app.server)
+
 application = Application([
     (r"/static/(.*)", StaticFileHandler, {'path': 'static'}),
     (r".*", FallbackHandler, dict(fallback=tr)),
