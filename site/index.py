@@ -13,7 +13,7 @@ from tornado.web import FallbackHandler, RequestHandler, Application, \
                         StaticFileHandler
 
 from app import app
-from apps import budget_explorer, budget_monitor
+from apps import budget_explorer, budget_monitor, stats
 
 navbar = dbc.Navbar(
     children = [
@@ -38,6 +38,7 @@ navbar = dbc.Navbar(
             label="Ayuda",
             children=[
                 dbc.DropdownMenuItem(html.A("Acerca de", href='/about')),
+                dbc.DropdownMenuItem(html.A("Estadísticas", href='/stats')),
                 dbc.DropdownMenuItem(html.A("Código fuente",
                     href='https://github.com/fundeIT/cmif', target='blank')),
             ],
@@ -178,6 +179,8 @@ def display_page(pathname):
         return budget_explorer.layout
     elif pathname == '/budget_monitor':
         return budget_monitor.layout
+    elif pathname == "/stats":
+        return stats.layout
     elif pathname == '/about':
         return about
     else:

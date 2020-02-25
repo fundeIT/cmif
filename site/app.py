@@ -93,7 +93,7 @@ class apiBudgetaryCodes(Resource):
 class apiYearlyBudget(Resource):
     def get(self):
         args = parser.parse_args()
-        data = queries.yearly_budget(args['year'], args['struct'], args['source'], args['code_len'])
+        data = queries.annual_budget(args['year'], args['struct'], args['source'], args['code_len'])
         if not data.empty:
             output = make_response(data.to_csv(index=False))
             output.headers["Content-Disposition"] = "attachment; filename=budget_export.csv"
