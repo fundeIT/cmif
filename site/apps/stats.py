@@ -23,31 +23,30 @@ import plotly.express as px
 from app import app
 
 STATSFILE = 'stats.csv'
+LOGPATH = 'log/'
 
 def get_data():
     if not os.path.isfile(STATSFILE):
         with open(STATSFILE, "w") as fd:
             fd.write("month,hits,updated\n")
-    stats = pd.read_csv('stats.csv')
-    stats['month'] = stats.month.astype(str) 
-    log_files = os.listdir('log') 
+    stats = pd.read_csv(STATSFILE)
+    stats['month'] = stats.month.astype(str)
+    log_files = os.listdir(LOGPATH)
     for lf in log_files:
         if lf == 'README.md':
             continue
-        updated = os.path.getmtime("log/" + lf) 
+        updated = os.path.getmtime(LOGPATH + lf)
         # Checking if the has a record
         if not lf in stats.month.values:
-            hits = len(open("log/" + lf, "r").readlines())
+            hits = len(open(LOGPATH + lf, "r").readlines())
             rec = {'month': lf, 'hits': hits, 'updated': updated}
             stats = stats.append(rec, ignore_index=True)
         else:
-            rec = stats.loc[stats.month == lf]
-            if rec.updated.values[0] < updated:
-                hits = len(open("log/" + lf, "r").readlines())
-                rec['updated'] = updated
-                rec['hits'] = hits
+            if stats.loc[stats.month == lf, 'updated'].values[0] < updated:
+                hits = len(open(LOGPATH + lf, "r").readlines())
+                stats.loc[stats.month == lf, 'updated'] = updated
+                stats.loc[stats.month == lf, 'hits'] = hits
     stats.to_csv("stats.csv", index=False)
-    stats['month'] = stats.month.astype(str) 
     return stats
 
 def make_table():
@@ -121,7 +120,7 @@ content = dbc.Container([
     dbc.Row([
         dbc.Col([
             dbc.Row(dbc.Col([
-                dcc.Markdown(txt_by_object),    
+                dcc.Markdown(txt_by_object),
             ])),
         ], md=4),
         dbc.Col(
@@ -151,51 +150,10 @@ content = dbc.Container([
                 ], label='Tabla', tab_id='table'),
             ], id='tabs'),
         className='text-center'),
-    ])        
+    ])
 ])
 
 layout = html.Div([content,])
-
-"""
-@app.callback(
-    [
-        Output(component_id='accrued_table', component_property='data'),
-        Output(component_id='accrued_plot', component_property='figure'),
-
-    ],
-    [
-        Input(component_id='object_year_control', component_property='value'),
-        Input(component_id='object_office_control', component_property='value'),
-        Input(component_id='object_structure_control', component_property='value'),
-        Input(component_id='object_classifier', component_property='value'),
-        Input(component_id='cumsum_control', component_property='value'),
-    ]
-)
-def update_tabs(year, office, est, classifier, accum):
-    YEAR = year
-    OFFICE = office
-    data = get_data(YEAR, OFFICE, line=est, classifier=classifier, 
-        cum = True if len(accum) > 0 else False)
-    fig = generate_figure(data)
-    return data.to_dict('records'), fig
-   
-@app.callback(
-    Output(component_id='object_structure_control', component_property='options'),
-    [
-        Input(component_id='object_year_control', component_property='value'),
-        Input(component_id='object_office_control', component_property='value'),
-    ]
-)
-def update_structure(year, office):
-    structure = get_structure(year, office).to_dict('records')
-    options = [
-                {
-                    'label': '{} - {}'.format(rec['est'], rec['est_name']),
-                    'value': rec['est']
-                } for i, rec in enumerate(structure)
-    ]
-    return options
-"""
 
 @app.callback(
     Output(component_id='stats_csv', component_property='href'),

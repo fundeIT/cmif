@@ -71,7 +71,6 @@ footer = html.Div([
     ]),
 ])
 
-
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
     dbc.Container([
