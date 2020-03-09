@@ -33,6 +33,7 @@ data.rename(columns={
 data['month'] = 1
 data['area'] = ''
 data['financier'] = ''
+data['office'] = data['office'].apply(lambda s: s.zfill(4))
 data['shifted'] = data['modified'] - data['approved']
 df = data[[
     'year', 'month', 'office', 'unit',
