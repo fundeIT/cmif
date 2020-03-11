@@ -22,6 +22,7 @@ import plotly.express as px
 from app import app
 
 DBNAME = 'data/accrued.db'
+DBDICT = 'data/master.db'
 
 COLNAMES = {
     'year': 'Año',
@@ -84,7 +85,7 @@ def get_structure(year, office):
         WHERE year={} AND office='{}'
         ORDER BY year, office, est, est_name
     """.format(year, office)
-    conn = sqlite3.connect(DBNAME)
+    conn = sqlite3.connect(DBDICT)
     data = pd.read_sql(stmt, conn)
     conn.close()
     return data
