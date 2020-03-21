@@ -1,5 +1,5 @@
 # Configuration file
 
-cert_file = "/etc/letsencrypt/live/.../fullchain.pem"
-key_priv = "/etc/letsencrypt/live/.../privkey.pem"
+certfile = "/etc/letsencrypt/live/.../fullchain.pem"
+keypriv = "/etc/letsencrypt/live/.../privkey.pem"
 

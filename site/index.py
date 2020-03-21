@@ -15,6 +15,8 @@ from tornado.web import FallbackHandler, RequestHandler, Application, \
 from app import app
 from apps import budget_explorer, budget_monitor, stats
 
+import trust
+
 navbar = dbc.Navbar(
     children = [
         html.A(
@@ -218,8 +220,8 @@ if __name__ == '__main__':
     else:
         if secure:
             http_server = HTTPServer(application, ssl_options={
-                "certfile": '',
-                "keyfile": '',
+                "certfile": trust.certfile,
+                "keyfile": trust.keypriv,
             })
             port = 443
         else:
