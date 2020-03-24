@@ -5,6 +5,7 @@ import pandas as pd
 import sys
 
 DBNAME = 'budget.db'
+DBNAME_ALT = '../accrued/build_from_alac/accrued.db'
 
 moments = {
     'Preliminary': 1,
@@ -457,6 +458,67 @@ def get_approved_2020():
     conn.close()
     return df
 
+def get_budgets_2007_2011():
+    """
+    This data is obtained from accrued.db
+    Be sure accrued.db is updated before
+    running this function
+    """
+    stmt = """
+    SELECT 
+        year, office, unit, line, source, object, 12 AS month, 
+        SUM(approved) AS 'AP', SUM(modified) AS 'MD', SUM(accrued) AS 'DV'
+    FROM accrued 
+    WHERE year<=2011 
+    GROUP BY 
+        year, office, unit, line, source, object
+    ORDER BY
+        year, office, unit, line, source, object
+    """
+    conn = sqlite3.connect(DBNAME_ALT)
+    df = pd.read_sql(stmt, conn)
+    conn.close()
+    df = pd.melt(
+        df, 
+        id_vars=['year', 'office', 'unit', 'line', 'source', 'object', 'month'], 
+        value_vars=['AP', 'MD', 'DV'], 
+        var_name='moment', value_name='amount'
+    ) 
+    conn = sqlite3.connect(DBNAME)
+    df.to_sql('budget', conn, if_exists='append', index=False)
+    conn.close()
+
+def get_accrued_2019():
+    """
+    This data is obtained from accrued.db
+    Be sure accrued.db is updated before
+    running this function
+    """
+    stmt = """
+    SELECT 
+        year, office, unit, line, source, object, 12 AS month, 
+        SUM(modified) AS 'MD', SUM(accrued) AS 'DV'
+    FROM accrued 
+    WHERE year=2019 
+    GROUP BY 
+        year, office, unit, line, source, object
+    ORDER BY
+        year, office, unit, line, source, object
+    """
+    conn = sqlite3.connect(DBNAME_ALT)
+    df = pd.read_sql(stmt, conn)
+    conn.close()
+    df = pd.melt(
+        df, 
+        id_vars=['year', 'office', 'unit', 'line', 'source', 'object', 'month'], 
+        value_vars=['MD', 'DV'], 
+        var_name='moment', value_name='amount'
+    ) 
+    conn = sqlite3.connect(DBNAME)
+    df.to_sql('budget', conn, if_exists='append', index=False)
+    conn.close()
+
+
 if __name__ == '__main__':
     get_classificator()
     get_structure()
@@ -467,3 +529,5 @@ if __name__ == '__main__':
     get_proposed_2019()
     get_proposed_2020()
     get_approved_2020()
+    get_budgets_2007_2011()
+    get_accrued_2019()

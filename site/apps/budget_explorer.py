@@ -258,6 +258,15 @@ def get_years():
 
 years = get_years() 
 
+history = html.Ul([
+    html.Li(
+        '''
+        2020-03-24: Se agregaron los presupuestos de los años 2007-2011, así
+        como el presupuesto modificado y ejecutado de 2019
+        '''
+    )
+])
+
 api_form = html.Form([
     html.Div([
         html.Label('Ejercicio fiscal: ', htmlFor='year'),
@@ -353,6 +362,7 @@ content = dbc.Container([
                     ])),
                 ], label='Tabla', tab_id='table'),
                 dbc.Tab(api_form, label='API', tab_id='api'),
+                dbc.Tab(history, label='Historial', tab_id='history'),
             ], id='tabs'),
         ),
     ]),
