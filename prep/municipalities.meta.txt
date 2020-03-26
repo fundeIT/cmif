@@ -1,0 +1,25 @@
+Mar. 25, 2020
+
+El listado de municipalidades fue tomado del Manual de Clasificación para las
+Transacciones Financieras del Sector Público, disponible en el siguiente enlace:
+
+http://www.transparenciafiscal.gob.sv/downloads/pdf/700-DGP-MN-2019-21326.pdf
+
+Los códigos de los municipios se encuentraron en las páginas 104-110.
+
+Para construir el listado se siguieron los siguientes pasos:
+
+- Los municipios fueron copiados a un archivo de texto departamento por
+  departamento (copiar y pegar)
+- El texto se edito en vim, con los siguientes comandos:
+    - %s/\n/ /g : Elimina los saltos de línea y los reemplaza por un espacio en
+      blanco
+    - %s/\d\{4\}/\r\0 /g : Inserta un salto de línea antes de cada secuencia de
+      4 digitos
+    - %s/^\n//g : Elimina línea en blanco
+    - %s/\s\+$//g : Elimina espacios en blanco al final de cada línea
+    - %s/\(\d\{4\}\)\s/\1,/g : Reemplaze el primer espacio después del código
+      por ','
+    - Se insertó como primera línea: municipality,municipality_name
+
+Archivo descargado y editado por Jaime Lopez <jailop AT protonmail DOT com>
