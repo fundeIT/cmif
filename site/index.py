@@ -13,7 +13,7 @@ from tornado.web import FallbackHandler, RequestHandler, Application, \
                         StaticFileHandler
 
 from app import app
-from apps import budget_explorer, budget_monitor, tax_explorer, stats
+from apps import budget_explorer, budget_monitor, shift_explorer, stats, tax_explorer
 
 import trust
 
@@ -180,6 +180,8 @@ def display_page(pathname):
         return budget_explorer.layout
     elif pathname == '/budget_monitor':
         return budget_monitor.layout
+    elif pathname == '/shift_explorer':
+        return shift_explorer.layout
     elif pathname == '/tax_explorer':
         return tax_explorer.layout
     elif pathname == "/stats":
