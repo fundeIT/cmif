@@ -86,18 +86,18 @@ app.layout = html.Div([
 
 main_text = '''
 FUNDE está ejecutando el proyecto “Monitoreo ciudadano de la transparencia
-fiscal en El Salvador”. Este proyecto contribuirá a la transparencia fiscal y
-la lucha contra la corrupción a través del uso intensivo de bases de datos y de
+fiscal en El Salvador”. Este proyecto contribuirá a la transparencia fiscal y la
+lucha contra la corrupción a través del uso intensivo de bases de datos y de
 aplicaciones informáticas.
 
-El proyecto consiste en un **observatorio ciudadano**, denominado
-Centro de Monitoreo e Incidencia Fiscal, que da seguimiento al presupuesto
-general del Estado. Está orientado hacia la promoción del acceso, uso y análisis de
-información sobre las finanzas públicas, en formatos que sean asequibles, de fácil acceso y
-comprensibles para la población en general.
+El proyecto consiste en un **observatorio ciudadano**, denominado Centro de
+Monitoreo e Incidencia Fiscal, que da seguimiento al presupuesto general del
+Estado. Está orientado hacia la promoción del acceso, uso y análisis de
+información sobre las finanzas públicas, en formatos que sean asequibles, de
+fácil acceso y comprensibles para la población en general.
 
-Este sitio está compuesto por aplicaciones o **dashboards**, por medio de los cuales
-los usuarios pueden hacer consultas, visualizar gráficas interactivas,
+Este sitio está compuesto por aplicaciones o **dashboards**, por medio de los
+cuales los usuarios pueden hacer consultas, visualizar gráficas interactivas,
 ordenar o filtrar los resultados y descargar los datos.
 
 Además, con el apoyo de los dashboards, se elaborarán **artículos de análisis**
@@ -108,24 +108,38 @@ dar sentido y carácter humano a las tradicionalmente frías cifras financieras.
 '''
 
 budget_explorer_text = '''
-Este [dashboard](/budget_explorer) permite consultar la evolución de los presupuestos de las instituciones
-públicas según los clasificadores de egresos. Contiene datos desde el año 2012
-para diferentes momentos: cuando los presupuestos son propuestos a la Asamblea Legislativa,
-cuando son aprobados por los diputados, cuando son modificados durante el ejercicio fiscal y,
-finalmente, cuando han sido ejecutados (devengados).
+## Explorador de presupuestos
+
+Este [dashboard](/budget_explorer) permite consultar la evolución de los
+presupuestos de las instituciones públicas según los clasificadores de egresos.
+Contiene datos desde el año 2012 para diferentes momentos: cuando los
+presupuestos son propuestos a la Asamblea Legislativa, cuando son aprobados por
+los diputados, cuando son modificados durante el ejercicio fiscal y, finalmente,
+cuando han sido ejecutados (devengados).
 '''
 
 budget_monitor_text = '''
+## Monitor presupuestario
+
 Este [dashboard](/budget_moitor) concentra la atención en la ejecución presupuestaria
 mes a mes. Permite revisar los montos programados y erogados por cada institución
 pública de manera mensual en sus diferentes unidades o códigos de egreso.
 '''
 
+tax_explorer_text = '''
+## Explorador de impuestos
+
+Las políticas públicas se financian con los impuestos que los ciudadanos(as)
+pagan. [Este dashboard](/tax_explorer) permite explorar cómo se ha comportado la recaudación de
+impuestos en los últimos años a partir de diferentes criterios: tipo de sujetos
+(personas naturales o jurídicas), ubicación geográfica, actividades económicas o
+tipo de impuestos. En una gráfica se presenta la evolución anual y en otra el
+comportamiento mensual de la recaudación de impuestos, según los criterios
+seleccionados.
+'''
+
 default_content = html.Div([
     dbc.Container([
-        dbc.Row([
-            dbc.Col(html.H2('Explorador de presupuestos')),
-        ]),
         dbc.Row([
             dbc.Col(
                 html.A(
@@ -140,9 +154,6 @@ default_content = html.Div([
             ], md=8),
         ]),
         dbc.Row([
-            dbc.Col(html.H2('Monitor presupuestario')),
-        ]),
-        dbc.Row([
             dbc.Col(
                 html.A(
                     html.Img(src='assets/icons/plot.svg', width='100px'),
@@ -153,6 +164,19 @@ default_content = html.Div([
             dbc.Col([
                 dcc.Markdown(budget_monitor_text),
                 html.A('Entrar', href='/budget_monitor', className='btn btn-primary'),
+            ], md=8),
+        ]),
+        dbc.Row([
+            dbc.Col(
+                html.A(
+                    html.Img(src='assets/icons/coins.svg', width='100px'),
+                    href='/budget-monitor'
+                ),
+                className='text-center'
+            ),
+            dbc.Col([
+                dcc.Markdown(tax_explorer_text),
+                html.A('Entrar', href='/tax_explorer', className='btn btn-primary'),
             ], md=8),
         ]),
     ]),
