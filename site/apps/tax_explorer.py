@@ -16,6 +16,7 @@ import geopandas
 import matplotlib.pyplot as plt
 
 from app import app
+import utils
 
 DBNAME = 'data/master.db'
 
@@ -142,7 +143,7 @@ def prepare_yearly_figure(subject=None, department=None, activity=None, tax=None
     data = pd.read_sql(stmt, conn)
     conn.close()
     fig = {
-        'data': [go.Line(x=data['year'], y=data['amount'])],
+        'data': [go.Scatter(x=data['year'], y=data['amount'], fill='tozeroy')],
         'layout' : go.Layout(
             xaxis = {
                 'title': 'Ejercicios fiscales',
@@ -162,7 +163,14 @@ def make_yearly_figure():
         )
     ])
 
-def prepare_monthly_figure(year=None, subject=None, department=None, activity=None, tax=None):
+def prepare_monthly_figure(
+    year=None,
+    subject=None,
+    department=None,
+    activity=None,
+    tax=None,
+    cum=False
+):
     filters = []
     if year:
         filters.append(f" year={year} ")
@@ -186,8 +194,11 @@ def prepare_monthly_figure(year=None, subject=None, department=None, activity=No
     conn = sqlite3.connect(DBNAME)
     data = pd.read_sql(stmt, conn)
     conn.close()
+    if cum:
+        data['amount'] = data['amount'].cumsum()
+    data['month'] = data['month'].apply(utils.name_month)
     fig = {
-        'data': [go.Line(x=data['month'], y=data['amount'])],
+        'data': [go.Scatter(x=data['month'], y=data['amount'], fill='tozeroy')],
         'layout' : go.Layout(
             xaxis = {
                 'title': 'Evolución mensual',
@@ -208,7 +219,13 @@ def make_monthly_figure():
     ])
 
 
-def prepare_maps(year=None, subject=None, department=None, activity=None, tax=None):
+def prepare_maps(
+    year=None,
+    subject=None,
+    department=None,
+    activity=None,
+    tax=None
+):
     filters = []
     if year:
         filters.append(f" year={year} ")
@@ -258,6 +275,18 @@ def prepare_maps(year=None, subject=None, department=None, activity=None, tax=No
     ret = 'data:image/png;base64, ' + ret
     return ret
 
+def make_cumulative():
+    return dcc.Checklist(
+        id = 'cumsum_control',
+        options = [
+            {
+                'label': 'Acumulado',
+                'value': 0
+            }
+        ],
+        value=[],
+    )
+
 txt_header = '''
 # Explorador de impuestos
 '''
@@ -279,11 +308,11 @@ content = dbc.Container([
     dbc.Row([
         dbc.Col([
             dcc.Markdown(txt_intro),
-            make_year_control(),
 			make_subject_control(),
 			make_department_control(),
             make_activity_control(),
             make_tax_control(),
+            make_year_control(),
         ], md=4),
         dbc.Col(
             dbc.Tabs([
@@ -293,14 +322,8 @@ content = dbc.Container([
                     make_yearly_figure(),
                     html.H5('Evolución mensual'),
                     make_monthly_figure(),
+                    make_cumulative(),
                 ], label='Gráficas', tab_id='yearly'),
-                dbc.Tab([
-                    html.Img(
-                        id='map_image',
-                        src='',
-                        width='100%',
-                    )
-                ], label='Mapa', tab_id='map'),
             ], id='tabs'),
         ),
     ]),
@@ -320,10 +343,18 @@ layout = html.Div([content,])
         Input(component_id='department_control', component_property='value'),
         Input(component_id='activity_control', component_property='value'),
         Input(component_id='tax_control', component_property='value'),
+        Input(component_id='cumsum_control', component_property='value')
     ]
 )
-def update(year, subject, department, activity, tax):
+def update(year, subject, department, activity, tax, cumulative):
     yearly_fig = prepare_yearly_figure(subject, department, activity, tax)
-    monthly_fig = prepare_monthly_figure(year, subject, department, activity, tax)
+    monthly_fig = prepare_monthly_figure(
+        year,
+        subject,
+        department,
+        activity,
+        tax,
+        cum = True if len(cumulative) > 0 else False
+    )
     map = prepare_maps(year, subject, department, activity, tax)
     return yearly_fig, monthly_fig, map

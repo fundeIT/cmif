@@ -20,6 +20,7 @@ import plotly.graph_objs as go
 import plotly.express as px
 
 from app import app
+import utils
 
 DBNAME = 'data/accrued.db'
 DBDICT = 'data/master.db'
@@ -76,10 +77,10 @@ def get_structure(year, office):
     stmt = """
         SELECT est, est_name FROM
             (
-	            SELECT year, office, line AS est, line_name AS est_name 
+	            SELECT year, office, line AS est, line_name AS est_name
 	                FROM line
 	            UNION
-	            SELECT year, office, unit AS est, unit_name AS est_name 
+	            SELECT year, office, unit AS est, unit_name AS est_name
 	                FROM unit
             )
         WHERE year={} AND office='{}'
@@ -159,10 +160,9 @@ def make_table():
     ])
 
 def generate_figure(df):
-    months = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC']
     data = df.groupby('month').sum() / 1e6
     data = data.reset_index()
-    data['month'] = data['month'].apply(lambda x: months[x - 1])
+    data['month'] = data['month'].apply(utils.name_month)
     fig = {
         'data': [
                 go.Scatter(name='Aprobado', x=data['month'], y=data['approved']),
@@ -287,7 +287,7 @@ content = dbc.Container([
     dbc.Row([
         dbc.Col([
             dbc.Row(dbc.Col([
-                dcc.Markdown(txt_by_object),    
+                dcc.Markdown(txt_by_object),
             ])),
             dbc.Row(dbc.Col([
                 make_year_control(),
@@ -334,7 +334,7 @@ content = dbc.Container([
                 ], label='Tabla', tab_id='table'),
             ], id='tabs'),
         className='text-center'),
-    ])        
+    ])
 ])
 
 layout = html.Div([content,])
@@ -356,11 +356,11 @@ layout = html.Div([content,])
 def update_tabs(year, office, est, classifier, accum):
     YEAR = year
     OFFICE = office
-    data = get_data(YEAR, OFFICE, line=est, classifier=classifier, 
+    data = get_data(YEAR, OFFICE, line=est, classifier=classifier,
         cum = True if len(accum) > 0 else False)
     fig = generate_figure(data)
     return data.to_dict('records'), fig
-   
+
 @app.callback(
     Output(component_id='object_structure_control', component_property='options'),
     [
