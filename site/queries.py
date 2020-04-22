@@ -1,59 +1,52 @@
+# Query utils
+
 import sqlite3
 import pandas as pd
 
-DB = 'data/budget.db'
+DBNAME = 'data/accrued.db'
 
-def offices():
-    stmt = "SELECT * FROM office"
-    conn = sqlite3.connect(DB)
-    data = pd.read_sql(stmt, conn)
-    conn.close()
-    return data
-
-def budgetary_codes():
-    stmt = "SELECT * FROM object"
-    conn = sqlite3.connect(DB)
-    data = pd.read_sql(stmt, conn)
-    conn.close()
-    return data
-
-def annual_budget(year, struct=True, source=True, code_len=5):
-    q_struct = ' unit, line, ' if struct == 1 else ''
-    q_source = ' source, ' if source == 1 else ''
-    q_code1 = f" SUBSTR(budget.object, 0, {code_len + 1}) AS code, " \
-            if code_len > 0 else ""
-    q_code2 = " code, " \
-            if code_len > 0 else ""
-    stmt = f"""
-            SELECT
-                    year, budget.office, office_name, {q_struct} {q_source} {q_code1}
-                    object_name, moment,
-                    SUM(amount) AS amount
-            FROM budget
-            JOIN office ON
-                office.office = budget.office
-            JOIN object ON
-                object.object = code
-            WHERE
-                    year={year}
-            GROUP BY
-                    year, budget.office, {q_struct} {q_source} {q_code2}
-                    moment
+def get_offices(year):
     """
-    conn = sqlite3.connect(DB)
+    Return a dataframe with office's codes and names
+    for a given year.
+    """
+    stmt = """
+        SELECT accrued.office, office_name
+        FROM accrued
+        LEFT JOIN office ON
+            accrued.office=office.office
+        WHERE year={} AND accrued.office LIKE "%00"
+        GROUP BY accrued.office
+        ORDER BY accrued.office
+    """.format(year)
+    conn = sqlite3.connect(DBNAME)
     data = pd.read_sql(stmt, conn)
-    index_cols = data.columns[:-1].to_list()
-    data = data\
-            .set_index(index_cols)\
-            .unstack(-1)\
-            .fillna(0)['amount']\
-            .reset_index()
-    data.rename(columns={
-            'BG': 'estimated',
-            'PR': 'proposed',
-            'AP': 'approved',
-            'MD': 'modified',
-            'DV': 'accrued',
-    }, inplace=True)
     conn.close()
     return data
+
+def get_office_name(office, offices_df=pd.DataFrame()):
+    """
+    Returns the name of an office given its code.
+    Optionaly a load office dataframe can be used to query.
+    """
+    if offices_df.empty:
+        stmt = """
+            SELECT office_name 
+            FROM office
+            WHERE office='{}'
+        """
+        conn = sqlite3.connect(DBNAME)
+        c = conn.cursor()
+        c.execute(stmt.format(office))
+        ret = c.fetchone()
+        if ret:
+            return ret[0]
+        else:
+            return 'ND'   
+    else:
+        row = offices_df.loc[offices_df['office'] == office, 'office_name']
+        if len(row) > 0:
+            return row.values[0]
+        else:
+            return 'ND'
+

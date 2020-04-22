@@ -16,6 +16,7 @@ import geopandas
 import matplotlib.pyplot as plt
 
 from app import app
+import queries as qry
 
 DBNAME = 'data/accrued.db'
 DBDICT = 'data/master.db'
@@ -80,21 +81,6 @@ periods = get_periods()
 year = list(periods.keys())[-1]
 data = get_data(year)
 
-def get_offices():
-    stmt = """
-        SELECT accrued.office, office_name
-        FROM accrued
-        LEFT JOIN office ON
-            accrued.office=office.office
-        WHERE year={} AND accrued.office LIKE "%00"
-        GROUP BY accrued.office
-        ORDER BY accrued.office
-    """.format(year)
-    conn = sqlite3.connect(DBNAME)
-    data = pd.read_sql(stmt, conn)
-    conn.close()
-    return data
-
 def get_structure(year, office):
     stmt = """
         SELECT est, est_name FROM
@@ -116,7 +102,7 @@ def get_structure(year, office):
 periods = get_periods()
 year = list(periods.keys())[-1]
 data = get_data(year)
-offices = get_offices()
+offices = qry.get_offices(year)
 structure = get_structure(year, '0100')
 
 def make_year_control():
@@ -153,7 +139,7 @@ def make_month_control():
     return control
 
 def make_office_control():
-    offices = get_offices().to_dict('records')
+    offices = qry.get_offices(year).to_dict('records')
     control = html.Div([
         html.Label('Oficinas'),
         dcc.Dropdown(
@@ -207,6 +193,10 @@ def prepare_figure(df):
     color = []
     keys = ['global'] + list(df.columns[:-1])
     df['global'] = df['shifted'].apply(lambda val: 'in' if val >= 0 else 'out')
+    if 'office' in df.columns:
+        df['office'] = df['office'].apply(
+            lambda s: qry.get_office_name(s, offices) 
+        ) 
     for i in range(0, len(keys) - 1):
         subset = df.groupby(keys[0:i + 2])['shifted'].sum().reset_index()
         subset = subset[subset['shifted'] != 0]
@@ -250,6 +240,7 @@ def prepare_figure(df):
                 ),
             ],
         'layout': go.Layout(
+            font_size = 6,
         )
     }
     return fig
@@ -260,6 +251,9 @@ def make_figure():
         dcc.Graph(
             id = 'shifted_figure',
             figure = prepare_figure(df),
+            config = {
+                'displaylogo': False,
+            },
         )
     ])
 
@@ -349,7 +343,7 @@ def update_months(tmp_year):
             'value': month
         } for month in periods[year]
     ]
-    offices = get_offices().to_dict('records')
+    offices = qry.get_offices(year).to_dict('records')
     offices_options = [
         {
             'label': '{} - {}'.format(rec['office'], rec['office_name']),
@@ -399,7 +393,6 @@ def update_structure(office):
     ]
 )
 def update_download(year, month, office, structure, detail):
-    # print(year, month, office)
     data = get_data(year, month)
     group = []
     if not office and not detail:

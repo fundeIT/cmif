@@ -32,6 +32,10 @@ navbar = dbc.Navbar(
                     href='/budget_explorer')),
                 dbc.DropdownMenuItem(html.A("Monitor presupuestario",
                     href='/budget_monitor')),
+                dbc.DropdownMenuItem(html.A("Explorador de impuestos",
+                    href='/tax_explorer')),
+                dbc.DropdownMenuItem(html.A("Modificaciones presupuestarias",
+                    href='/shift_explorer')),
             ],
         ),
         dbc.DropdownMenu(
@@ -130,12 +134,22 @@ tax_explorer_text = '''
 ## Explorador de impuestos
 
 Las políticas públicas se financian con los impuestos que los ciudadanos(as)
-pagan. [Este dashboard](/tax_explorer) permite explorar cómo se ha comportado la recaudación de
-impuestos en los últimos años a partir de diferentes criterios: tipo de sujetos
-(personas naturales o jurídicas), ubicación geográfica, actividades económicas o
-tipo de impuestos. En una gráfica se presenta la evolución anual y en otra el
-comportamiento mensual de la recaudación de impuestos, según los criterios
-seleccionados.
+pagan. [Este dashboard](/tax_explorer) permite explorar cómo se ha comportado la
+recaudación de impuestos en los últimos años a partir de diferentes criterios:
+tipo de sujetos (personas naturales o jurídicas), ubicación geográfica,
+actividades económicas o tipo de impuestos. En una gráfica se presenta la
+evolución anual y en otra el comportamiento mensual de la recaudación de
+impuestos, según los criterios seleccionados.
+'''
+
+shift_explorer_text = '''
+# Modificaciones presupuestarias (experimental)
+
+En este [dashboard](/shift_explorer) se pueden consultar las modificaciones que
+se han realizado en los presupuestos por año y mes. Las modificaciones se
+ilustran por medio de flujos que aumentan (verdes) y que disminuyen (rojos). Aún
+es un módulo en desarrollo.
+
 '''
 
 default_content = html.Div([
@@ -179,6 +193,20 @@ default_content = html.Div([
                 html.A('Entrar', href='/tax_explorer', className='btn btn-primary'),
             ], md=8),
         ]),
+        dbc.Row([
+            dbc.Col(
+                html.A(
+                    html.Img(src='assets/icons/transfer.svg', width='100px'),
+                    href='/shit_explorer'
+                ),
+                className='text-center'
+            ),
+            dbc.Col([
+                dcc.Markdown(shift_explorer_text),
+                html.A('Entrar', href='/shift_explorer', className='btn btn-primary'),
+            ], md=8),
+        ]),
+
     ]),
 ])
 
