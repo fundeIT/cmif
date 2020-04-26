@@ -1,0 +1,304 @@
+1586728026934	addons.webextension.doh-rollout@mozilla.org	WARN	Loading extension 'doh-rollout@mozilla.org': Reading manifest: Invalid extension permission: networkStatus
+1586728027282	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1586728027282	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: telemetry
+1586728027282	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1586728027282	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1586728029095	Marionette	INFO	Listening on port 45487
+1586728029183	Marionette	WARN	TLS certificate errors will be ignored for this session
+Log warning: The log 'Services.Common.RESTRequest' is configured to use the preference 'services.common.log.logger.rest.request' - you must adjust the level by setting this preference, not by using the level setter
+1586728429965	Sync.ErrorHandler	ERROR	Sync encountered an error: TypeError: url is undefined(resource://services-sync/record.js:304:16) JS Stack trace: get@record.js:304:16
+_remoteSetup@service.js:1112:41
+JavaScript error: resource://gre/actors/SelectChild.jsm, line 98: TypeError: this.element is null
+console.error: (new TypeError("parent is null", "resource://devtools/client/inspector/shared/style-change-tracker.js", 67))
+TypeError: parent is null: canMutationImpactCurrentStyles@resource://devtools/client/inspector/shared/style-change-tracker.js:67:24
+onMutations@resource://devtools/client/inspector/shared/style-change-tracker.js:84:41
+_emit@resource://devtools/shared/event-emitter.js:226:34
+emit@resource://devtools/shared/event-emitter.js:172:18
+emit@resource://devtools/shared/event-emitter.js:324:18
+getMutations@resource://devtools/shared/fronts/walker.js:411:10
+
+console.error: (new TypeError("currentNode is null", "resource://devtools/client/inspector/shared/style-change-tracker.js", 66))
+TypeError: currentNode is null: canMutationImpactCurrentStyles@resource://devtools/client/inspector/shared/style-change-tracker.js:66:20
+onMutations@resource://devtools/client/inspector/shared/style-change-tracker.js:84:41
+_emit@resource://devtools/shared/event-emitter.js:226:34
+emit@resource://devtools/shared/event-emitter.js:172:18
+emit@resource://devtools/shared/event-emitter.js:324:18
+getMutations@resource://devtools/shared/fronts/walker.js:411:10
+
+1586729905457	addons.webextension.doh-rollout@mozilla.org	WARN	Loading extension 'doh-rollout@mozilla.org': Reading manifest: Invalid extension permission: networkStatus
+1586729905817	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1586729905817	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: telemetry
+1586729905817	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1586729905818	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1586729907970	Marionette	INFO	Listening on port 37677
+1586729908021	Marionette	WARN	TLS certificate errors will be ignored for this session
+1586729913261	Marionette	INFO	Stopped listening on port 45487
+console.error: "Error while calling actor 'pagestyle's method 'getApplied'" "node is null"
+console.error: "getApplied@resource://devtools/server/actors/styles.js:587:5\nhandler@resource://devtools/shared/protocol/Actor.js:154:37\nonPacket@resource://devtools/server/devtools-server-connection.js:380:58\nreceiveMessage@resource://devtools/shared/transport/child-transport.js:66:16\n"
+console.error: (new Error("Protocol error (unknownError): node is null", "resource://devtools/shared/protocol/Front.js", 294))
+console.error: "Error while calling actor 'pagestyle's method 'getApplied'" "node is null"
+console.error: "getApplied@resource://devtools/server/actors/styles.js:587:5\nhandler@resource://devtools/shared/protocol/Actor.js:154:37\nonPacket@resource://devtools/server/devtools-server-connection.js:380:58\nreceiveMessage@resource://devtools/shared/transport/child-transport.js:66:16\n"
+console.error: "Error while calling actor 'pagestyle's method 'getUsedFontFaces'" "node is null"
+console.error: "getUsedFontFaces@resource://devtools/server/actors/styles.js:384:24\nhandler@resource://devtools/shared/protocol/Actor.js:154:37\nonPacket@resource://devtools/server/devtools-server-connection.js:380:58\nreceiveMessage@resource://devtools/shared/transport/child-transport.js:66:16\n"
+console.error: "Exception while getting unique selector" (new Error("Protocol error (noSuchActor): No such actor for ID: server0.conn0.child2/domnode428", "resource://devtools/shared/protocol/Front.js", 294))
+console.error: (new Error("Protocol error (unknownError): node is null", "resource://devtools/shared/protocol/Front.js", 294))
+console.error: "Could not get the list of font families" (new Error("Protocol error (unknownError): node is null", "resource://devtools/shared/protocol/Front.js", 294))
+IPDL protocol error: Handler returned error code!
+
+###!!! [Parent][DispatchAsyncMessage] Error: PLayerTransaction::Msg_ReleaseLayer Processing error: message was deserialized, but the handler returned false (indicating failure)
+
+1586730142634	Marionette	INFO	Stopped listening on port 37677
+1586730145507	addons.webextension.doh-rollout@mozilla.org	WARN	Loading extension 'doh-rollout@mozilla.org': Reading manifest: Invalid extension permission: networkStatus
+1586730145854	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1586730145854	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: telemetry
+1586730145854	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1586730145854	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1586730147711	Marionette	INFO	Listening on port 33281
+1586730147765	Marionette	WARN	TLS certificate errors will be ignored for this session
+1586730393140	Marionette	WARN	TimedPromise timed out after 500 ms: stacktrace:
+TimedPromise/<@chrome://marionette/content/sync.js:244:13
+TimedPromise@chrome://marionette/content/sync.js:229:10
+interaction.flushEventLoop@chrome://marionette/content/interaction.js:416:10
+webdriverClickElement@chrome://marionette/content/interaction.js:182:31
+send@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:95335
+ajax@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:90798
+bH._evalUrl@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:92058
+domManip@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:56924
+append@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:54227
+html/<@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:55865
+bH.access@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:35145
+html@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:55406
+updateData@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/components.js.jsf?ln=primefaces&v=6.0:12:1119
+handle@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/components.js.jsf?ln=primefaces&v=6.0:12:21181
+doUpdate@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/core.js.jsf?ln=primefaces&v=6.0:3:11800
+handle@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/core.js.jsf?ln=primefaces&v=6.0:3:10258
+onsuccess@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/components.js.jsf?ln=primefaces&v=6.0:12:21134
+success@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/core.js.jsf?ln=primefaces&v=6.0:3:8134
+i@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:25791
+fireWith@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:26798
+cf@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:91439
+i@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:95744
+1586730396530	Marionette	WARN	TimedPromise timed out after 500 ms: stacktrace:
+TimedPromise/<@chrome://marionette/content/sync.js:244:13
+TimedPromise@chrome://marionette/content/sync.js:229:10
+interaction.flushEventLoop@chrome://marionette/content/interaction.js:416:10
+webdriverClickElement@chrome://marionette/content/interaction.js:182:31
+send@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:95335
+ajax@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:90798
+bH._evalUrl@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:92058
+domManip@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:56924
+append@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:54227
+html/<@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:55865
+bH.access@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:35145
+html@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:55406
+updateData@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/components.js.jsf?ln=primefaces&v=6.0:12:1119
+handle@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/components.js.jsf?ln=primefaces&v=6.0:12:21181
+doUpdate@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/core.js.jsf?ln=primefaces&v=6.0:3:11800
+handle@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/core.js.jsf?ln=primefaces&v=6.0:3:10258
+onsuccess@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/components.js.jsf?ln=primefaces&v=6.0:12:21134
+success@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/core.js.jsf?ln=primefaces&v=6.0:3:8134
+i@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:25791
+fireWith@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:26798
+cf@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:91439
+i@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:95744
+1586730398338	Marionette	WARN	TimedPromise timed out after 500 ms: stacktrace:
+TimedPromise/<@chrome://marionette/content/sync.js:244:13
+TimedPromise@chrome://marionette/content/sync.js:229:10
+interaction.flushEventLoop@chrome://marionette/content/interaction.js:416:10
+webdriverClickElement@chrome://marionette/content/interaction.js:182:31
+send@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:95335
+ajax@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:90798
+bH._evalUrl@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:92058
+domManip@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:56924
+append@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:54227
+html/<@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:55865
+bH.access@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:35145
+html@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:55406
+updateData@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/components.js.jsf?ln=primefaces&v=6.0:12:1119
+handle@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/components.js.jsf?ln=primefaces&v=6.0:12:21181
+doUpdate@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/core.js.jsf?ln=primefaces&v=6.0:3:11800
+handle@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/core.js.jsf?ln=primefaces&v=6.0:3:10258
+onsuccess@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/components.js.jsf?ln=primefaces&v=6.0:12:21134
+success@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/core.js.jsf?ln=primefaces&v=6.0:3:8134
+i@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:25791
+fireWith@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:26798
+cf@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:91439
+i@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:95744
+1586730407945	Marionette	WARN	TimedPromise timed out after 500 ms: stacktrace:
+TimedPromise/<@chrome://marionette/content/sync.js:244:13
+TimedPromise@chrome://marionette/content/sync.js:229:10
+interaction.flushEventLoop@chrome://marionette/content/interaction.js:416:10
+webdriverClickElement@chrome://marionette/content/interaction.js:182:31
+send@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:95335
+ajax@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:90798
+bH._evalUrl@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:92058
+domManip@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:56924
+append@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:54227
+html/<@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:55865
+bH.access@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:35145
+html@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:55406
+updateData@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/components.js.jsf?ln=primefaces&v=6.0:12:1119
+handle@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/components.js.jsf?ln=primefaces&v=6.0:12:21181
+doUpdate@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/core.js.jsf?ln=primefaces&v=6.0:3:11800
+handle@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/core.js.jsf?ln=primefaces&v=6.0:3:10258
+onsuccess@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/components.js.jsf?ln=primefaces&v=6.0:12:21134
+success@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/core.js.jsf?ln=primefaces&v=6.0:3:8134
+i@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:25791
+fireWith@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:26798
+cf@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:91439
+i@https://www.comprasal.gob.sv/comprasal_web/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces&v=6.0:25:95744
+1586730827016	Marionette	INFO	Stopped listening on port 33281
+1586730830820	addons.webextension.doh-rollout@mozilla.org	WARN	Loading extension 'doh-rollout@mozilla.org': Reading manifest: Invalid extension permission: networkStatus
+1586730831174	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1586730831174	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: telemetry
+1586730831174	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1586730831174	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1586730833090	Marionette	INFO	Listening on port 39403
+1586730833177	Marionette	WARN	TLS certificate errors will be ignored for this session
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+1586730913913	addons.webextension.doh-rollout@mozilla.org	WARN	Loading extension 'doh-rollout@mozilla.org': Reading manifest: Invalid extension permission: networkStatus
+1586730914250	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1586730914250	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: telemetry
+1586730914250	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1586730914251	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1586730916031	Marionette	INFO	Listening on port 45987
+1586730916105	Marionette	WARN	TLS certificate errors will be ignored for this session
+1586731683198	addons.webextension.doh-rollout@mozilla.org	WARN	Loading extension 'doh-rollout@mozilla.org': Reading manifest: Invalid extension permission: networkStatus
+1586731683552	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1586731683552	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: telemetry
+1586731683552	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1586731683552	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1586731685684	Marionette	INFO	Listening on port 41427
+1586731685762	Marionette	WARN	TLS certificate errors will be ignored for this session
+1586731696298	Marionette	INFO	Stopped listening on port 41427
+1586731710534	addons.webextension.doh-rollout@mozilla.org	WARN	Loading extension 'doh-rollout@mozilla.org': Reading manifest: Invalid extension permission: networkStatus
+1586731710888	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1586731710888	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: telemetry
+1586731710888	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1586731710888	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1586731712846	Marionette	INFO	Listening on port 38055
+1586731712925	Marionette	WARN	TLS certificate errors will be ignored for this session
+console.error: (new TypeError("currentNode is null", "resource://devtools/client/inspector/shared/style-change-tracker.js", 66))
+TypeError: currentNode is null: canMutationImpactCurrentStyles@resource://devtools/client/inspector/shared/style-change-tracker.js:66:20
+onMutations@resource://devtools/client/inspector/shared/style-change-tracker.js:84:41
+_emit@resource://devtools/shared/event-emitter.js:226:34
+emit@resource://devtools/shared/event-emitter.js:172:18
+emit@resource://devtools/shared/event-emitter.js:324:18
+getMutations@resource://devtools/shared/fronts/walker.js:411:10
+
+1586731868226	Marionette	INFO	Stopped listening on port 38055
+1586731881853	Marionette	INFO	Stopped listening on port 45987
+1586732266738	addons.webextension.doh-rollout@mozilla.org	WARN	Loading extension 'doh-rollout@mozilla.org': Reading manifest: Invalid extension permission: networkStatus
+1586732267095	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1586732267095	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: telemetry
+1586732267095	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1586732267095	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1586732269148	Marionette	INFO	Listening on port 46269
+1586732270582	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://www.google.com/xjs/_/js/k=xjs.s.en_US.oGZCj5A3pGc.O/ck=xjs.s.saB2XdIhNfs.L.F4.O/m=Fkg7bd,HcFEGb,IvlUe,MC8mtf,OF7gzc,RMhBfe,T4BAC,TJw5qb,TbaHGc,Y33vzc,ZyRBae,cdos,cr,hsm,iDPoPb,jsa,mvYTse,tg8oTe,uz938c,vWNDde,ws9Tlc,yQ43ff,d,csi/am=AAQAAMASgFk3AJz_QQB4F8o4AAAgQBvBxgIpIiEhAAGssAgAAQ/d=1/dg=2/ct=zgms/rs=ACT90oFjo5uGCgqOfxi2UGR6aJcx73K3SQ, line 411: Script terminated by timeout at:
+s_a.L3@https://www.google.com/xjs/_/js/k=xjs.s.en_US.oGZCj5A3pGc.O/ck=xjs.s.saB2XdIhNfs.L.F4.O/m=Fkg7bd,HcFEGb,IvlUe,MC8mtf,OF7gzc,RMhBfe,T4BAC,TJw5qb,TbaHGc,Y33vzc,ZyRBae,cdos,cr,hsm,iDPoPb,jsa,mvYTse,tg8oTe,uz938c,vWNDde,ws9Tlc,yQ43ff,d,csi/am=AAQAAMASgFk3AJz_QQB4F8o4AAAgQBvBxgIpIiEhAAGssAgAAQ/d=1/dg=2/ct=zgms/rs=ACT90oFjo5uGCgqOfxi2UGR6aJcx73K3SQ:411:67
+s_a.dispatchEvent@https://www.google.com/xjs/_/js/k=xjs.s.en_US.oGZCj5A3pGc.O/ck=xjs.s.saB2XdIhNfs.L.F4.O/m=Fkg7bd,HcFEGb,IvlUe,MC8mtf,OF7gzc,RMhBfe,T4BAC,TJw5qb,TbaHGc,Y33vzc,ZyRBae,cdos,cr,hsm,iDPoPb,jsa,mvYTse,tg8oTe,uz938c,vWNDde,ws9Tlc,yQ43ff,d,csi/am=AAQAAMASgFk3AJz_QQB4F8o4AAAgQBvBxgIpIiEhAAGssAgAAQ/d=1/dg=2/ct=zgms/rs=ACT90oFjo5uGCgqOfxi2UGR6aJcx73K3SQ:409:360
+s_c0.prototype.Da@https://www.google.com/xjs/_/js/k=xjs.s.en_US.oGZCj5A3pGc.O/ck=xjs.s.saB2XdIhNfs.L.F4.O/am=AAQAAMASgFk3AJz_QQB4F8o4AAAgQBvBxgIpIiEhAAGssAgAAQ/d=1/exm=Fkg7bd,HcFEGb,IvlUe,MC8mtf,OF7gzc,RMhBfe,T4BAC,TJw5qb,TbaHGc,Y33vzc,ZyRBae,cdos,cr,csi,d,hsm,iDPoPb,jsa,mvYTse,tg8oTe,uz938c,vWNDde,ws9Tlc,yQ43ff/ed=1/dg=2/ct=zgms/rs=ACT90oFjo5uGCgqOfxi2UGR6aJcx73K3SQ/m=MkHyGd,NBZ7u,NpD4ec,OG6ZHd,RqxLvf,T6sTsf,T7XTS,TxZWcc,URQPYc,Wq6lxf,XMgU6d,aCZVp,aa,aam1T,abd,async,bgd,dvl,eN4qad,exdc,foot,iD8Yk,kyn,lazG7b,lli,lu,m,mI3LFb,mUpTid,mpck,mu,o02Jie,pB6Zqd,qik19b,rHjpXd,sb_wiz,sf,tl,uiNkee,vs,xz7cCd,zbML3c?xjs=s1:131:288
+s_6ga@https://www.google.com/xjs/_/js/k=xjs.s.en_US.oGZCj5A3pGc.O/ck=xjs.s.saB2XdIhNfs.L.F4.O/m=Fkg7bd,HcFEGb,IvlUe,MC8mtf,OF7gzc,RMhBfe,T4BAC,TJw5qb,TbaHGc,Y33vzc,ZyRBae,cdos,cr,hsm,iDPoPb,jsa,mvYTse,tg8oTe,uz938c,vWNDde,ws9Tlc,yQ43ff,d,csi/am=AAQAAMASgFk3AJz_QQB4F8o4AAAgQBvBxgIpIiEhAAGssAgAAQ/d=1/dg=2/ct=zgms/rs=ACT90oFjo5uGCgqOfxi2UGR6aJcx73K3SQ:266:243
+s_4ga@https://www.google.com/xjs/_/js/k=xjs.s.en_US.oGZCj5A3pGc.O/ck=xjs.s.saB2XdIhNfs.L.F4.O/m=Fkg7bd,HcFEGb,IvlUe,MC8mtf,OF7gzc,RMhBfe,T4BAC,TJw5qb,TbaHGc,Y33vzc,ZyRBae,cdos,cr,hsm,iDPoPb,jsa,mvYTse,tg8oTe,uz938c,vWNDde,ws9Tlc,yQ43ff,d,csi/am=AAQAAMASgFk3AJz_QQB4F8o4AAAgQBvBxgIpIiEhAAGssAgAAQ/d=1/dg=2/ct=zgms/rs=ACT90oFjo5uGCgqOfxi2UGR6aJcx73K3SQ:267:249
+s_2ga/b<@https://www.google.com/xjs/_/js/k=xjs.s.en_US.oGZCj5A3pGc.O/ck=xjs.s.saB2XdIhNfs.L.F4.O/m=Fkg7bd,HcFEGb,IvlUe,MC8mtf,OF7gzc,RMhBfe,T4BAC,TJw5qb,TbaHGc,Y33vzc,ZyRBae,cdos,cr,hsm,iDPoPb,jsa,mvYTse,tg8oTe,uz938c,vWNDde,ws9Tlc,yQ43ff,d,csi/am=AAQAAMASgFk3AJz_QQB4F8o4AAAgQBvBxgIpIiEhAAGssAgAAQ/d=1/dg=2/ct=zgms/rs=ACT90oFjo5uGCgqOfxi2UGR6aJcx73K3SQ:263:277
+
+libGL error: MESA-LOADER: failed to retrieve device information
+libGL error: Version 4 or later of flush extension not found
+libGL error: failed to load driver: i915
+libGL error: MESA-LOADER: failed to retrieve device information
+JavaScript warning: https://www.w3schools.com/colors/colors_picker.asp line 1 > scriptElement, line 1: Failed to create WebGL context: WebGL creation failed: 
+* tryNativeGL
+* Exhausted GL driver options.
+JavaScript warning: https://www.w3schools.com/colors/colors_picker.asp line 1 > scriptElement, line 1: Failed to create WebGL context: WebGL creation failed: 
+* tryNativeGL
+* Exhausted GL driver options.
+JavaScript error: https://vidstat.taboola.com/vpaid/vPlayer/player/v11.1.5/OvaMediaPlayer.js, line 28: SecurityError: The operation is insecure.
+JavaScript warning: https://cdn.fqtag.com/1.25.324-b7c39f1/pixel.js, line 4: Failed to create WebGL context: WebGL creation failed: 
+* tryNativeGL
+* Exhausted GL driver options.
+JavaScript warning: https://cdn.fqtag.com/1.25.324-b7c39f1/pixel.js, line 4: Failed to create WebGL context: WebGL creation failed: 
+* tryNativeGL
+* Exhausted GL driver options.
+JavaScript error: https://eus.rubiconproject.com/usync.html?gdpr=0&gdpr_consent=BOxxHiSOxxHiSDlDKAENDD-AAAAuuAAA&us_privacy=1---, line 12: SecurityError: The operation is insecure.
+1586734585734	Marionette	INFO	Stopped listening on port 46269
+1586742997467	addons.webextension.doh-rollout@mozilla.org	WARN	Loading extension 'doh-rollout@mozilla.org': Reading manifest: Invalid extension permission: networkStatus
+1586742998188	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1586742998188	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: telemetry
+1586742998188	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1586742998188	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1586743000094	Marionette	INFO	Listening on port 34839
+1586743000166	Marionette	WARN	TLS certificate errors will be ignored for this session
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+1586743657269	addons.webextension.doh-rollout@mozilla.org	WARN	Loading extension 'doh-rollout@mozilla.org': Reading manifest: Invalid extension permission: networkStatus
+1586743657645	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1586743657645	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: telemetry
+1586743657645	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1586743657645	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1586743659661	Marionette	INFO	Listening on port 33139
+1586743659745	Marionette	WARN	TLS certificate errors will be ignored for this session
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+1586743856794	addons.webextension.doh-rollout@mozilla.org	WARN	Loading extension 'doh-rollout@mozilla.org': Reading manifest: Invalid extension permission: networkStatus
+1586743857160	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1586743857160	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: telemetry
+1586743857160	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1586743857160	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1586743859180	Marionette	INFO	Listening on port 35431
+1586743859263	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 114: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+1586746581249	addons.webextension.doh-rollout@mozilla.org	WARN	Loading extension 'doh-rollout@mozilla.org': Reading manifest: Invalid extension permission: networkStatus
+1586746581615	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1586746581615	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: telemetry
+1586746581615	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1586746581616	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1586746585706	Marionette	INFO	Listening on port 42249
+1586746585720	Marionette	WARN	TLS certificate errors will be ignored for this session
+1586746605213	Marionette	INFO	Stopped listening on port 42249
+1586746631604	addons.webextension.doh-rollout@mozilla.org	WARN	Loading extension 'doh-rollout@mozilla.org': Reading manifest: Invalid extension permission: networkStatus
+1586746631999	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1586746631999	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: telemetry
+1586746631999	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1586746631999	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1586746635784	Marionette	INFO	Listening on port 45481
+1586746635881	Marionette	WARN	TLS certificate errors will be ignored for this session
+1586747402547	Marionette	INFO	Stopped listening on port 35431
+1586747408784	addons.webextension.doh-rollout@mozilla.org	WARN	Loading extension 'doh-rollout@mozilla.org': Reading manifest: Invalid extension permission: networkStatus
+1586747409142	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1586747409142	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: telemetry
+1586747409142	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1586747409143	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1586747411052	Marionette	INFO	Listening on port 38081
+1586747411100	Marionette	WARN	TLS certificate errors will be ignored for this session
+1586747415914	Marionette	INFO	Stopped listening on port 45481
+1586777501064	Marionette	INFO	Stopped listening on port 38081
+1587588604540	addons.webextension.doh-rollout@mozilla.org	WARN	Loading extension 'doh-rollout@mozilla.org': Reading manifest: Invalid extension permission: networkStatus
+1587588604908	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1587588604909	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: telemetry
+1587588604909	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1587588604909	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1587588606900	Marionette	INFO	Listening on port 33061
+1587588607009	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/actors/SelectChild.jsm, line 98: TypeError: this.element is null
+1587588834690	Marionette	INFO	Stopped listening on port 33061
+1587588840541	addons.webextension.doh-rollout@mozilla.org	WARN	Loading extension 'doh-rollout@mozilla.org': Reading manifest: Invalid extension permission: networkStatus
+1587588840892	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1587588840893	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: telemetry
+1587588840893	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1587588840893	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1587588842747	Marionette	INFO	Listening on port 42457
+1587588842805	Marionette	WARN	TLS certificate errors will be ignored for this session
+1587591270639	Marionette	INFO	Stopped listening on port 42457
+1587693030235	addons.webextension.doh-rollout@mozilla.org	WARN	Loading extension 'doh-rollout@mozilla.org': Reading manifest: Invalid extension permission: networkStatus
+1587693030762	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1587693030762	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: telemetry
+1587693030762	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1587693030762	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1587693033980	Marionette	INFO	Listening on port 35647
+1587693034048	Marionette	WARN	TLS certificate errors will be ignored for this session
+1587756599376	Marionette	INFO	Stopped listening on port 35647
