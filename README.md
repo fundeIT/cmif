@@ -19,7 +19,12 @@ Build databases:
 
     $ make
 
-Run the webserver:
+Run a debug webserver:
 
     $ cd site
     $ python index.py -d
+    
+Run a production server:
+
+    $ cd site
+    $ python index.py -s
