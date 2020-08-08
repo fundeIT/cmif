@@ -28,3 +28,8 @@ Run a production server:
 
     $ cd site
     $ python index.py -s
+
+## Changes
+
+- 2020-08-08: Accrued budget data for february and march 2020 were added. A
+  [specific script](prep/accrued/build_from_alac/202002_03.py) was included.

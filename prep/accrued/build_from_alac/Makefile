@@ -8,5 +8,8 @@ accrued.db:
 	# January 2020
 	python 202001.py
 
+	# February and March 2020
+	python 202002_03.py
+
 clean:
 	rm -f accrued.db
