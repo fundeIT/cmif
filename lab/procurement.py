@@ -1,4 +1,4 @@
-#!/bin/usr/python
+#!/usr/bin/python
 
 import sys
 import re
@@ -11,19 +11,22 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 import pandas as pd
 from lxml import html
+import time
 
 class Procurement:
     def __init__(self):
         pass
-    def get_driver(self, headless=True):
+    def get_driver(self, headless=False):
         options = Options()
         if headless:
             options.add_argument('--headless')
-        driver = webdriver.Chrome(options=options)
+        #driver = webdriver.Firefox(options=options)
+        driver = webdriver.Firefox()
         # driver = webdriver.Chrome()
-        driver.implicitly_wait(10)
+        # driver.implicitly_wait(10)
         return driver
     def update(self, start=None, end=None, wait=0):
         pass
@@ -89,7 +92,6 @@ class PTF(Procurement):
     
 class Comprasal(Procurement):
     def __init__(self):
-        super().__init__(self)
         # Scheme for dates: DD/MM/YYYY
         self.start = start
         self.end = end
@@ -102,8 +104,9 @@ class Comprasal(Procurement):
             'next_page': '/html/body/div[1]/div[2]/div/form/table/tbody/tr[1]/td/div/div[2]/a[3]',
             'paginator': '/html/body/div[1]/div[2]/div/form/table/tbody/tr[1]/td/div/div[2]/span',
         }
-    def update(self, start, end, wait=0):
+    def update(self, start, end, filename='comprasal.html', wait=0):
         driver = self.get_driver()
+        driver.implicitly_wait(60)
         driver.get(self.url)
         # Setting controls
         starting_date_box = driver.find_element_by_xpath(self.xpaths['start'])
@@ -117,28 +120,30 @@ class Comprasal(Procurement):
         limit = int(re.findall('\d+', paginator_ctrl.text)[-1])
         # print('%d pages to recover' % limit)
         # Getting the data
-        tables = []
+        first = True
+        fout = open(filename, 'w')
         for i in range(limit):
             print('Page %d/%d' % (i, limit, ))
             while True:
+                time.sleep(3.500)
                 paginator_ctrl = driver.find_element_by_xpath(self.xpaths['paginator'])
                 pos = int(re.findall('\d+', paginator_ctrl.text)[0])
                 if pos == i + 1:
                     break
                 table = driver.find_element_by_xpath(self.xpaths['table'])
                 content = table.get_attribute('innerHTML')
-                data = pd.read_html(content)
-                tables.append(data[0])
+                fout.write(content)
+                fout.write('\n\n')
                 next_page_ctrl = driver.find_element_by_xpath(self.xpaths['next_page'])
                 next_page_ctrl.click() 
-        # Saving results
-        self.df = pd.concat(tables)
         driver.close()
+        fout.close()
         print('Dataset completed')
 
 if __name__ == '__main__':
     wait = 0
-    opts, args = getopt.getopt(sys.argv[1:], "s:e:w:", ["start", "end", "wait"])
+    filename = 'compras.csv'
+    opts, args = getopt.getopt(sys.argv[1:], "s:e:w:o:", ["start", "end", "wait", "output"])
     for o, a in  opts:
         if o in ['-s', '--start']:
             start = a
@@ -146,8 +151,9 @@ if __name__ == '__main__':
             end = a
         elif o in ['-w', '--wait']:
             wait = int(a)
+        elif o in ['-o', '--output']:
+            filename = a
         else:
            assert False, "unhandled option"
     p = Comprasal()
-    p.update(start, end, wait)
-    p.save('compras.csv')
+    p.update(start, end, filename, wait)
