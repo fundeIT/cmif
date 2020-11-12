@@ -4,7 +4,7 @@ import sqlite3
 import pandas as pd
 import sys
 
-DBNAME = 'budget.db'
+DBNAME = '../budget.db'
 DBNAME_ALT = '../accrued/build_from_alac/accrued.db'
 
 moments = {
