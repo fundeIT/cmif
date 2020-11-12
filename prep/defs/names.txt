@@ -1,0 +1,80 @@
+# Rationale:
+# When datasheets are received from Ministerio de Hacienda column names are
+# not uniformly labeled. This file contains a lists of names given by
+# Ministerio de Hacienda and normalized names used in the CEMIFs database.
+# The purpose of this list is to convert to normalized names the labels
+# in datasheets provided by Ministerio de Hacienda. This is a preprocessing
+# task.
+#
+# Usage:
+# Just add pair names separated by colons. The first one is the name given by
+# Ministerio de Hacienda. The second one is the normalized name used in the
+# CEMIFs database. You can use the normalized names more than one time.
+#
+# Tip:
+# Add new pairs at the end. Sort and get uniques: vim - sort u
+#
+# Bugs:
+# Be careful, this schema can be broked by changes in names given by
+# Ministerio de Hacienda.
+#
+# (2020) FUNDE-CEMIF
+
+AGRUPADOR OPERACIONAL: operation
+APROBADO: approved
+AREA GESTION: area
+AREA_GESTIO: area
+AREA_GESTION: area
+CLASIFICADOR ECONOMICO: econ
+CLASIF_PRESUP: object
+COMPROMETIDO: reserved
+CUENTA: subheading
+DEVENGADO: accrued
+EJERCICIO: year
+ESPECIFICO DE GASTO: object
+ESPECIFICO: object
+ESTRUC_PRESUP: line
+FUENTE DE FINANCIAMIENTÓ: source
+FUENTE RECURSO: financier
+FUENTE_FINANC: source
+FUENTE_RECURS: financier
+INSTITUCION: office
+LENEA TRABAJO: line
+LINE DE TRABAJO: line
+LINEA DE TRABAJO: line
+MES: month
+MODIFICACIONES: shifted
+MODIFICADO: modified
+MODIFICADO: modified
+MOMBRE: object_name
+MONTO ROYECTO DE PRESUPUESTO: proposed
+MONTO_AUTORI: modified
+MONTO_DEVENG: accrued
+MONTO_RECOME: approved
+NOMBRE.1: unit_name
+NOMBRE.2: area_name
+NOMBRE.3: source_name
+NOMBRE.4: financier_name
+NOMBRE.5: heading_name
+NOMBRE.6: subheading_name
+NOMBRE: office_name
+NOMBR_AGRUPADOR OPERACIONAL: operation_name
+NOMB_AREA GESTION: area_name
+NOMB_CLASIFICADO ECONOMICO: econ_name
+NOMB_ESPECIFICO DE GASTO: object_name
+NOMB_FUENTE DE FINANCIAMIENTÓ: source_name
+NOMB_FUENTE RECURSO: financier_name
+NOMB_INSTITUCION: office_name
+NOMB_LINEA DE TRABAJO: line_name
+NOMB_RUBRO GASTO: heading_name
+NOMB_UNIDAD PRESUPUESTARIA: unit_name
+NOMOBRE: line_name
+PRORAMADO: approved
+PROYECTO: project
+RUBRO GASTO: heading
+RUBRO: heading
+SUBSTR(ESTRUC_PRESUP,1,2): unit
+UNIDAD PRES: unit
+UNIDAD PRESUP: unit
+UNIDAD PRESUPUESTARIA: unit
+VOTADO: approved
