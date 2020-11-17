@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet"
+href="https://fonts.googleapis.com/css?family=Raleway&display=swap">
+  <link rel="stylesheet" href="./style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <div class="container">
+  <div class="navbar bg-light">
+    <a href="/"><img src="../images/logo_small.png" width="120px"></a>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Tableros
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="/budget_explorer">Explorador de
+                  <a class="dropdown-item" href="/budget_monitor">Monitor
+presupuestario</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+  </div>
+    
+    <div class="row">
+      <div class="col-12">
+        <h2>Proyecto de Presupuesto 2021</h2>
+        <p><small>Noviembre 2020</small></p>
+        <p>
+          Visualización del proyecto de proyecto de Presupuesto General
+          de Presupuesto para el ejercicio fiscal 2021
+        </p>
+        <p class="text-right"><span style="background: #66CCFF">&nbsp; &nbsp; &nbsp;</span> Aumentos
+        <span style="background: #FF6600;">&nbsp; &nbsp; &nbsp;</span> Disminuciones
+        </p>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div id="left-panel" class="col-12 ">
+        <div class="row">
+            <div class="col-2">
+            </div>
+            <div class="header-panel col-8 text-center" id="control">
+              <strong>NIVELES DE GOBIERNO</strong><br/>
+              <small>
+                <input type="radio" id="CG" name="level" value="cg" checked>Gobierno Central
+                &nbsp;&nbsp;
+                <input type="radio" id="DE" name="level" value="de">Entidades descentralizadas
+              </small>
+            </div>
+            <div class="col-2">
+              <img id="btn-forward"
+src="../node_modules/bootstrap-icons/icons/chevron-right.svg" width="32"
+height="32" title="Detalle por rubros">
+            </div>
+        </div>
+        <div id="plot1"></div>
+      </div>
+      <div id="right-panel" class="col-12 text-center hidden">
+        <div class="row">
+            <div class="col-2">
+              <img id="btn-back"
+src="../node_modules/bootstrap-icons/icons/chevron-left.svg" width="32"
+height="32" title="Detalle por oficinas">
+            </div>
+            <div class="header-panel col-8">
+              <div id="label"></div>
+            </div>  
+            <div class="col-2">
+            </div>
+        </div>
+        <div id="plot2"></div>
+      </div>
+    </div>
+    
+    <div class="notes row">
+        <div class="col-12">
+          <p><strong>Indicaciones</strong></p>
+          <p>
+            Puede dar click en cualquier caja de la izquierda, para ver el
+            desglose del presupuesto de una institución en el panel de la
+            derecha. Para ver nuevamente los totales globales, de un click
+            en el nivel de gobierno correspondiente.
+          </p>
+          <p>
+            Los tonos de verde indican los presupuestos o rubros que han tenido
+            incrementos. Los tonos de rojo indican los presupuestos o rubros 
+            que han sufrido disminuciones.
+          </p>
+          <p><strong>Notas:</strong></p>
+          <ul>
+            <li>
+              No incluye el presupuesto de la Asamblea Legislativa ni los 
+              gastos del Organismo de Inteligencia del Estado
+            </li>
+            <li>
+              Esta visualización ha sido construida con datos fuente
+              proporcionados
+              por el Ministerio de Hacienda, en respuesta a 
+              <a href="https://alac.funde.org/requests/5fabf9dc8ad34f5dd11f37da">solicitud de
+              información</a> tramitada con base en la Ley de Acceso a la
+              Información Pública.
+            </li>
+            <li>
+              El conjunto de datos utilizado para generarar esta visualización
+              están disponibles para descarga en formato 
+              <a href="comparative.csv">CSV</a> y
+              <a href="comparative.json">JSON</a>. También está disponible
+              el 
+              <a href="https://github.com/fundeIT/cmif/tree/master/notebooks">notebook</a> mediante el cual se preparo este conjunto de datos.
+            </li>
+            <li>
+              Esta visualización se entrega en forma de código y datos abiertos,
+              siempre y cuando se cite la fuente. Para citar este trabajo
+              utilice el siguiente texto: "Centro de Monitoreo e Incidencia Fiscal (2020). Visualización
+              del Proyecto General de Presupuesto 2021 (software y datos). San Salvador:
+              Fundación Nacional para el Desarrollo.
+            </li>
+          </ul>
+        </div>
+    </div>
+        <hr>
+    <div class="row">
+        <div class="col text-center">
+            <img src="../images/funde-ti.png" width="180px">
+        </div>
+        <div class="col">
+                   El Centro de Monitoreo e Incidencia Fiscal (CEMIF) es
+                una iniciativa de la
+                <a href="http://funde.org/">Fundación Nacional para el
+Desarrollo</a>,
+                capítulo de
+                <a href="https://www.transparency.org/">Transparencia
+Internacional</a>
+                en El Salvador
+  
+        </div>
+        <div class="col">
+                Teléfono +503 2209-5300 |
+                Correo electrónico: <a
+href="mailto:funde@funde.org">funde@funde.org</a> |
+                Calle Arturo Ambrogi No. 411, San Salvador,
+                El Salvador C.A.
+        </div>
+    </div>
+  </div>
+  <script type="module" src="script.js"></script>
+</body>
+</html>

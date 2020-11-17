@@ -1,0 +1,55 @@
+body {
+    font-family: Raleway, sans-serif;
+    font-size: 16px;
+}
+
+.notes {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+    font-size: 85%;
+}
+
+.header-panel {
+    margin-bottom: 10px;
+}
+
+.fixed {
+    position: fixed;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.right {
+   right: 0; 
+}
+
+.left{
+   left: 0; 
+}
+
+.fixed-right {
+    position: fixed;
+    background-color: rgba(255, 255, 255, 0);
+   right: 0; 
+}
+
+.fixed-left {
+
+}
+
+foreignObject {
+    overflow: visible;
+}
+
+rect:hover {
+    cursor: pointer;
+}
+
+.hidden {
+    visibility: hidden;
+    height: 0px;
+    opacity: 0;
+    display: none;
+    transition : visibility 3s height 3s opacity 3s;
+}
+
