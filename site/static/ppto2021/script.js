@@ -26,7 +26,7 @@ d3.select("#btn-back")
     })
     .style('cursor', 'pointer')
 
-var dataset;
+var offices;
 
 function findMax(array) {
   var max = 0.0;
@@ -134,7 +134,9 @@ function heads(d, down_level) {
     document.getElementById('label').innerHTML = 
         `<strong>${name}</strong><br/>` +
         `<small>Aprobado 2020: ${moneyFormat(previous)}</small> - ` +
-        `<small>Propuesto 2021: ${moneyFormat(current)}</small> - `;
+        (name != 'CIFRAS GLOBALES' ?
+        `<small><a href="${offices[d.code].link}" target="_blank">Propuesto 2021</a>: ${moneyFormat(current)}</small> ` : 
+        `<small>Propuesto 2021: ${moneyFormat(current)}</small> `);
     d.children.forEach(function (data) {
         data.value = data.proposed_2021;
     });
@@ -153,18 +155,30 @@ function deploy(d, level) {
     heads(d, false);
 }
 
-fetch('comparative.json')
+function load_data() {
+    fetch('comparative.json')
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            d3.selectAll('input[name="level"]')
+                .on('change', function(e) {
+                    deploy(data, e.srcElement.value)
+                })
+            var radio = document.getElementById('CG')
+            radio.checked = true;
+            radio.dispatchEvent(new Event('change'));
+            console.log(offices)
+        })
+}
+
+fetch('offices.json')
     .then(function (response) {
-        return response.json();
+        return response.json()
     })
     .then(function (data) {
-        d3.selectAll('input[name="level"]')
-            .on('change', function(e) {
-                deploy(data, e.srcElement.value)
-            })
-        var radio = document.getElementById('CG')
-        radio.checked = true;
-        radio.dispatchEvent(new Event('change'));
+        offices = data
+        load_data()
     })
 
 function formatLabel(d) {
