@@ -2,6 +2,10 @@
 
 import '../node_modules/d3/dist/d3.min.js'
 
+var high_color = '#80c0f0'
+var low_color = '#f0a780'
+
+// var height = document.querySelector("#plot1").clientHeight;
 var height = 800;
 var width = document.querySelector("#plot1").clientWidth;
 
@@ -47,7 +51,8 @@ function draw(data, tag) {
     var h = d3.hierarchy(data);
     var max = findMax(h.children);
     var colors = d3.scaleLinear().domain([-1, 0, 1])
-        .range(["#FF6600", "White", "#66CCFF"]);
+        // .range(["#FF6600", "White", "#66CCFF"]);
+        .range([low_color, 'white', high_color])
   
     h.sum(d => d.value)
     h.sort((a, b) => d3.descending(a.value, b.value));
@@ -67,7 +72,6 @@ function draw(data, tag) {
             .attr('height', height)
             .attr('viewBox', '0 0 ' + width + ' ' + height)
             .attr('preserveAspectRatio', 'none')
-
 
     svg.selectAll('rect')
         .data(h.children)
