@@ -1,28 +1,29 @@
+/* 2021 Budget Visualization
+ * Fundación Nacional para el Desarrollo
+ * Centro de Monitoreo e Incidencia Fiscal
+ */
+
 'use strict';
 
 import '../node_modules/d3/dist/d3.min.js'
 
-var high_color = '#80c0f0'
-var low_color = '#f0a780'
-
-// var height = document.querySelector("#plot1").clientHeight;
-var height = 800;
-var width = document.querySelector("#plot1").clientWidth;
-
-
-var left_panel = document.querySelector("#left-panel")
-var right_panel = document.querySelector("#right-panel")
-
+// Global variables
+const high_color = '#80c0f0'
+const low_color = '#f0a780'
+const height = 800;
+const width = document.querySelector("#plot1").clientWidth;
+const left_panel = document.querySelector("#left-panel")
+const right_panel = document.querySelector("#right-panel")
 var selected_rect = null;
+var offices;
 
+// Navigation controls
 d3.select("#btn-forward")
     .on('click', function (e) {
-        console.log('Forward button clicked');
         left_panel.classList.add("hidden");
         right_panel.classList.remove("hidden");
     })
     .style('cursor', 'pointer')
-
 d3.select("#btn-back")
     .on('click', function (e) {
         right_panel.classList.add("hidden");
@@ -30,32 +31,18 @@ d3.select("#btn-back")
     })
     .style('cursor', 'pointer')
 
-var offices;
-
-function findMax(array) {
-  var max = 0.0;
-  array.forEach(function (d) {
-    var value = Math.abs(d.data.diff);
-    if (value > max) {
-      max = value;
-    }
-  })
-  return max;
-}
-
-var t = d3.transition()
-    .duration(100)
-    .ease(d3.easeLinear);
-
 function draw(data, tag) {
+	 let colors = d3.scaleLinear().domain([-1, 0, 1])
+        .range([low_color, 'white', high_color])    
     var h = d3.hierarchy(data);
-    var max = findMax(h.children);
-    var colors = d3.scaleLinear().domain([-1, 0, 1])
-        // .range(["#FF6600", "White", "#66CCFF"]);
-        .range([low_color, 'white', high_color])
-  
+    // var max = findMax(h.children);
+    let max = Math.max.apply(
+    	Math, h.children.map(
+    		d => Math.abs(d.data.diff)
+    	)
+    )
     h.sum(d => d.value)
-    h.sort((a, b) => d3.descending(a.value, b.value));
+     .sort((a, b) => d3.descending(a.value, b.value));
 
     if (data.name != "root")
         h.value = data.value
