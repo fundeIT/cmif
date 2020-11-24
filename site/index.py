@@ -249,8 +249,7 @@ tr = WSGIContainer(app.server)
 
 application = Application([
     (r"/app/(.*)", FallbackHandler, dict(fallback=tr)),
-    (r"/", StaticFileHandler, {'path': 'public/index.html'}),
-    (r"/(.*)", StaticFileHandler, {'path': 'public'}),
+    (r"/(.*)", StaticFileHandler, {'path': 'public', "default_filename": "index.html"}),
 ])
 
 if __name__ == '__main__':
