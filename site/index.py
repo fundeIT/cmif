@@ -226,19 +226,19 @@ about = html.Div([
 @app.callback(Output('page-content', 'children'),
               [Input('url', 'pathname')])
 def display_page(pathname):
-    if pathname == '/':
+    if pathname == '/app':
         return default_content
-    elif pathname == '/budget_explorer':
+    elif pathname == '/app/budget_explorer':
         return budget_explorer.layout
-    elif pathname == '/budget_monitor':
+    elif pathname == '/app/budget_monitor':
         return budget_monitor.layout
-    elif pathname == '/shift_explorer':
+    elif pathname == '/app/shift_explorer':
         return shift_explorer.layout
-    elif pathname == '/tax_explorer':
+    elif pathname == '/app/tax_explorer':
         return tax_explorer.layout
-    elif pathname == "/stats":
+    elif pathname == "/app/stats":
         return stats.layout
-    elif pathname == '/about':
+    elif pathname == '/app/about':
         return about
     else:
         return '404'
@@ -248,8 +248,8 @@ def display_page(pathname):
 tr = WSGIContainer(app.server)
 
 application = Application([
-    (r"/static/(.*)", StaticFileHandler, {'path': 'static'}),
-    (r".*", FallbackHandler, dict(fallback=tr)),
+    (r"/app/(.*)", FallbackHandler, dict(fallback=tr)),
+    (r"/(.*)", StaticFileHandler, {'path': 'public'}),
 ])
 
 if __name__ == '__main__':
@@ -260,17 +260,17 @@ if __name__ == '__main__':
         sys.exit(2)
     debug = False
     secure = False
-    port = 8050
+    DEFAULT_PORT = 8050
+    port = DEFAULT_PORT
     for o, a in opts:
         if o in ["-d", "--debug"]:
             debug = True
-        elif o in ("-p", "--port"):
-            port = int(a)
         elif o in ('-s', '--secure'):
             secure = True
+        elif o in ("-p", "--port"):
+            port = int(a)
         else:
             assert False, "unhandled option"
-    DEBUG = debug
     if debug:
         app.run_server(port=port, host='0.0.0.0', debug=True)
     else:
@@ -279,9 +279,9 @@ if __name__ == '__main__':
                 "certfile": trust.certfile,
                 "keyfile": trust.keypriv,
             })
-            port = 443
+            port = 443 if port == DEFAULT_PORT else port
         else:
             http_server = HTTPServer(application)
-            port = 80
+            port = 80 if port == DEFAULT_PORT else port
         http_server.listen(port)
         IOLoop.instance().start()

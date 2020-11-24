@@ -11,6 +11,7 @@ server = Flask(__name__)
 app = dash.Dash(
     __name__,
     server=server,
+    url_base_pathname='/app/',
     external_stylesheets=[
         dbc.themes.BOOTSTRAP,
         'https://fonts.googleapis.com/css?family=Raleway&display=swap',
