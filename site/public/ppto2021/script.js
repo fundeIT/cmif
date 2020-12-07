@@ -1,6 +1,8 @@
 /* 2021 Budget Visualization
  * Fundación Nacional para el Desarrollo
  * Centro de Monitoreo e Incidencia Fiscal
+ *
+ * Nov. 2020
  */
 
 'use strict';
@@ -33,7 +35,7 @@ d3.select("#btn-back")
 
 function draw(data, tag) {
 	 let colors = d3.scaleLinear().domain([-1, 0, 1])
-        .range([low_color, 'white', high_color])    
+        .range([low_color, 'white', high_color])
     var h = d3.hierarchy(data);
     // var max = findMax(h.children);
     let max = Math.max.apply(
@@ -51,7 +53,7 @@ function draw(data, tag) {
         .size([width, height])
         .padding(2)
         (h);
-    
+
     d3.select(tag).selectAll("*").remove();
     var svg = d3.select(tag)
         .append('svg')
@@ -74,7 +76,7 @@ function draw(data, tag) {
         })
         .append('title')
         .text(d => improvedLabel(d))
- 
+
     svg.selectAll('foreignObject')
         .data(h.children)
         .enter()
@@ -88,7 +90,7 @@ function draw(data, tag) {
         .style('background', 'rgba(255, 255, 255, 0.1')
         .html(d => formatLabel(d))
 
-       
+
     if (tag === '#plot1') {
         svg.selectAll('rect')
             .on('click', onRectClick);
@@ -100,7 +102,7 @@ function draw(data, tag) {
 }
 
 function onRectClick(e, d) {
-    e.target.style.stroke = "solid 3px red"; 
+    e.target.style.stroke = "solid 3px red";
     heads(d.data, true);
 }
 
@@ -109,7 +111,7 @@ function moneyFormat(value) {
 }
 
 function heads(d, down_level) {
-    
+
     var previous = 0;
     var current = 0;
     var name = (function(d) {
@@ -122,11 +124,11 @@ function heads(d, down_level) {
         previous += item.enacted_2020;
         current += item.proposed_2021;
     })
-    document.getElementById('label').innerHTML = 
+    document.getElementById('label').innerHTML =
         `<strong>${name}</strong><br/>` +
         `<small>Aprobado 2020: ${moneyFormat(previous)}</small> - ` +
         (name != 'CIFRAS GLOBALES' ?
-        `<small><a href="${offices[d.code].link}" target="_blank">Propuesto 2021</a>: ${moneyFormat(current)}</small> ` : 
+        `<small><a href="${offices[d.code].link}" target="_blank">Propuesto 2021</a>: ${moneyFormat(current)}</small> ` :
         `<small>Propuesto 2021: ${moneyFormat(current)}</small> `);
     d.children.forEach(function (data) {
         data.value = data.proposed_2021;
@@ -135,7 +137,7 @@ function heads(d, down_level) {
     if (down_level)
         document.querySelector("#btn-forward").dispatchEvent(new Event('click'));
 }
-    
+
 function deploy(d, level) {
     d[level].forEach(function (data) {
         data.value = data.proposed_2021;
@@ -159,7 +161,7 @@ function load_data() {
             var radio = document.getElementById('CG')
             radio.checked = true;
             radio.dispatchEvent(new Event('change'));
-            console.log(offices)
+            // console.log(offices)
         })
 }
 
@@ -188,5 +190,3 @@ function improvedLabel(d) {
            `  Aprobado 2020 : ${(d.data.enacted_2020 / 1e6).toFixed(1)} Mill\n` +
            `  Diferencia : ${moneyFormat(d.data.diff)})`
 }
-
-

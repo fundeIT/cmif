@@ -44,13 +44,9 @@ app.index_string = '''
 </html>
 '''
 
+"""
 @server.before_request
 def before_request():
-    """
-    Get information from every request taking date and time, url requested,
-    as well as language, platform, and browser of the client.
-    This information is appended to a log file.
-    """
     # Saving request data to log.txt
     if len(re.findall('^/_|^/assets', request.path)) == 0:
         now = datetime.now()
@@ -66,7 +62,7 @@ def before_request():
         ]
         f.write('|'.join(attrs) + '\n')
         f.close()
-
+"""
 
 api = Api(server)
 parser = reqparse.RequestParser()

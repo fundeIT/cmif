@@ -1,4 +1,4 @@
-year:4:str
+year:0:int
 area:1:str
 area_name:0:str
 office:4:str
@@ -22,7 +22,7 @@ operation:1:str
 operation_name:0:str
 econ:5:str
 econ_name:0:str
-month:2:str
+month:0:int
 proposed:0:float
 approved:0:float
 shifted:0:float

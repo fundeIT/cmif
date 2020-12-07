@@ -45,10 +45,9 @@ LINEA DE TRABAJO: line
 MES: month
 MODIFICACIONES: shifted
 MODIFICADO: modified
-MODIFICADO: modified
 MOMBRE: object_name
 MONTO ROYECTO DE PRESUPUESTO: proposed
-MONTO_AUTORI: modified
+MONTO_AUTORI: reserved 
 MONTO_DEVENG: accrued
 MONTO_RECOME: approved
 NOMBRE.1: unit_name

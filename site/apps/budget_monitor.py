@@ -22,8 +22,7 @@ import plotly.express as px
 from app import app
 import utils
 
-DBNAME = 'data/accrued.db'
-DBDICT = 'data/master.db'
+DBNAME = 'data/master.db'
 
 COLNAMES = {
     'year': 'Año',
@@ -41,7 +40,7 @@ def get_years():
     conn = sqlite3.connect(DBNAME)
     c = conn.cursor()
     res = c.execute(stmt)
-    ret = [r[0] for r in res]
+    ret = [r[0] for r in res if r[0]]
     conn.close()
     return ret
 
@@ -57,7 +56,7 @@ def get_offices(year=None):
         FROM accrued
         LEFT JOIN office ON
             accrued.office=office.office
-        WHERE year={}
+        WHERE year='{}'
         GROUP BY accrued.office
         ORDER BY accrued.office
     """.format(year)
@@ -83,10 +82,10 @@ def get_structure(year, office):
 	            SELECT year, office, unit AS est, unit_name AS est_name
 	                FROM unit
             )
-        WHERE year={} AND office='{}'
+        WHERE year='{}' AND office='{}'
         ORDER BY year, office, est, est_name
     """.format(year, office)
-    conn = sqlite3.connect(DBDICT)
+    conn = sqlite3.connect(DBNAME)
     data = pd.read_sql(stmt, conn)
     conn.close()
     return data
@@ -114,7 +113,7 @@ def get_data(year=None, office=None, unit='', line='', classifier='', cum=False)
         LEFT JOIN office ON
             accrued.office = office.office
         WHERE
-            year = {} AND
+            year = '{}' AND
             accrued.office = '{}'
             {}
             {}

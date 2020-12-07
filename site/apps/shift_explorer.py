@@ -18,8 +18,7 @@ import matplotlib.pyplot as plt
 from app import app
 import queries as qry
 
-DBNAME = 'data/accrued.db'
-DBDICT = 'data/master.db'
+DBNAME = 'data/master.db'
 
 def get_data(year, month=None):
     conn = sqlite3.connect(DBNAME)
@@ -94,7 +93,7 @@ def get_structure(year, office):
         WHERE year={} AND office='{}'
         ORDER BY year, office, est, est_name
     """.format(year, office)
-    conn = sqlite3.connect(DBDICT)
+    conn = sqlite3.connect(DBNAME)
     data = pd.read_sql(stmt, conn)
     conn.close()
     return data

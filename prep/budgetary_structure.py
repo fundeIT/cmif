@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 # To create a dictionary table
 # with de budgetary structure
 # for different fiscal years

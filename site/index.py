@@ -13,7 +13,7 @@ from tornado.web import FallbackHandler, RequestHandler, Application, \
                         StaticFileHandler
 
 from app import app
-from apps import budget_explorer, budget_monitor, shift_explorer, stats, tax_explorer
+from apps import budget_explorer, budget_monitor, stats, tax_explorer
 
 import trust
 
@@ -34,8 +34,6 @@ navbar = dbc.Navbar(
                     href='/budget_monitor')),
                 dbc.DropdownMenuItem(html.A("Explorador de impuestos",
                     href='/tax_explorer')),
-                dbc.DropdownMenuItem(html.A("Modificaciones presupuestarias",
-                    href='/shift_explorer')),
             ],
         ),
         dbc.DropdownMenu(
@@ -142,16 +140,6 @@ evolución anual y en otra el comportamiento mensual de la recaudación de
 impuestos, según los criterios seleccionados.
 '''
 
-shift_explorer_text = '''
-# Modificaciones presupuestarias (experimental)
-
-En este [dashboard](/shift_explorer) se pueden consultar las modificaciones que
-se han realizado en los presupuestos por año y mes. Las modificaciones se
-ilustran por medio de flujos que aumentan (verdes) y que disminuyen (rojos). Aún
-es un módulo en desarrollo.
-
-'''
-
 default_content = html.Div([
     dbc.Container([
         dbc.Row([
@@ -193,20 +181,6 @@ default_content = html.Div([
                 html.A('Entrar', href='/tax_explorer', className='btn btn-primary'),
             ], md=8),
         ]),
-        dbc.Row([
-            dbc.Col(
-                html.A(
-                    html.Img(src='assets/icons/transfer.svg', width='100px'),
-                    href='/shit_explorer'
-                ),
-                className='text-center'
-            ),
-            dbc.Col([
-                dcc.Markdown(shift_explorer_text),
-                html.A('Entrar', href='/shift_explorer', className='btn btn-primary'),
-            ], md=8),
-        ]),
-
     ]),
 ])
 
@@ -232,8 +206,6 @@ def display_page(pathname):
         return budget_explorer.layout
     elif pathname == '/app/budget_monitor':
         return budget_monitor.layout
-    elif pathname == '/app/shift_explorer':
-        return shift_explorer.layout
     elif pathname == '/app/tax_explorer':
         return tax_explorer.layout
     elif pathname == "/app/stats":

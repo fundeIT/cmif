@@ -8,11 +8,16 @@ import os
 import re
 import csv
 import pandas as pd
+import multiprocessing as mp
 
 import utils
 
 DIR_SOURCES = "src/"
 DIR_TARGET = "norm/"
+
+names = utils.getNormalizedNames()
+labels = utils.getLabels()
+fields = utils.getFieldNames()
 
 def composeColumn(ds, label):
     size = labels[label]['size']
@@ -22,7 +27,7 @@ def composeColumn(ds, label):
             ds[label] = ""
             return
         else:
-            ds[label] = float('nan')
+            ds[label] = float('nan') if kind == 'float' else int(0)
             return
     if kind == 'str':
         if size == '0':
@@ -38,22 +43,28 @@ def normalizeDataSource(source):
     if os.path.exists(filename):
         # File has been already downloaded
         return
-    ds = pd.read_excel(DIR_SOURCES + source)
+    try:
+        ds = pd.read_excel(DIR_SOURCES + source, engine="openpyxl")
+    except:
+        print('{} cannot be openned'.format(source))
+        return
     ds.rename(columns=names, inplace=True)
     # Removing invalid rows
     # Is assumed that they have an invalid year
     ds.year = pd.to_numeric(ds.year, errors='coerce')
-    ds = ds[pd.notnull(ds.year.isna())]
+    ds = ds[ds.year != 0]
     for key in ds.columns:
         composeColumn(ds, key)
+    for field in fields:
+        if not field in ds.columns:
+            ds[field] = ''
     ds.to_csv(
         filename, 
         index=False, 
         quoting=csv.QUOTE_NONNUMERIC
     )
+    ds.to_pickle(filename.replace('.csv', '.pickle'))
 
-names = utils.getNormalizedNames()
-labels = utils.getLabels()
 
 if __name__ == "__main__":
     sources = [
@@ -61,5 +72,5 @@ if __name__ == "__main__":
         for fn in os.listdir(DIR_SOURCES) 
         if fn.find('.xlsx') > 0
     ]
-    for source in sources:
-        normalizeDataSource(source)
+    with mp.Pool(mp.cpu_count()) as p:
+        p.map(normalizeDataSource, sources)
