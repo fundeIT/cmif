@@ -6,8 +6,8 @@ import sqlite3
 import pandas as pd
 
 # Global variables
-SOURCES = 'taxes/sources/'
-DB = 'master.db'
+SOURCES = './sources/'
+DB = '../master.db'
 
 def make_taxes_table():
     fields = [
@@ -64,14 +64,14 @@ def make_taxes_table():
 def make_taxes_reference_tables():
     conn = sqlite3.connect(DB)
     
-    taxes_class = pd.read_csv('taxes/refs/impuesto.csv', sep=';')
+    taxes_class = pd.read_csv('./refs/impuesto.csv', sep=';')
     taxes_class.rename(columns={
         'CODIGO': 'tax',
         'NOMBRE': 'tax_name'
     }, inplace=True)
     taxes_class.to_sql('tax_class', conn, if_exists='replace', index=False)
 
-    activities = pd.read_csv('taxes/refs/actividad-economica.csv', sep=';')
+    activities = pd.read_csv('./refs/actividad-economica.csv', sep=';')
     activities.rename(columns={
         'CODIGO': 'activity',
         'NOMBRE': 'activity_name'
