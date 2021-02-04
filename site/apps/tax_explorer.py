@@ -335,7 +335,7 @@ layout = html.Div([content,])
     [
         Output(component_id='yearly_figure', component_property='figure'),
         Output(component_id='monthly_figure', component_property='figure'),
-        Output(component_id='map_image', component_property='src')
+        # Output(component_id='map_image', component_property='src')
     ],
     [
         Input(component_id='year_control', component_property='value'),
@@ -356,5 +356,6 @@ def update(year, subject, department, activity, tax, cumulative):
         tax,
         cum = True if len(cumulative) > 0 else False
     )
-    map = prepare_maps(year, subject, department, activity, tax)
-    return yearly_fig, monthly_fig, map
+    # map = prepare_maps(year, subject, department, activity, tax)
+    # return yearly_fig, monthly_fig, map
+    return yearly_fig, monthly_fig

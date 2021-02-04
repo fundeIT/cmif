@@ -71,14 +71,22 @@ data['line_name'] = data.line_name.apply(remove_codes)
 conn = sqlite3.connect(DB)
 
 # Table for units
-unit = data[['year', 'office', 'unit', 'unit_name']]
-unit.set_index(['year', 'office', 'unit'], inplace=True)
-unit.to_sql('unit', conn, if_exists='replace')
+unit = data[['year', 'office', 'unit', 'unit_name']].copy()
+unit.rename(columns={
+    'unit': 'program', 
+    'unit_name': 'program_name'
+}, inplace=True)
+unit.set_index(['year', 'office', 'program'], inplace=True)
+unit.to_sql('program', conn, if_exists='replace')
 
 # Table for lines
-line = data[['year', 'office', 'unit', 'line', 'line_name']]
-line.set_index(['year', 'office', 'unit', 'line'], inplace=True)
-line.to_sql('line', conn, if_exists='replace')
+line = data[['year', 'office', 'line', 'line_name']].copy()
+line.rename(columns={
+    'line': 'program', 
+    'line_name': 'program_name'
+}, inplace=True)
+line.set_index(['year', 'office', 'program'], inplace=True)
+line.to_sql('program', conn, if_exists='append')
 conn.close()
 
 # Clean up

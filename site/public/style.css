@@ -64,3 +64,24 @@ rect:hover {
     transition : visibility 3s height 3s opacity 3s;
 }
 
+.selectable-list {
+    display: none;
+    position: absolute;
+    background-color: white;
+    list-style: none;
+    border: 1px solid #ccc;
+    padding: 0;
+    margin: 0;
+    min-width: 240px;
+    max-height: 240px;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+.selectable-list li {
+    font-size: 75%;
+}
+
+.selectable-list li:hover {
+    background-color: #ccc;
+}
