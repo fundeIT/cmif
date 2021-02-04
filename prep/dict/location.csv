@@ -1,0 +1,279 @@
+location,location_name
+101,"Ahuachapán"
+102,Apaneca
+103,Atiquizaya
+104,"Concepción de Ataco"
+105,"El Refugio"
+106,Guaymango
+107,Jujutla
+108,"San Francisco Menéndez"
+109,"San Lorenzo"
+110,"San Pedro Puxtla"
+111,Tacuba
+112,"Turín"
+201,"Candelaria de la Frontera"
+202,Coatepeque
+203,Chalchuapa
+204,"El Congo"
+205,"El Porvenir"
+206,Masahuat
+207,"Metapán"
+208,"San Antonio Pajonal"
+209,"San Sebastián Salitrillo"
+210,"Santa Ana"
+211,"Santa Rosa Guachipilín"
+212,"Santiago de la Frontera"
+213,Texistepeque
+301,Acajutla
+302,Armenia
+303,Caluco
+304,Cuisnahuat
+305,"Santa Isabel Ishuatán"
+306,Izalco
+307,"Juayúa"
+308,Nahuizalco
+309,Nahuilingo
+310,"Salcoatitán"
+311,"San Antonio del Monte"
+312,"San Julián"
+313,"Santa Catarina Masahuat"
+314,"Santo Domingo de Guzmán"
+315,Sonsonate
+316,Sonzacate
+401,"Agua Caliente"
+402,Arcatao
+403,Azacualpa
+404,"Citalá"
+405,Comalapa
+406,"Concepción Quezaltepeque"
+407,Chalatenango
+408,"Dulce Nombre de María"
+409,"El Carrizal"
+410,"El Paraíso"
+411,"La Laguna"
+412,"La Palma"
+413,"La Reina"
+414,"Las Vueltas"
+415,"Nombre de Jesús"
+416,"Nueva Concepción"
+417,"Nueva Trinidad"
+418,"Ojos de Agua"
+419,Potonico
+420,"San Antonio la Cruz"
+421,"San Antonio los Ranchos"
+422,"San Fernando"
+423,"San Francisco Lempa"
+424,"San Francisco Morazán"
+425,"San Ignacio"
+426,"San Isidro Labrador"
+427,"San José Cancasque"
+428,"San José las Flores"
+429,"San Luis del Carmen"
+430,"San Miguel de Mercedes"
+431,"San Rafael"
+432,"Santa Rita"
+433,Tejutla
+501,"Antiguo Cuscatlán"
+502,"Ciudad Arce"
+503,"Colón"
+504,Comasagua
+505,"Chiltiupán"
+506,"Huizúcar"
+507,Jayaque
+508,Jicalapa
+509,"La Libertad"
+510,"Nuevo Cuscatlán"
+511,"Santa Tecla"
+512,Quezaltepeque
+513,Sacacoyo
+514,"San José Villanueva"
+515,"San Juán Opico"
+516,"San Matías"
+517,"San Pablo Tacachico"
+518,Tamanique
+519,Talnique
+520,Teotepeque
+521,Tepecoyo
+522,Zaragoza
+601,Aguilares
+602,Apopa
+603,Ayutuxtepeque
+604,Cuscatancingo
+605,"El Paísnal"
+606,Guazapa
+607,Ilopango
+608,Mejicanos
+609,Nejapa
+610,Panchimalco
+611,"Rosario de Mora"
+612,"San Marcos"
+613,"San Martín"
+614,"San Salvador"
+615,"Santiago Texacuangos"
+616,"Santo Tomás"
+617,Soyapango
+618,Tonacatepeque
+619,"Ciudad Delgado"
+701,Candelaria
+702,Cojutepeque
+703,"El Carmen"
+704,"El Rosario"
+705,"Monte San Juán"
+706,"Oratorio de Concepción"
+707,"San Bartolomé Perulapía"
+708,"San Cristóbal"
+709,"San José Guayabal"
+710,"San Pedro Perulapán"
+711,"San Rafael Cedros"
+712,"San Ramón"
+713,"Santa Cruz Analquito"
+714,"Santa Cruz Michapa"
+715,Suchitoto
+716,Tenancingo
+801,"Cuyultitán"
+802,"El Rosario"
+803,"Jerusalén"
+804,"Mercedes La Ceiba"
+805,Olocuilta
+806,"Paraíso de Osorio"
+807,"San Antonio Masahuat"
+808,"San Emigdio"
+809,"San Francisco Chinameca"
+810,"San Juan Nonualco"
+811,"San Juan Talpa"
+812,"San Juan Tepezontes"
+813,"San Luis Talpa"
+814,"San Miguel Tepezontes"
+815,"San Pedro Masahuat"
+816,"San Pedro Nonualco"
+817,"San Rafael Obrajuelo"
+818,"Santa María Ostuma"
+819,"Santiago Nonualco"
+820,Tapalhuaca
+821,Zacatecoluca
+822,"San Luis La Herradura"
+901,Cinquera
+902,Guacotecti
+903,Ilobasco
+904,Jutiapa
+905,"San Isidro"
+906,Sensuntepeque
+907,Tejutepeque
+908,Victoria
+909,"Villa Dolores"
+1001,Apastepeque
+1002,Guadalupe
+1003,"San Cayetano Istepeque"
+1004,"Santa Clara"
+1005,"Santo Domingo"
+1006,"San Esteban Catarina"
+1007,"San Idelfonso"
+1008,"San Lorenzo"
+1009,"San Sebastián"
+1010,"San Vicente"
+1011,Tecoluca
+1012,"Tepetitán"
+1013,Verapaz
+1101,"Alegría"
+1102,"Berlín"
+1103,California
+1104,"Concepción Batres"
+1105,"El Triunfo"
+1106,"Ereguayquín"
+1107,Estanzuelas
+1108,Jiquilisco
+1109,Jucuapa
+1110,"Jucuarán"
+1111,"Mercedes Umaña"
+1112,"Nueva Granada"
+1113,"Ozatlán"
+1114,"Puerto El Triunfo"
+1115,"San Agustín"
+1116,"San Buenaventura"
+1117,"San Dionisio"
+1118,"Santa Elena"
+1119,"San Francisco Javier"
+1120,"Santa María"
+1121,"Santiago de María"
+1122,"Tecapán"
+1123,"Usulután"
+1201,Carolina
+1202,"Ciudad Barrios"
+1203,"Comacarán"
+1204,Chapeltique
+1205,Chinameca
+1206,Chirilagua
+1207,"El Tránsito"
+1208,Lolotique
+1209,Moncagua
+1210,"Nueva Guadalupe"
+1211,"Nuevo Edén de San Juan"
+1212,Quelepa
+1213,"San Antonio del Mosco"
+1214,"San Gerardo"
+1215,"San Jorge"
+1216,"San Luis de la Reina"
+1217,"San Miguel"
+1218,"San Rafael Oriente"
+1219,Sesori
+1220,Uluazapa
+1301,Arambala
+1302,Cacaopera
+1303,Corinto
+1304,Chilanga
+1305,"Delicias de Concepción"
+1306,"El Divisadero"
+1307,"El Rosario"
+1308,Gualococti
+1309,Guatajiagua
+1310,Joateca
+1311,Jocoaitique
+1312,Jocoro
+1313,Lolotiquillo
+1314,Meanguera
+1315,Osicala
+1316,"Perquín"
+1317,"San Carlos"
+1318,"San Fernando"
+1319,"San Francisco Gotera"
+1320,"San Isidro"
+1321,"San Simón"
+1322,Sensembra
+1323,Sociedad
+1324,Torola
+1325,Yamabal
+1326,"Yoloaiquín"
+1401,"Anamorós"
+1402,"Bolívar"
+1403,"Concepción de Oriente"
+1404,Conchagua
+1405,"El Carmen"
+1406,"El Sauce"
+1407,"Intipucá"
+1408,"La Unión"
+1409,Lislique
+1410,"Meanguera del Golfo"
+1411,"Nueva Esparta"
+1412,Pasaquina
+1413,"Polorós"
+1414,"San Alejo"
+1415,"San José La Fuente"
+1416,"Santa Rosa de Lima"
+1417,Yayantique
+1418,"Yucuaiquín"
+1,AHUACHAPAN
+2,"SANTA ANA"
+3,SONSONATE
+4,CHALATENANGO
+5,"LA LIBERTAD"
+6,"SAN SALVADOR"
+7,CUSCATLAN
+8,"LA PAZ"
+9,CABANAS
+10,"SAN VICENTE"
+11,USULUTAN
+12,"SAN MIGUEL"
+13,MORAZAN
+14,"LA UNION"
+99,NC
+9999,NC

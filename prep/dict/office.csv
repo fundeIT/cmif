@@ -1,0 +1,101 @@
+office,office_name,level
+100,Organo Legislativo,1
+200,Corte de Cuentas de la República,1
+300,Tribunal Supremo Electoral,1
+301,Registro Nacional de las Personas Naturales,2
+400,Tribunal de Servicio Civil,1
+500,Presidencia de la República,1
+501,Instituto Nacional de los Deportes de El Salvador,2
+504,Instituto Salvadoreño para el Desarrollo de la Muj,2
+551,Organismo Promotor de Exportaciones e Inversiones de El Salvador (PROESA),7
+600,Tribunal de Etica Gubernamental,1
+650,Instituto de Acceso a la Información Pública,1
+700,Ramo de Hacienda,1
+701,Lotería Nacional de Beneficencia,4
+702,Instituto Nacional de Pensiones de los Empleados P,2
+800,Ramo de Relaciones Exteriores,1
+900,Ramo de la Defensa Nacional,1
+1500,Consejo Nacional de la Judicatura,1
+1600,Organo Judicial,1
+1700,Fiscalía General de la República,1
+1800,Procuraduría General de la República,1
+1900,Procuraduría para la Defensa de los Derechos Human,1
+2300,Ramo de Gobernación y Desarrollo Territorial,1
+2303,Instituto Salvadoreño de Desarrollo Municipal,2
+2304,Instituto Administrador de Beneficios de los Veteranos Militares y Excombatientes - INABVE,2
+2400,Ramo de Justicia y Seguridad Pública,1
+2401,Academia Nacional de Seguridad Pública,2
+2402,Unidad Técnica Ejecutiva,2
+2403,Consejo Nacional de Administración de Bienes,2
+3100,Ramo de Educación,1
+3105,Caja Mutual de los Empleados del Ministerio de Edu,2
+3106,Instituto Salvadoreño para el Desarrollo Integral,2
+3107,Instituto Salvadoreño de Bienestar Magisterial,2
+3108,Consejo Nacional de la Niñez y de la Adolescencia,2
+3200,Ramo de Salud,1
+3201,Hospital Nacional Rosales,2
+3202,"Hospital Nacional ""Benjamin Bloom""",2
+3203,"Hospital Nacional de la Mujer ""Doctora María Isabel Rodríguez"", San Salvador",2
+3204,"Hospital Nacional Psiquiatrico ""Dr. Jose Molina Ma",2
+3205,"Hospital Nacional de Neumología y Medicina Familiar ""Dr. José Antonio Saldaña"", San Salvador",2
+3206,"Hospital Nacional ""San Juan de Dios"", Santa Ana",2
+3207,"Hospital Nacional ""Francisco Menéndez"", Ahuachapan",2
+3208,"Hospital Nacional ""Dr. Jorge Mazzini Villacorta"", Sonsonate",2
+3209,"Hospital Nacional ""Dr. Luis Edmundo Vasquez"", Chal",2
+3210,"Hospital Nacional ""San Rafael"", Santa Tecla, La Libertad",2
+3211,"Hospital Nacional ""Santa Gertrudis"", San Vicente",2
+3212,"Hospital Nacional ""Santa Teresa"", Zacatecoluca",2
+3213,"Hospital Nacional ""San Juan de Dios"", San Miguel",2
+3214,"Hospital Nacional ""San Pedro"", Usulután",2
+3215,"Hospital Nacional ""Dr. Juan Jose Fernandez"", Zacam",2
+3216,"Hospital Nacional ""Enfermera Angélica Vidal de Najarro"", San Bartolo, San Salvador",2
+3217,"Hospital Nacional ""Nuestra Señora de Fátima"", Cojutepeque, Cuscatlan",2
+3218,Hospital Nacional de La Unión,2
+3219,Hospital Nacional de Ilobasco,2
+3220,Hospital Nacional de Nueva Guadalupe,2
+3221,"Hospital Nacional ""Monseñor Oscar Arnulfo Romero y Galdamez"", Ciudad Barrios, San Miguel",2
+3222,"Hospital Nacional San Jerónimo Emiliani, Sensuntepeque, Cabañas",2
+3223,Hospital Nacional de Chalchuapa,2
+3224,"Hospital Nacional ""Arturo Morales"", Metapán, Santa Ana",2
+3225,"Hospital Nacional ""Dr. Héctor Antonio Hernández Flores"", San Francisco Gotera, Morazan",2
+3226,Hospital Nacional de Santa Rosa de Lima,2
+3227,Hospital Nacional de Nueva Concepción,2
+3228,"Hospital Nacional ""Dr. Jorge Arturo Mena"", Santiago de Maria, Usulutan",2
+3229,Hospital Nacional de Jiquilisco,2
+3230,Hospital Nacional de Suchitoto,2
+3231,Consejo Superior de Salud Pública,2
+3232,Instituto Salvadoreño de Rehabilitación Integral,2
+3233,"Hogar de Ancianos ""Narcisa Castillo"", Santa Ana",2
+3234,Cruz Roja Salvadoreña,2
+3235,Fondo Solidario para la Salud (FOSALUD),2
+3236,Direccion Nacional de Medicamentos,2
+3237,Hospital Nacional El Salvador,2
+3300,Ramo de Trabajo y Previsión Social,1
+3302,Instituto Salvadoreño de Formación Profesional,2
+3500,Ramo de Cultura,1
+3600,Ramo de Vivienda,1
+3700,Ramo de Desarrollo Local,1
+4100,Ramo de Economía,1
+4101,Centro Internacional de Ferias y Convenciones de E,2
+4103,Consejo de Vigilancia de la Profesión de Contadurí,2
+4109,Superintendencia General de Electricidad y Telecom,2
+4114,Centro Nacional de Registros,2
+4116,Consejo Salvadoreño de la Agroindustria Azucarera,2
+4117,Superintendencia de Competencia,2
+4118,Defensoria del Consumidor,2
+4119,Consejo Nacional de Energía,2
+4120,Consejo Nacional de Calidad,2
+4121,Instituto Salvadoreño de Fomento Cooperativo,2
+4122,Comisión Nacional de la Micro y Pequeña Empresa,2
+4200,Ramo de Agricultura y Ganadería,1
+4201,Instituto Salvadoreño de Transformación Agraria,2
+4202,Centro Nacional de Tecnología Agropecuaria y Fores,2
+4203,Escuela Nacional de Agricultura,2
+4206,Consejo Salvadoreño del Café,2
+4300,Ramo de Obras Públicas y de Transporte,1
+4301,Administración Nacional de Acueductos y Alcantaril,4
+4304,Autoridad de Aviación Civil,2
+4400,Ramo de Medio Ambiente y Recursos Naturales,1
+4600,Ramo de Turismo,1
+4601,Instituto Salvadoreño de Turismo,2
+4602,Corporación Salvadoreña de Turismo,2
