@@ -20,6 +20,7 @@ if __name__ == "__main__":
         if re.match('monthly-[0-9a-z\-]+\.pickle', fn)
     ]
     flag_first = True
+    conn = sqlite3.connect(DB)
     for source in sources: 
         print(source)
         try:
@@ -33,13 +34,11 @@ if __name__ == "__main__":
             print('Invalid fields')
             continue
         data['shifted'] = data['modified'] - data['approved']
-        conn = sqlite3.connect(DB)
         if flag_first:
             data.to_sql('accrued', conn, if_exists='replace', index=True)
             flag_first = False
         else:
             data.to_sql('accrued', conn, if_exists='append',  index=True)
-        
     # Removing invalid records
     c = conn.cursor()
     c.execute("DELETE FROM accrued WHERE year is NULL")
