@@ -1,22 +1,33 @@
 #!/usr/bin/env python
 
+# This is the main script to run the http server
+# (2021) Fundación Nacional para el Desarrollo
+
+
+# Built-in imports
 import sys
 import getopt
+
+# Web interface imports
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
+
+# Server imports
 from tornado.wsgi import WSGIContainer
 from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 from tornado.web import FallbackHandler, RequestHandler, Application, \
                         StaticFileHandler
-
+# Home-made imports
 from app import app
 from apps import budget_explorer, budget_monitor, stats, tax_explorer
 
+# Secrets & confir import
 import trust
 
+# Navigation bar
 navbar = dbc.Navbar(
     children = [
         html.A(
@@ -29,11 +40,11 @@ navbar = dbc.Navbar(
             label="Tableros",
             children=[
                 dbc.DropdownMenuItem(html.A("Explorador de presupuestos",
-                    href='/budget_explorer')),
+                    href='/app/budget_explorer')),
                 dbc.DropdownMenuItem(html.A("Monitor presupuestario",
-                    href='/budget_monitor')),
+                    href='/app/budget_monitor')),
                 dbc.DropdownMenuItem(html.A("Explorador de impuestos",
-                    href='/tax_explorer')),
+                    href='/app/tax_explorer')),
             ],
         ),
         dbc.DropdownMenu(
@@ -41,8 +52,8 @@ navbar = dbc.Navbar(
             in_navbar=True,
             label="Ayuda",
             children=[
-                dbc.DropdownMenuItem(html.A("Acerca de", href='/about')),
-                dbc.DropdownMenuItem(html.A("Estadísticas", href='/stats')),
+                dbc.DropdownMenuItem(html.A("Acerca de", href='/app/about')),
+                dbc.DropdownMenuItem(html.A("Estadísticas", href='/app/stats')),
                 dbc.DropdownMenuItem(html.A("Código fuente",
                     href='https://github.com/fundeIT/cmif', target='blank')),
             ],
@@ -50,6 +61,7 @@ navbar = dbc.Navbar(
     ],
 )
 
+# Foot page
 footer = html.Div([
     dbc.Container([
         dbc.Row([
@@ -86,28 +98,6 @@ app.layout = html.Div([
 ])
 
 
-main_text = '''
-FUNDE está ejecutando el proyecto “Monitoreo ciudadano de la transparencia
-fiscal en El Salvador”. Este proyecto contribuirá a la transparencia fiscal y la
-lucha contra la corrupción a través del uso intensivo de bases de datos y de
-aplicaciones informáticas.
-
-El proyecto consiste en un **observatorio ciudadano**, denominado Centro de
-Monitoreo e Incidencia Fiscal, que da seguimiento al presupuesto general del
-Estado. Está orientado hacia la promoción del acceso, uso y análisis de
-información sobre las finanzas públicas, en formatos que sean asequibles, de
-fácil acceso y comprensibles para la población en general.
-
-Este sitio está compuesto por aplicaciones o **dashboards**, por medio de los
-cuales los usuarios pueden hacer consultas, visualizar gráficas interactivas,
-ordenar o filtrar los resultados y descargar los datos.
-
-Además, con el apoyo de los dashboards, se elaborarán **artículos de análisis**
-sobre diferentes aspectos de las finanzas públicas en El Salvador, para explicar
-o comprender las decisiones fiscales, su efecto en las políticas públicas y su
-potencial impacto en el bienestar de la población. Estos artículos ayudarán a
-dar sentido y carácter humano a las tradicionalmente frías cifras financieras.
-'''
 
 budget_explorer_text = '''
 ## Explorador de presupuestos
@@ -184,6 +174,7 @@ default_content = html.Div([
     ]),
 ])
 
+txt_about = open('txt/about.txt', 'r').read()
 about = html.Div([
     dbc.Container([
         dbc.Row([
@@ -191,7 +182,7 @@ about = html.Div([
         ]),
         dbc.Row([
             dbc.Col([
-                dcc.Markdown(main_text),
+                dcc.Markdown(txt_about),
             ]),
         ]),
     ]),
@@ -215,15 +206,6 @@ def display_page(pathname):
     else:
         return '404'
 
-# Interface between Dash & Tornado
-
-tr = WSGIContainer(app.server)
-
-application = Application([
-    (r"/app/(.*)", FallbackHandler, dict(fallback=tr)),
-    (r"/(.*)", StaticFileHandler, {'path': 'public', "default_filename": "index.html"}),
-])
-
 if __name__ == '__main__':
     try:
         opts, args = getopt.getopt(sys.argv[1:], "sdp:", ["secure", "debug", "port"])
@@ -232,28 +214,37 @@ if __name__ == '__main__':
         sys.exit(2)
     debug = False
     secure = False
-    DEFAULT_PORT = 8050
-    port = DEFAULT_PORT
+    default_port =True
+    port = 5000
     for o, a in opts:
         if o in ["-d", "--debug"]:
             debug = True
         elif o in ('-s', '--secure'):
             secure = True
         elif o in ("-p", "--port"):
+            default_port = False
             port = int(a)
         else:
             assert False, "unhandled option"
-    if debug:
-        app.run_server(port=port, host='0.0.0.0', debug=True)
+    # Interface between Dash & Tornado
+    tr = WSGIContainer(app.server)
+    # Tornado server
+    application = Application([
+        (r"/app/(.*)", FallbackHandler, dict(fallback=tr)),
+        (r"/(.*)", StaticFileHandler, {'path': 'public', "default_filename": "index.html"}),
+    ], debug=debug, autoreload=debug)
+    ## if debug:
+    ##     app.run_server(port=port, host='0.0.0.0', debug=True)
+    if secure:
+        http_server = HTTPServer(application, ssl_options={
+            "certfile": trust.certfile,
+            "keyfile": trust.keypriv,
+        })
+        if default_port:
+            port = 443
     else:
-        if secure:
-            http_server = HTTPServer(application, ssl_options={
-                "certfile": trust.certfile,
-                "keyfile": trust.keypriv,
-            })
-            port = 443 if port == DEFAULT_PORT else port
-        else:
-            http_server = HTTPServer(application)
-            port = 80 if port == DEFAULT_PORT else port
-        http_server.listen(port)
-        IOLoop.instance().start()
+        http_server = HTTPServer(application)
+        if default_port:
+            port = 80
+    http_server.listen(port)
+    IOLoop.instance().start()

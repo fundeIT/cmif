@@ -13,9 +13,9 @@ import plotly.graph_objs as go
 import plotly.express as px
 
 from app import app
+import apps.datamgr
 
 DBNAME = 'data/budget.db'
-
 RENAMES = {
     'year': 'Año',
     'office': 'Oficina',
@@ -30,8 +30,6 @@ RENAMES = {
     'moment': 'Momento',
 }
 INDEX_LARGE = list(RENAMES.keys())
-INDEX_SHORT = ['year', 'office', 'office_name', 'level', 'object', 'moment']
-
 MOMENTS = {
     'PL': '1. Preliminar',
     'PR': '2. Propuesto',
@@ -128,7 +126,9 @@ def get_data(obj='', office='', details=False):
         return old_data
 
 def make_table():
-    data = get_data()
+    data = apps.datamgr.annual_budget()
+    if not isinstance(data, pd.DataFrame):
+        return
     columns = [{'name': col, 'id': col} for col in data.columns]
     for i, col in enumerate(columns):
         if col['name'] in MOMENTS.values():
@@ -177,10 +177,13 @@ def generate_figure(df):
     return fig
 
 def make_figure():
+    data = apps.datamgr.annual_budget() 
+    if not isinstance(data, pd.DataFrame):
+        return
     return html.Div([
         dcc.Graph(
             id = 'object_plot',
-            figure = generate_figure(get_data()),
+            figure = generate_figure(data),
         )
     ])
 
@@ -387,8 +390,8 @@ def update_outputs(object_index, office_index, details):
         else objects.iloc[object_index].object
     office_id = '' if office_index == None \
         else offices.iloc[office_index].office
-    data = get_data(object_id, office_id,
-        details=True if len(details)>0 else   False)
+    data = apps.datamgr.annual_budget(object_id, office_id,
+        details=True if len(details)>0 else False)
     fig = generate_figure(data)
     columns = [{'name': col, 'id': col} for col in data.columns]
     return data.to_dict('records'), fig, columns

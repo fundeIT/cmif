@@ -1,0 +1,20 @@
+FUNDE está ejecutando el proyecto “Monitoreo ciudadano de la transparencia
+fiscal en El Salvador”. Este proyecto contribuye a la transparencia fiscal y la
+lucha contra la corrupción a través del uso intensivo de bases de datos y de
+aplicaciones informáticas.
+
+El proyecto consiste en un **observatorio ciudadano**, denominado Centro de
+Monitoreo e Incidencia Fiscal, que da seguimiento al presupuesto general del
+Estado. Está orientado hacia la promoción del acceso, uso y análisis de
+información sobre las finanzas públicas, en formatos que sean asequibles, de
+fácil acceso y comprensibles para la población en general.
+
+Este sitio está compuesto por aplicaciones o **dashboards**, por medio de los
+cuales los usuarios pueden hacer consultas, visualizar gráficas interactivas,
+ordenar o filtrar los resultados y descargar datos.
+
+Además, con el apoyo de los dashboards, se elaboran **artículos de análisis**
+sobre diferentes aspectos de las finanzas públicas en El Salvador, para explicar
+o comprender las decisiones fiscales, su efecto en las políticas públicas y su
+potencial impacto en el bienestar de la población. Estos artículos ayudan a
+dar sentido y carácter humano a las tradicionalmente frías cifras financieras.
