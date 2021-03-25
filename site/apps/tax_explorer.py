@@ -298,7 +298,7 @@ zona geográfica, actividades económicas y tipos de impuesto.
 
 Los datos han sido obtenidos del Portal de Transparencia Fiscal que mantiene
 el Ministerio de Hacienda. Actualmente incluye datos desde enero de 2010 hasta
-septiembre de 2019 (los datos de 2019 aún están incompletos).
+diciembre de 2020.
 '''
 
 content = dbc.Container([
