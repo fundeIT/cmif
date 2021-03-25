@@ -8,7 +8,7 @@
 #   -s : silent mode
 #   -S : display message in case of error on silent mode
 #   -O : use the same filename from origin
-xargs -tn 1 curl -C - -sSO --output-dir ./sources < urls.txt
+xargs -tn 1 curl -C - -SO --output-dir ./sources < urls.txt
 
 cd sources
 for f in *.zip
