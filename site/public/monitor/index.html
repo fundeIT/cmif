@@ -46,10 +46,6 @@
           <select id="object" class="w-100 form-select"></select>
         </div>
         <div class="row">
-          <a id="download" download="data.csv" class="btn btn-primary
-          btn-sm">Descargar CSV</a>
-        </div>
-        <div class="row">
           <p><strong>Glosario</strong></p>
           <p>Unidad administrativa: entidad pública a la que fue asignado el
           presupuesto, por ejemplo ministerios y autónomas.</p>
@@ -106,14 +102,35 @@
         <div class="row">
           <div id="plot" class="w-100">
           </div>
-          <div class="row">
-          <p>URL de la API de datos: <a id="apiurl"></a></p>
-          <p>La sintaxis para usar la API de datos es la siguiente:
-          /api/v2/monthly/[AÑO]/[UNIDAD_PRIMARIA]/[PROGRAMA]/[CLASIFICADOR]. Los
-          elementos [PROGRAMA] y [CLASIFICADOR] son opcionales. Los datos son
-          servidos en formato JSON.</p>
-          </div>
         </div>
+        <div class="row">
+          <a id="download" download="data.csv" class="btn btn-primary
+          btn-sm">Descargar CSV</a>
+        </div>
+          <div class="row">
+            <p><strong>Acceso a la interfase de datos </strong></p>
+          </div>
+          <div class="row">
+            <p>URL de la API de datos: <a id="apiurl"></a></p>
+
+            <p>La sintaxis para usar la API de datos es la siguiente:
+            "/api/v2/monthly/[AÑO]/[UNIDAD_PRIMARIA]/[PROGRAMA]/[CLASIFICADOR]". Los
+            elementos [PROGRAMA] y [CLASIFICADOR] son opcionales. Si desea obtener
+            los datos para un clasificador, pero sin referirse a un programa en
+            particular, reemplace la opción [PROGRAMA] por la palabra
+            <em>object</em>. Los datos son
+            servidos en formato JSON.</p>
+
+            <p>Para acceder a los diccionarios a través de la API de datos,
+            agregue al enlace lo siguiente: "?dict=[ELEMENTO]", donde [ELEMENTO]
+            puede ser: <em>year</em> para los años, <em>office</em> para las
+            unidades administrativas, <em>program</em> para los programas y
+            <em>object</em> para los clasificadores. Por ejemplo,
+            <a
+            href="/api/v2/monthly/2010/0100?dict=program">https://fiscal.funde.org/api/v2/monthly/2010/0100?dict=program</a>, devuelve la lista de
+            programas de la Asamblea Legislativa para el año 2010.</p>
+
+          </div>
 
       </div>
     </div>
