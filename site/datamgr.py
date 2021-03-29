@@ -147,6 +147,174 @@ class AnnualBudget:
         self.cache_objects = objs
         return objs
 
-# if __name__ == "__main__":
-      # Test code here 
-
+class MonthlyBudget:
+    dbname = "data/master.db"
+    def __init__(self):
+        self.year = ''
+        self.office = ''
+        self.program = ''
+        self.obj = ''
+        self.cache_years = None
+        self.cache_offices = ''
+        self.cache_programs = ''
+        self.cache_objects = ''
+        self.cache_monthly_budget = None
+    def query(self, year='', office='', program='', obj='', use_cache=True):
+        if use_cache and self.year == year and self.office == office and self.progam == program and self.obj == obj:
+            print("Monthly Budget Query: using cache...")
+            return self.cache_monthly_budget
+        stmt_program = f"  AND program LIKE '{program}%' " \
+            if program != '' \
+            else ''
+        grp_program = " program," if program != '' else ''
+        grp_object = " object," if obj != '' else ''
+        stmt_object = f" AND object LIKE '{obj}%' " \
+            if obj != '' \
+            else ''
+        stmt = f"""
+            SELECT
+                month,
+                IFNULL(approved, 0) AS approved,
+                IFNULL(modified, 0) AS modified,
+                IFNULL(accrued, 0) AS accrued
+            FROM (
+                SELECT * FROM (
+                    WITH RECURSIVE cnt(x) AS
+                    (SELECT 1 UNION SELECT x + 1 FROM cnt LIMIT 12)
+                    SELECT x AS month FROM cnt
+                ) AS m
+                LEFT JOIN (
+                    SELECT
+                        month,
+                        SUM(approved) AS approved,
+                        SUM(modified) AS modified,
+                        SUM(accrued) AS accrued
+                    FROM accrued
+                    WHERE
+                        year = '{year}' AND
+                        office = '{office}'
+                        {stmt_program}
+                        {stmt_object}
+                    GROUP BY month
+                    ORDER BY month
+                ) AS accrued
+                ON m.month = accrued.month
+            )
+        """
+        conn = sqlite3.connect(self.dbname)
+        c = conn.cursor()
+        data = [
+            {
+                'month': el[0],
+                'approved': el[1],
+                'modified': el[2],
+                'accrued': el[3]
+            }
+            for el in c.execute(stmt)
+        ]
+        conn.close()
+        self.cache_monthly_budget = data
+        return data
+    def years(self, use_cache=True):
+        if use_cache and self.cache_years != None:
+            return self.cache_years 
+        stmt = 'SELECT DISTINCT(year) FROM accrued ORDER BY year'
+        conn = sqlite3.connect(self.dbname)
+        c = conn.cursor()
+        years = [{'id': year[0], 'name': year[0]} for year in c.execute(stmt)] 
+        conn.close()
+        self.cache_years = years;
+        return years
+    def offices(self, year='', use_cache=True):
+        if use_cache and year == self.year and cache_offices != None:
+            return cache_offices
+        if year != '':
+            stmt_year = f"WHERE year='{year}'"
+        else:
+            stmt_year = ""
+        stmt = f"""
+            SELECT accrued.office, office_name
+            FROM accrued
+            LEFT JOIN office ON
+                accrued.office=office.office
+            {stmt_year}
+            GROUP BY accrued.office
+            ORDER BY accrued.office
+        """
+        conn = sqlite3.connect(self.dbname)
+        c = conn.cursor()
+        offices = [{'id': el[0], 'name': el[1]} for el in c.execute(stmt)]
+        conn.close()
+        self.cache_offices = offices
+        return offices
+    def programs(self, year='', office='', use_cache=True):
+        if year=='' or office=='':
+            return []
+        if use_cache and self.cache_programs != None and year == self.year and office == self.office:
+            return self.cache_programs
+        stmt = f"""
+           SELECT A.program, program_name FROM 
+                (
+                    SELECT DISTINCT(SUBSTR(program, 1, 2)) AS program FROM accrued
+                        WHERE year='{year}' AND office='{office}'
+                    UNION
+                    SELECT DISTINCT(SUBSTR(program, 1, 4)) AS program FROM accrued
+                        WHERE year='{year}' AND office='{office}'
+                ) AS A
+            LEFT JOIN program 
+                ON A.program = program.program AND
+                   program.year = '{year}' AND
+                   program.office = '{office}'
+            ORDER BY A.program
+        """
+        # print("Monthly Budget: SQL statement...")
+        # print(stmt)
+        conn = sqlite3.connect(self.dbname)
+        c = conn.cursor()
+        programs = [
+            {
+                'id': el[0],
+                'name': el[1]
+            }
+            for el in c.execute(stmt)
+        ]
+        conn.close()
+        self.cache_programs = programs
+        return programs
+    def objects(self, year='', office='', use_cache=True):
+        if year=='' or office=='':
+            return []
+        if use_cache and self.cache_objects != None and year == self.year and office == self.office:
+            return self.cache_objects
+        stmt = f"""
+            SELECT A.object, object_name FROM 
+                (
+                    SELECT DISTINCT(SUBSTR(object, 1, 2)) AS object FROM accrued
+                        WHERE year='{year}' AND office='{office}'
+                    UNION
+                    SELECT DISTINCT(SUBSTR(object, 1, 3)) AS object FROM accrued
+                        WHERE year='{year}' AND office='{office}'
+                    UNION
+                    SELECT DISTINCT(SUBSTR(object, 1, 5)) AS object FROM accrued
+                        WHERE year='{year}' AND office='{office}'
+                ) AS A
+            LEFT JOIN object 
+                ON A.object = object.object
+            ORDER BY A.object
+        """
+        conn = sqlite3.connect(self.dbname)
+        c = conn.cursor()
+        objects = [
+            {
+                'id': el[0],
+                'name': el[1]
+            }
+            for el in c.execute(stmt)
+        ]
+        conn.close()
+        self.cache_objects = objects
+        return objects
+ 
+if __name__ == "__main__":
+    mb = MonthlyBudget()
+    print(mb.query('2015', '0200', '01', '511'))

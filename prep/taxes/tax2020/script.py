@@ -5,13 +5,6 @@
 # El propósito de este script es actualizar la base de datos de CEMIF con los
 # datos de impuestos correspondientes al ejercicio fiscal 2020. Los datos se
 # encuentran publicados en el Transparencia Fiscal del Ministerio de Hacienda.
-#
-# Con este script se está volviendo a la metodología de escribir un script por
-# cada actualización de datos. Se descarta la metodología con la cual se
-# pretendía manejar un script universal que manejara todas las variantes de
-# formatos y estructuras mediante las cuales publica sus datos el Ministerio de
-# Hacienda. Ocurría que con cada nueva actualización, dicho se script fallaba y
-# su depuración iba aumentando en complejidad.
 
 import requests
 from zipfile import ZipFile
@@ -26,9 +19,12 @@ def download():
     guardados respetando el formato.
     """
     url = "https://www.transparenciafiscal.gob.sv/downloads/zip/0700-DGII-DA-2020-IMP02.zip"
+    zipname = "taxes2020.zip"
     content = requests.get(url).content
-    with open("taxes2020.zip", "w") as fd:
+    with open(zipname, "w") as fd:
         fd.write(content)
+    with ZipFile(zipname, 'r') as fz:
+        fz.extractall()
 
 def normalize():
     """

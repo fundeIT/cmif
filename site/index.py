@@ -23,6 +23,7 @@ from tornado.web import FallbackHandler, RequestHandler, Application, \
 # Home-made imports
 from app import app
 from apps import budget_explorer, budget_monitor, stats, tax_explorer
+import api
 
 # Secrets & confir import
 import trust
@@ -130,49 +131,51 @@ evolución anual y en otra el comportamiento mensual de la recaudación de
 impuestos, según los criterios seleccionados.
 '''
 
-default_content = html.Div([
-    dbc.Container([
-        dbc.Row([
-            dbc.Col(
-                html.A(
-                    html.Img(src='assets/icons/budget.svg', width='120px'),
-                    href='/budget_explorer'
+def defaultContent():
+    default_content = html.Div([
+        dbc.Container([
+            dbc.Row([
+                dbc.Col(
+                    html.A(
+                        html.Img(src='assets/icons/budget.svg', width='120px'),
+                        href='/budget_explorer'
+                    ),
+                    className='text-center'
                 ),
-                className='text-center'
-            ),
-            dbc.Col([
-                dcc.Markdown(budget_explorer_text),
-                html.A('Entrar', href='/budget_explorer', className='btn btn-primary'),
-            ], md=8),
-        ]),
-        dbc.Row([
-            dbc.Col(
-                html.A(
-                    html.Img(src='assets/icons/plot.svg', width='100px'),
-                    href='/budget-monitor'
+                dbc.Col([
+                    dcc.Markdown(budget_explorer_text),
+                    html.A('Entrar', href='/budget_explorer', className='btn btn-primary'),
+                ], md=8),
+            ]),
+            dbc.Row([
+                dbc.Col(
+                    html.A(
+                        html.Img(src='assets/icons/plot.svg', width='100px'),
+                        href='/budget-monitor'
+                    ),
+                    className='text-center'
                 ),
-                className='text-center'
-            ),
-            dbc.Col([
-                dcc.Markdown(budget_monitor_text),
-                html.A('Entrar', href='/budget_monitor', className='btn btn-primary'),
-            ], md=8),
-        ]),
-        dbc.Row([
-            dbc.Col(
-                html.A(
-                    html.Img(src='assets/icons/coins.svg', width='100px'),
-                    href='/budget-monitor'
+                dbc.Col([
+                    dcc.Markdown(budget_monitor_text),
+                    html.A('Entrar', href='/budget_monitor', className='btn btn-primary'),
+                ], md=8),
+            ]),
+            dbc.Row([
+                dbc.Col(
+                    html.A(
+                        html.Img(src='assets/icons/coins.svg', width='100px'),
+                        href='/budget-monitor'
+                    ),
+                    className='text-center'
                 ),
-                className='text-center'
-            ),
-            dbc.Col([
-                dcc.Markdown(tax_explorer_text),
-                html.A('Entrar', href='/tax_explorer', className='btn btn-primary'),
-            ], md=8),
+                dbc.Col([
+                    dcc.Markdown(tax_explorer_text),
+                    html.A('Entrar', href='/tax_explorer', className='btn btn-primary'),
+                ], md=8),
+            ]),
         ]),
-    ]),
-])
+    ])
+    return default_content
 
 txt_about = open('txt/about.txt', 'r').read()
 about = html.Div([
@@ -227,10 +230,11 @@ if __name__ == '__main__':
         else:
             assert False, "unhandled option"
     # Interface between Dash & Tornado
-    tr = WSGIContainer(app.server)
+    # tr = WSGIContainer(app.server)
     # Tornado server
     application = Application([
-        (r"/app/(.*)", FallbackHandler, dict(fallback=tr)),
+        # (r"/app/(.*)", FallbackHandler, dict(fallback=tr)),
+        (r"/api/(.*)", FallbackHandler, dict(fallback=WSGIContainer(api.app))),
         (r"/(.*)", StaticFileHandler, {'path': 'public', "default_filename": "index.html"}),
     ], debug=debug, autoreload=debug)
     ## if debug:

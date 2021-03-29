@@ -14,6 +14,10 @@ a {
     color: #003399;
 }
 
+div {
+  padding: 5px;
+}
+
 .notes {
     margin-left: 20px;
     margin-right: 20px;

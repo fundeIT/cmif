@@ -1,8 +1,10 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 import sqlite3
 from flask import Flask, request, send_from_directory
-from flask_restful import Resource, Api
+from flask_restful import Resource, Api, reqparse
+
+import datamgr
 
 DB = 'data/master.db'
 
@@ -11,6 +13,9 @@ base_url = '/api/v2'
 app = Flask(__name__)
 
 api = Api(app)
+
+parser = reqparse.RequestParser()
+parser.add_argument('dict')
 
 def query(stmt):
     print(stmt)
@@ -128,6 +133,30 @@ class offices_objects(Resource):
         ORDER BY object.object
         """
         return query(stmt)
+
+class monthly_budget(Resource):
+    def get(self, year='', office='', program='', obj=''):
+        args = parser.parse_args()
+        mb = datamgr.MonthlyBudget()
+        if year == '' or args['dict'] == 'year':
+            return mb.years()
+        elif office == '' or args['dict'] == 'office':
+            return mb.offices(year)
+        elif args['dict'] == 'program':
+            return mb.programs(year, office)
+        elif args['dict'] == 'object':
+            return mb.objects(year, office)
+        else:
+            return datamgr.MonthlyBudget().query(year, office, program, obj)
+
+api.add_resource(monthly_budget,
+    base_url + '/monthly',
+    base_url + '/monthly/<string:year>',
+    base_url + '/monthly/<string:year>/<string:office>',
+    base_url + '/monthly/<string:year>/<string:office>/<string:program>',
+    base_url + '/monthly/<string:year>/<string:office>/<string:program>/<string:obj>',
+    base_url + '/monthly/<string:year>/<string:office>/object/<string:obj>'
+)
 
 api.add_resource(years,
     base_url + '/years',
