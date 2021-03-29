@@ -130,7 +130,8 @@ function getMonthlyData() {
     .then(response => response.json())
     .then(function(data) {
       updatePlot(data);
-      updateDownload(data)
+      updateDownload(data);
+      updateIndicators(data);
     })
 }
 
@@ -220,4 +221,22 @@ function updateDownload(data) {
     csv += data[i].accrued + '\n'
   }
   document.getElementById('download').href = URL.createObjectURL(new Blob([csv]));
+}
+
+function updateIndicators(data) {
+  let fields = ['approved', 'modified', 'accrued'];
+  let labels = ['Aprobado', 'Modificado', 'Ejecutado'];
+  let accum = {};
+  let form = d3.format('$,.2f')
+  for (let i = 0; i < fields.length; i++) {
+    accum[fields[i]] = 0;
+    for (let j = 0; j < data.length; j++) 
+      accum[fields[i]] += data[j][fields[i]];
+    let element = document.getElementById('ind-' + fields[i])
+    element.textContent = form(accum[fields[i]]);
+  }
+  document.getElementById('ind-shifted').textContent = form(accum['modified'] - accum['approved'])
+  document.getElementById('ind-balance').textContent = form(accum['modified'] - accum['accrued']);
+  document.getElementById('ind-efficiency').textContent = d3.format(".1%")(accum['accrued'] / accum['modified'])
+  document.getElementById('ind-credibility').textContent = d3.format(".1%")(1 - Math.abs(accum['accrued'] - accum['approved']) / accum['approved'])
 }
