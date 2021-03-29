@@ -133,6 +133,9 @@ function getMonthlyData() {
       updateDownload(data);
       updateIndicators(data);
     })
+  let note = document.getElementById('apiurl')
+  note.setAttribute('href', url);
+  note.textContent = 'https://fiscal.funde.org' + url;
 }
 
 function updatePlot(data) {

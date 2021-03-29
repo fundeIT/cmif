@@ -46,7 +46,29 @@
           <select id="object" class="w-100 form-select"></select>
         </div>
         <div class="row">
-          <a id="download" download="data.csv" class="btn btn-primary btn-sm">Descargar</a>
+          <a id="download" download="data.csv" class="btn btn-primary
+          btn-sm">Descargar CSV</a>
+        </div>
+        <div class="row">
+          <p><strong>Glosario</strong></p>
+          <p>Unidad administrativa: entidad pública a la que fue asignado el
+          presupuesto, por ejemplo ministerios y autónomas.</p>
+          <p>Programa: división del presupuesto por objetivos o
+          departamentos dentro de la unidad administrativa.</p>
+          <p>Clasificador: código presupuestario indicando el uso del
+          gasto.</p>
+          <p><span style="color: blue">Votado</span>: monto asignado con base en el presupuesto aprobado por la
+          Asamblea Legislativa.</p>
+          <p><span style="color: orange">Modificado</span>: presupuesto votado más las modificaciones hechas durante
+          el aǹo.</p>
+          <p>Variación: suma de las modificaciones realizadas durante el año.</p>
+          <p><span style="color: green">Ejecutado</span>: recursos gastados.</p>
+          <p>Saldo: remantente del presupuesto modificado que no fue
+          ejecutado.</p>
+          <p>Eficiencia: indicador del grado en que el presupuesto modificado
+          fue ejecutado.</p>
+          <p>Credibilidad: indicador de la variación absoluta porcentual entre
+          el presupuesto ejecutado y el votado.</p>
         </div>
       </div>
       <div class="col-8">
@@ -83,6 +105,13 @@
 
         <div class="row">
           <div id="plot" class="w-100">
+          </div>
+          <div class="row">
+          <p>URL de la API de datos: <a id="apiurl"></a></p>
+          <p>La sintaxis para usar la API de datos es la siguiente:
+          /api/v2/monthly/[AÑO]/[UNIDAD_PRIMARIA]/[PROGRAMA]/[CLASIFICADOR]. Los
+          elementos [PROGRAMA] y [CLASIFICADOR] son opcionales. Los datos son
+          servidos en formato JSON.</p>
           </div>
         </div>
 
