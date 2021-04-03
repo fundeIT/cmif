@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Monitor presupuestario</title>
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+  <script src="../node_modules/jquery/dist/jquery.js"></script>
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <div class="container" id="module">
+    <div class="row">
+      <div class="col-4">
+        <div class="row">Año</div>
+        <select class="row w-100" v-on:change="get_offices" v-model="curr.year">
+          <option v-for="year in years" :value="year.id"
+                  :selected="year.id == curr.year ? 'selected' : ''" >
+            {{ year.name }}
+          </option>
+        </select>
+        <div class="row">Oficina</div>
+        <select class="row w-100"  
+                v-on:change="get_details('program'), get_details('object')" 
+                v-model="curr.office">
+          <option v-for="office in offices" :value="office.id"
+                  :selected="office.id == curr.office ? 'selected' : ''" >
+            {{ office.id }} {{ office.name }}
+          </option>
+        </select>
+        <div class="row">Programa</div>
+        <select class="row w-100"  v-on:change="get_budget" v-model="curr.program">
+          <option v-for="program in programs" :value="program.id"
+                  :selected="program.id == curr.program ? 'selected' : ''" >
+            {{ program.id }} {{ program.name }}
+          </option>
+        </select>
+        <div class="row">Clasificador</div>
+        <select class="row w-100"  v-on:change="get_budget" v-model="curr.object">
+          <option v-for="object in objects" :value="object.id"
+                  :selected="object.id == curr.object ? 'selected' : ''" >
+            {{ object.id }} {{ object.name }}
+          </option>
+        </select>
+      </div>
+      <div class="col-8" id="divplot">
+        <table class="table table-hover w-100">
+          <thead>
+            <tr>
+              <th>Mes</th>
+              <th>Aprobado</th>
+              <th>Modificado</th>
+              <th>Ejecutado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="period in budget">
+              <td>{{ period.month }}</td>
+              <td class="text-right">{{ period.approved }}</td>
+              <td class="text-right">{{ period.modified }}</td>
+              <td class="text-right">{{ period.accrued }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <svg v-bind:width="width" v-bind:height="height">
+        </svg>
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+  const server = '/api/v2/monthly'
+  var app = new Vue({
+    el : '#module',
+    data : {
+      years : [],
+      offices : [],
+      programs : [],
+      objects : [],
+      budget : [],
+      curr : {
+        year : '',
+        office : '',
+        program : '',
+        object : ''
+      },
+      margin : 40,
+    },
+    mounted() {
+      this.get_years()
+    },
+    computed : {
+      width : function() {
+        return document.getElementById('divplot').clientWidth
+      },
+      height : function() {
+        return Math.round(this.width * 3 / 4)
+      }
+    },
+    methods : {
+      get : async function(url) {
+        let response = await fetch(url)
+        return resp = await response.json()
+      },
+      get_years : async function() {
+        let url = server + '?dict=years'
+        let resp = await this.get(url)
+        if (this.curr.year == '')
+          this.curr.year = resp[resp.length - 1].id
+        this.years = resp
+        this.get_offices()
+      },
+      get_offices : async function() {
+        let url = server + `/${app.curr.year}?dict=offices`
+        let resp = await this.get(url)
+        if (this.curr.office == '')
+          this.curr.office = resp[0].id
+        this.offices = resp
+        this.get_details('program')
+        this.get_details('object')
+        this.get_budget()
+      },
+      get_details : async function(element) {
+        let url = server + `/${this.curr.year}/${this.curr.office}?dict=${element}`
+        let tmp = await this.get(url)
+        let resp = [{id: '', name: '--'}].concat(tmp)
+        if (this.curr[element] == '')
+          this.curr[element] = resp[0].id
+        else {
+          let fail = true
+          for (item in resp) {
+            if (item.id == this.curr[element]) {
+              fail = false
+              break
+            }
+          }
+          if (fail)
+            this.curr[element] == resp[0].id
+        }
+        this[element + 's'] = resp
+        this.get_budget()
+      },
+      get_budget : async function() {
+        let url = server + `/${this.curr.year}/${this.curr.office}`
+        if (this.curr.program != '')
+          url = `${url}/${this.curr.program}`
+        else if (this.curr.object != '')
+          url = `${url}/object`
+        if (this.curr.object != '')
+          url = `${url}/${this.curr.object}`;
+        let resp = await this.get(url)
+        this.budget = resp
+      }
+    }
+  })
+</script>
+</html>

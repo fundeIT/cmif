@@ -1,11 +1,25 @@
+/* Budget Monitor Script
+ *
+ * This script run the interactive elements for Budget Monitor.
+ * It loads year, office, program, and code controls, and based in their values
+ * updates the month by month plot. It also computes a set of budgetary
+ * indicators.
+ *
+ * (c) FUNDE
+ *     2021
+ */
+
 'use strict';
 
 import '../node_modules/d3/dist/d3.min.js'
 
+// Base url
 const server = '/api/v2/monthly'
 
+// Default color set
 let col = ['green', 'blue', 'orange']
 
+// Control objects
 var ctrl = {
   year: document.getElementById('year'),
   office: document.getElementById('office'),
@@ -140,7 +154,7 @@ function getMonthlyData() {
 
 function updatePlot(data) {
   let width = plot.clientWidth;
-  let height = width * 9 / 16;
+  let height = width * 3 / 4;
   let margin = 40;
   let sel = d3.select('#plot');
   let months = ['Ene', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
@@ -228,7 +242,6 @@ function updateDownload(data) {
 
 function updateIndicators(data) {
   let fields = ['approved', 'modified', 'accrued'];
-  let labels = ['Aprobado', 'Modificado', 'Ejecutado'];
   let accum = {};
   let form = d3.format('$,.2f')
   for (let i = 0; i < fields.length; i++) {
@@ -238,8 +251,12 @@ function updateIndicators(data) {
     let element = document.getElementById('ind-' + fields[i])
     element.textContent = form(accum[fields[i]]);
   }
-  document.getElementById('ind-shifted').textContent = form(accum['modified'] - accum['approved'])
-  document.getElementById('ind-balance').textContent = form(accum['modified'] - accum['accrued']);
-  document.getElementById('ind-efficiency').textContent = d3.format(".1%")(accum['accrued'] / accum['modified'])
-  document.getElementById('ind-credibility').textContent = d3.format(".1%")(1 - Math.abs(accum['accrued'] - accum['approved']) / accum['approved'])
+  document.getElementById('ind-shifted')
+    .textContent = form(accum['modified'] - accum['approved'])
+  document.getElementById('ind-balance')
+    .textContent = form(accum['modified'] - accum['accrued']);
+  document.getElementById('ind-efficiency')
+    .textContent = d3.format(".1%")(accum['accrued'] / accum['modified'])
+  document.getElementById('ind-credibility')
+    .textContent = d3.format(".1%")(1 - Math.abs(accum['accrued'] - accum['approved']) / accum['approved'])
 }

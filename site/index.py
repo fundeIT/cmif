@@ -22,7 +22,7 @@ from tornado.web import FallbackHandler, RequestHandler, Application, \
                         StaticFileHandler
 # Home-made imports
 from app import app
-from apps import budget_explorer, budget_monitor, stats, tax_explorer
+from apps import budget_explorer, stats, tax_explorer
 import api
 
 # Secrets & confir import
@@ -43,7 +43,7 @@ navbar = dbc.Navbar(
                 dbc.DropdownMenuItem(html.A("Explorador de presupuestos",
                     href='/app/budget_explorer')),
                 dbc.DropdownMenuItem(html.A("Monitor presupuestario",
-                    href='/app/budget_monitor')),
+                    href='/monitor/index.html')),
                 dbc.DropdownMenuItem(html.A("Explorador de impuestos",
                     href='/app/tax_explorer')),
             ],
@@ -111,14 +111,6 @@ los diputados, cuando son modificados durante el ejercicio fiscal y, finalmente,
 cuando han sido ejecutados (devengados).
 '''
 
-budget_monitor_text = '''
-## Monitor presupuestario
-
-Este [dashboard](/budget_moitor) concentra la atención en la ejecución presupuestaria
-mes a mes. Permite revisar los montos programados y erogados por cada institución
-pública de manera mensual en sus diferentes unidades o códigos de egreso.
-'''
-
 tax_explorer_text = '''
 ## Explorador de impuestos
 
@@ -145,19 +137,6 @@ def defaultContent():
                 dbc.Col([
                     dcc.Markdown(budget_explorer_text),
                     html.A('Entrar', href='/budget_explorer', className='btn btn-primary'),
-                ], md=8),
-            ]),
-            dbc.Row([
-                dbc.Col(
-                    html.A(
-                        html.Img(src='assets/icons/plot.svg', width='100px'),
-                        href='/budget-monitor'
-                    ),
-                    className='text-center'
-                ),
-                dbc.Col([
-                    dcc.Markdown(budget_monitor_text),
-                    html.A('Entrar', href='/budget_monitor', className='btn btn-primary'),
                 ], md=8),
             ]),
             dbc.Row([
@@ -198,8 +177,6 @@ def display_page(pathname):
         return default_content
     elif pathname == '/app/budget_explorer':
         return budget_explorer.layout
-    elif pathname == '/app/budget_monitor':
-        return budget_monitor.layout
     elif pathname == '/app/tax_explorer':
         return tax_explorer.layout
     elif pathname == "/app/stats":
