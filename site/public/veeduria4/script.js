@@ -50,7 +50,7 @@ function populateMunicipalities() {
 
 function plotInfFnd() {
   let width = objs.pltInfFnd.clientWidth;
-  let height = width * 3 / 4;
+  let height = width * 4 / 4;
   let margin = 40;
   let sel = d3.select('#pltinffnd');
   let svg = sel.append('svg')
@@ -93,6 +93,24 @@ function plotInfFnd() {
   svg.append('g')
     .attr('transform', `translate(${margin}, 0)`) 
     .call(y_axis);
+  svg.append('g')
+    .append('text')
+    .attr('x', width - margin)
+    .attr('y', height - margin * 0.2)
+    .attr('fill', '#000')
+    .attr('font-size', '10px')
+    .attr('font-weight', 'bold')
+    .attr('text-anchor', 'end')
+    .text('Fondos transferidos (miles de USD / miles de hab)')
+  svg.append('g')
+    .append('text')
+    .attr('x', margin * 0.1)
+    .attr('y', margin * 0.9)
+    .attr('fill', '#000')
+    .attr('font-size', '10px')
+    .attr('font-weight', 'bold')
+    .text('Infecciones confirmadas (casos / miles de hab)')
+
 }
 
 function updatePoint(el) {

@@ -15,8 +15,21 @@
     <div class="navbar bg-light">
       <a href="/"><img src="../images/logo_small.png" width="120px"></a>
     </div>
-    <div class="row text-center">
-      <h2>Respuesta COVID-19: Transferencias a municipios</h2>
+    <div class="row">
+      <h2 class="text-center">Respuesta COVID-19: Transferencias a municipios</h2>
+      <p>
+        El Comité de Seguimiento y Veeduría Ciudadana presentó en abril de 2021
+        un informe sobre las transferencias de fondos hechas a los gobiernos
+        municipales en 20202 para responder a la pandemia del COVID-19. Las
+        transferencias corresponden a recursos obtenidos por medio de
+        endeudamiento público, con base en el Decreto Legislativo No. 608
+        aprobado el 26 de marzo de 2020. El Comité hizo una comparación entre
+        los fondos transferidos y los casos confirmados de COVID-19 y encontró
+        que había una correlación inversa, es decir que en promedio a los
+        municipios con menos casos de infecciones se les trasfirieron más
+        recursos por cada mil habitantes. Para facilitar la consulta interactiva de los
+        datos en esta página la información divulgada por el Comité.
+      </p>
     </div>
     <div class="row">
       <div class="col-3">
@@ -30,27 +43,40 @@
             <select id="selmun" class="form-control w-100"></select>
           </div>
           <div class="form-group">
-            <label for="datTransf">Transferencia</label>
+            <label for="datTransf">Fondos transferidos</label>
             <input id="datTransf" class="form-control w-100" value=0 disabled>
+            <small>USD</small>
           </div>
           <div class="form-group">
-            <label for="datFndPop">Transferencia / mil hab.</label>
+            <label for="datFndPop">Fondos transferidos</label>
             <input id="datFndPop" class="form-control w-100" value=0 disabled>
+            <small>Miles de USD / miles de habitantes</small>
           </div>
           <div class="form-group">
             <label for="datInfec">Infecciones confirmadas</label>
             <input id="datInfec" class="form-control w-100" value=0 disabled>
+            <small>Casos al 7 de abril de 2021</small>
           </div>
           <div class="form-group">
-            <label for="datInfPop">Infecciones / mil hab.</label>
+            <label for="datInfPop">Infecciones confirmadas</label>
             <input id="datInfPop" class="form-control w-100" value=0 disabled>
+            <small>Casos / miles de habitantes</small>
+          </div>
+          <div>
+            <a href="fullds.csv">Descargar CSV</a>
           </div>
         </div>
       </div>
       <div class="col-9">
+        <div class="row">
+          <strong>Relación entre fondos transferidos y infecciones
+          confirmadas</strong>
+        </div>
         <div id="pltinffnd" class="row"></div>
         <div id="pltinfpop" class="row"></div>
         <div id="pltfndpop" class="row"></div>
+        <div class="row">
+        </div>
       </div>
     </div>
   </div>
