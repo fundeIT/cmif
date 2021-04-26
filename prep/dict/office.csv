@@ -1,20 +1,21 @@
 office,office_name,level
-100,Organo Legislativo,1
-200,Corte de Cuentas de la República,1
-300,Tribunal Supremo Electoral,1
-301,Registro Nacional de las Personas Naturales,2
-400,Tribunal de Servicio Civil,1
-500,Presidencia de la República,1
-501,Instituto Nacional de los Deportes de El Salvador,2
-504,Instituto Salvadoreño para el Desarrollo de la Muj,2
-551,Organismo Promotor de Exportaciones e Inversiones de El Salvador (PROESA),7
-600,Tribunal de Etica Gubernamental,1
-650,Instituto de Acceso a la Información Pública,1
-700,Ramo de Hacienda,1
-701,Lotería Nacional de Beneficencia,4
-702,Instituto Nacional de Pensiones de los Empleados P,2
-800,Ramo de Relaciones Exteriores,1
-900,Ramo de la Defensa Nacional,1
+0100,Organo Legislativo,1
+0200,Corte de Cuentas de la República,1
+0300,Tribunal Supremo Electoral,1
+0301,Registro Nacional de las Personas Naturales,2
+0400,Tribunal de Servicio Civil,1
+0500,Presidencia de la República,1
+0501,Instituto Nacional de los Deportes de El Salvador,2
+0504,Instituto Salvadoreño para el Desarrollo de la Mujer,2
+0505,Fondo de Inversión Social para el Desarrollo Local,2
+0551,Organismo Promotor de Exportaciones e Inversiones de El Salvador (PROESA),7
+0600,Tribunal de Etica Gubernamental,1
+0650,Instituto de Acceso a la Información Pública,1
+0700,Ramo de Hacienda,1
+0701,Lotería Nacional de Beneficencia,4
+0702,Instituto Nacional de Pensiones de los Empleados P,2
+0800,Ramo de Relaciones Exteriores,1
+0900,Ramo de la Defensa Nacional,1
 1500,Consejo Nacional de la Judicatura,1
 1600,Organo Judicial,1
 1700,Fiscalía General de la República,1
@@ -28,6 +29,7 @@ office,office_name,level
 2402,Unidad Técnica Ejecutiva,2
 2403,Consejo Nacional de Administración de Bienes,2
 3100,Ramo de Educación,1
+3101,Universidad de El Salvador,2
 3105,Caja Mutual de los Empleados del Ministerio de Edu,2
 3106,Instituto Salvadoreño para el Desarrollo Integral,2
 3107,Instituto Salvadoreño de Bienestar Magisterial,2
@@ -72,6 +74,7 @@ office,office_name,level
 3237,Hospital Nacional El Salvador,2
 3300,Ramo de Trabajo y Previsión Social,1
 3302,Instituto Salvadoreño de Formación Profesional,2
+3303,Instituto Salvadoreño del Seguro Social,2
 3500,Ramo de Cultura,1
 3600,Ramo de Vivienda,1
 3700,Ramo de Desarrollo Local,1
@@ -95,7 +98,10 @@ office,office_name,level
 4300,Ramo de Obras Públicas y de Transporte,1
 4301,Administración Nacional de Acueductos y Alcantaril,4
 4304,Autoridad de Aviación Civil,2
+4307,Autoridad Maritima Portuaria,2
+4308,Fondo de Atención a las Víctimas de Accidentes de Tránsito,2
 4400,Ramo de Medio Ambiente y Recursos Naturales,1
+4401,Fondo Ambiental de El Salvador,2
 4600,Ramo de Turismo,1
 4601,Instituto Salvadoreño de Turismo,2
 4602,Corporación Salvadoreña de Turismo,2

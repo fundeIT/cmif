@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Informe Veeduría No. 4 - Transferencias a municipios</title>
+  <script src="../node_modules/jquery/dist/jquery.js"></script>
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <div class="container">    
+    <div class="navbar bg-light">
+      <a href="/"><img src="../images/logo_small.png" width="120px"></a>
+    </div>
+    <div class="row text-center">
+      <h2>Respuesta COVID-19: Transferencias a municipios</h2>
+    </div>
+    <div class="row">
+      <div class="col-3">
+        <div class="row">
+          <div class="form-group">
+            <label for="seldep">Departamento</label>
+            <select id="seldep" class="form-control w-100"></select>
+          </div>
+          <div class="form-group">
+            <label for="selmun">Municipio</label>
+            <select id="selmun" class="form-control w-100"></select>
+          </div>
+          <div class="form-group">
+            <label for="datTransf">Transferencia</label>
+            <input id="datTransf" class="form-control w-100" value=0 disabled>
+          </div>
+          <div class="form-group">
+            <label for="datFndPop">Transferencia / mil hab.</label>
+            <input id="datFndPop" class="form-control w-100" value=0 disabled>
+          </div>
+          <div class="form-group">
+            <label for="datInfec">Infecciones confirmadas</label>
+            <input id="datInfec" class="form-control w-100" value=0 disabled>
+          </div>
+          <div class="form-group">
+            <label for="datInfPop">Infecciones / mil hab.</label>
+            <input id="datInfPop" class="form-control w-100" value=0 disabled>
+          </div>
+        </div>
+      </div>
+      <div class="col-9">
+        <div id="pltinffnd" class="row"></div>
+        <div id="pltinfpop" class="row"></div>
+        <div id="pltfndpop" class="row"></div>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="script.js"></script>
+</body>
+</html>

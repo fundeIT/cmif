@@ -59,7 +59,7 @@ function updateYearCtrl(data) {
     .data(data)
     .enter()
     .append('option')
-    .text(d => d.name)
+    .text(d, d => d.name)
     .attr('value', d => d.id)
   element.style.display = 'block'
   ctrl['year'].selectedIndex = ctrl['year'].children.length - 1;

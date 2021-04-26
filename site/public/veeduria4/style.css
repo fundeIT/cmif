@@ -1,0 +1,8 @@
+svg {
+  fill: 'green';
+}
+
+svg:hover {
+  fill: 'orange';
+  r: 10;
+}
