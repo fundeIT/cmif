@@ -71,7 +71,6 @@ function populateDepartmens() {
 }
 
 function populateMunicipalities() {
-  // console.log(deps.get(objs.selDep.value));
   let el = d3.select('#selmun');
   el.selectAll('*').remove();
   el.selectAll('option')
@@ -82,7 +81,6 @@ function populateMunicipalities() {
 }
 
 function mapInfFnd() {
-  console.log(geo.features)
   let width = objs.mapInfFnd.clientWidth;
   let height = width * 2.5 / 4;
   let margin = 40;
@@ -109,7 +107,6 @@ function mapInfFnd() {
       let shp2 = d.properties.ID_2
       let index = getRowByshpId(shp2)
       if (index >= 0 && index < data.length) {
-        console.log(index)
         return scolor(data[index].agr)
       }
       else
@@ -222,7 +219,6 @@ function resetMap(el) {
 }
 
 function updateMun(el) {
-  console.log(el.target.value)
   let index;
   for (let i = 0; i < data.length; i++) {
     if (data[i]['mun'] == el.target.value) {
@@ -266,7 +262,6 @@ function lm(d, ya, xa) {
   }
   lr['slope'] = (n * sum_xy - sum_x * sum_y) / (n * sum_xx - sum_x * sum_x);
   lr['intercept'] = (sum_y - lr.slope * sum_x) / n;
-  console.log(sum_x, lr)
   return lr;
 }
 
