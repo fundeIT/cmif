@@ -37,6 +37,7 @@ rad[1].value = 'off'
 var data;
 var groups;
 var lastCircle = 'circle0';
+var lastMap = 'map1';
 var geo;
 var start = true;
 
@@ -206,10 +207,11 @@ function resetPoint(el) {
 }
 
 function updateMap(el) {
-  // document.getElementById(lastMap).setAttribute('stroke-width', 1)
+  document.getElementById(lastMap).setAttribute('stroke-width', 1)
   el.target.setAttribute('stroke-width', 3)
-  let index = getRowByshpId(parseInt(el.target.getAttribute('index')))
-  // lastMap = 'map' + index
+  let index = parseInt(el.target.getAttribute('index'))
+  lastMap = 'map' + index
+  index = getRowByshpId(index)
   if (index >=0 && index < data.length)
     updateReport(index)
 }
@@ -228,8 +230,11 @@ function updateMun(el) {
   }
   updateReport(index)
   document.getElementById(lastCircle).setAttribute('r', 3)
+  document.getElementById(lastMap).setAttribute('stroke-width', 1)
   document.getElementById('circle' + index).setAttribute('r', 9)
+  document.getElementById('map' + data[index].shp2).setAttribute('stroke-width', 3)
   lastCircle = 'circle' + index
+  lastMap = 'map' + data[index].shp2
 }
 
 function updateReport(index) {
