@@ -7,13 +7,38 @@ var objs = {
   selDep: document.getElementById('seldep'),
   selMun: document.getElementById('selmun'),
   pltInfFnd: document.getElementById('pltinffnd'),
-  pltInfPop: document.getElementById('pltinfpop'),
-  pltFndPop: document.getElementById('pltfndpop')
+  mapInfFnd: document.getElementById('mapinffnd'),
 }
+
+let rad = document.getElementsByName('fig');
+rad[0].addEventListener('change', function() {
+  if (rad[0].value == 'on') {
+    objs.mapInfFnd.style.display = 'block'
+    objs.pltInfFnd.style.display = 'none'
+  }
+  else {
+    objs.mapInfFnd.style.display = 'none'
+    objs.pltInfFnd.style.display = 'block'
+  }
+})
+rad[1].addEventListener('change', function() {
+  if (rad[0].value == 'on') {
+    objs.mapInfFnd.style.display = 'none'
+    objs.pltInfFnd.style.display = 'block'
+  }
+  else {
+    objs.mapInfFnd.style.display = 'block'
+    objs.pltInfFnd.style.display = 'none'
+  }
+})
+rad[0].value = 'on'
+rad[1].value = 'off'
 
 var data;
 var groups;
 var lastCircle = 'circle0';
+var geo;
+var start = true;
 
 d3.csv(path + "/fullds.csv")
   .then(function(d) {
@@ -23,6 +48,14 @@ d3.csv(path + "/fullds.csv")
     objs.selDep.onchange = populateMunicipalities;
     objs.selMun.onchange = updateMun;
     plotInfFnd();
+    updateReport(0)
+})
+
+fetch(path + '/mun.geojson')
+  .then(response => response.json())
+  .then(function(d) {
+    geo = d;
+    mapInfFnd();
 })
 
 function populateDepartmens() {
@@ -46,6 +79,53 @@ function populateMunicipalities() {
     .enter()
     .append('option')
     .text(d => d.mun)
+}
+
+function mapInfFnd() {
+  console.log(geo.features)
+  let width = objs.mapInfFnd.clientWidth;
+  let height = width * 2.5 / 4;
+  let margin = 40;
+  let sel = d3.select('#mapinffnd');
+  let svg = sel.append('svg')
+    .attr('width', width)
+    .attr('height', height)
+  let projection = d3.geoEquirectangular();
+  projection.fitExtent([[margin,margin],[width - margin,height - margin]], geo)
+  let geoGenerator = d3.geoPath()
+    .projection(projection);
+  let scolor = d3.scaleSequential().domain([0,5])
+    .interpolator(d3.interpolateRainbow);
+  svg.append('g')
+    .selectAll('path')
+    .data(geo.features)
+    .enter()
+    .append('path')
+    .attr('d', geoGenerator)
+    .attr('stroke', 'gray')
+    .attr('id', d => 'map' + d.properties.ID_2)
+    .attr('index', d => d.properties.ID_2)
+    .attr('fill', (d) => {
+      let shp2 = d.properties.ID_2
+      let index = getRowByshpId(shp2)
+      if (index >= 0 && index < data.length) {
+        console.log(index)
+        return scolor(data[index].agr)
+      }
+      else
+        return "white"
+    })
+    .on('mouseenter', updateMap)
+    .on('mouseout', resetMap)
+}
+
+function getRowByshpId(index) {
+  let i = -1;
+  for (i = 0; i < data.length; i++) {
+    if (data[i].shp2 == index)
+      break;
+  }
+  return i;
 }
 
 function plotInfFnd() {
@@ -77,7 +157,7 @@ function plotInfFnd() {
       .attr('class', 'point')
       .on('mouseenter', updatePoint)
       .on('mouseout', resetPoint)
-      .style('fill', d => scolor(d.grp))
+      .style('fill', d => scolor(d.agr))
       .style('stroke', 'gray')
       .append('title')
         .text(d => d.mun)
@@ -110,7 +190,10 @@ function plotInfFnd() {
     .attr('font-size', '10px')
     .attr('font-weight', 'bold')
     .text('Infecciones confirmadas (casos / miles de hab)')
-
+  if (start) {
+    objs.pltInfFnd.style.display = 'none'
+    start = false
+  }
 }
 
 function updatePoint(el) {
@@ -123,6 +206,19 @@ function updatePoint(el) {
 
 function resetPoint(el) {
   el.target.setAttribute('r', 3)
+}
+
+function updateMap(el) {
+  // document.getElementById(lastMap).setAttribute('stroke-width', 1)
+  el.target.setAttribute('stroke-width', 3)
+  let index = getRowByshpId(parseInt(el.target.getAttribute('index')))
+  // lastMap = 'map' + index
+  if (index >=0 && index < data.length)
+    updateReport(index)
+}
+
+function resetMap(el) {
+  el.target.setAttribute('stroke-width', 1)
 }
 
 function updateMun(el) {
@@ -173,3 +269,4 @@ function lm(d, ya, xa) {
   console.log(sum_x, lr)
   return lr;
 }
+

@@ -20,15 +20,16 @@
       <p>
         El Comité de Seguimiento y Veeduría Ciudadana presentó en abril de 2021
         un informe sobre las transferencias de fondos hechas a los gobiernos
-        municipales en 20202 para responder a la pandemia del COVID-19. Las
+        municipales en 2020 para responder a la pandemia del COVID-19. Las
         transferencias corresponden a recursos obtenidos por medio de
         endeudamiento público, con base en el Decreto Legislativo No. 608
         aprobado el 26 de marzo de 2020. El Comité hizo una comparación entre
         los fondos transferidos y los casos confirmados de COVID-19 y encontró
         que había una correlación inversa, es decir que en promedio a los
         municipios con menos casos de infecciones se les trasfirieron más
-        recursos por cada mil habitantes. Para facilitar la consulta interactiva de los
-        datos en esta página la información divulgada por el Comité.
+        recursos y en sentido opuesto, a los municipios con más infecciones se
+        les transfirieron menos fondos. El objetivo de está página es facilitar
+        la consulta interactiva de los datos divulgados por el Comité.
       </p>
     </div>
     <div class="row">
@@ -72,11 +73,18 @@
           <strong>Relación entre fondos transferidos y infecciones
           confirmadas</strong>
         </div>
-        <div id="pltinffnd" class="row"></div>
-        <div id="pltinfpop" class="row"></div>
-        <div id="pltfndpop" class="row"></div>
         <div class="row">
+          <div class="form-group">
+            <input type="radio" id="radmap" name="fig" checked>
+            <label for="radmap">Mapa</label>
+          </div>
+          <div class="form-group">
+            <input type="radio" id="radplt" name="fig">
+            <label for="radplt">Gráfica</label>
+          </div>
         </div>
+        <div id="mapinffnd"></div>
+        <div id="pltinffnd"></div>
       </div>
     </div>
   </div>
