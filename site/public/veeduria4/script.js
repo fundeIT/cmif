@@ -3,6 +3,16 @@ import '../node_modules/d3/dist/d3.min.js';
 // Base url
 const path = '/veeduria4';
 
+var data;
+var groups;
+var lastCircle = 'circle0';
+var lastMap = 'map1';
+var geo;
+var start = true;
+var flag = true;
+
+var shpidx = new Array(300).fill();
+
 var objs = {
   selDep: document.getElementById('seldep'),
   selMun: document.getElementById('selmun'),
@@ -34,30 +44,36 @@ rad[1].addEventListener('change', function() {
 rad[0].value = 'on'
 rad[1].value = 'off'
 
-var data;
-var groups;
-var lastCircle = 'circle0';
-var lastMap = 'map1';
-var geo;
-var start = true;
-
 d3.csv(path + "/fullds.csv")
   .then(function(d) {
     data = d;
+    // Adding index number as attribute
+    for (let i = 0; i < data.length; i++) {
+      data[i]['index'] = i;
+      shpidx[data[i]['shp2']] = i;
+    }
     groups = d3.group(d, d => d.dep);
     populateDepartmens();
-    objs.selDep.onchange = populateMunicipalities;
+    objs.selDep.onchange = changeDepartment;
     objs.selMun.onchange = updateMun;
     plotInfFnd();
     updateReport(0)
+    // Loading geodata, being sure data has been
+    // loaded previously
+    fetch(path + '/mun.geojson')
+      .then(response => response.json())
+      .then(function(d) {
+        geo = d;
+        mapInfFnd();
+    })
 })
 
-fetch(path + '/mun.geojson')
-  .then(response => response.json())
-  .then(function(d) {
-    geo = d;
-    mapInfFnd();
-})
+function changeDepartment() {
+  populateMunicipalities();
+  updateReport(
+    objs.selMun.options[objs.selMun.selectedIndex].getAttribute('value')
+  )
+}
 
 function populateDepartmens() {
   let el = d3.select('#seldep');
@@ -67,7 +83,8 @@ function populateDepartmens() {
     .enter()
     .append('option')
     .text(d => d)
-    .attr('value', d => d)
+    .attr('value', d => d.index)
+    .attr('shape', d => d.shp2)
   populateMunicipalities();
 }
 
@@ -79,6 +96,11 @@ function populateMunicipalities() {
     .enter()
     .append('option')
     .text(d => d.mun)
+    .attr('value', d => d.index)
+    .attr('shape', d => d.shp2)
+  // if (flag) { 
+  //    )
+  // }
 }
 
 function mapInfFnd() {
@@ -93,7 +115,7 @@ function mapInfFnd() {
   projection.fitExtent([[margin,margin],[width - margin,height - margin]], geo)
   let geoGenerator = d3.geoPath()
     .projection(projection);
-  let scolor = d3.scaleSequential().domain([0,5])
+  let scolor = d3.scaleSequential().domain([0, 5])
     .interpolator(d3.interpolateRainbow);
   svg.append('g')
     .selectAll('path')
@@ -103,27 +125,11 @@ function mapInfFnd() {
     .attr('d', geoGenerator)
     .attr('stroke', 'gray')
     .attr('id', d => 'map' + d.properties.ID_2)
-    .attr('index', d => d.properties.ID_2)
-    .attr('fill', (d) => {
-      let shp2 = d.properties.ID_2
-      let index = getRowByshpId(shp2)
-      if (index >= 0 && index < data.length) {
-        return scolor(data[index].agr)
-      }
-      else
-        return "white"
-    })
+    .attr('shape', d => d.properties.ID_2)
+    .attr('fill', d => shpidx[d.properties.ID_2] >= 0 ? 
+      scolor(data[shpidx[d.properties.ID_2]].agr) : "white")
     .on('mouseenter', updateMap)
     .on('mouseout', resetMap)
-}
-
-function getRowByshpId(index) {
-  let i = -1;
-  for (i = 0; i < data.length; i++) {
-    if (data[i].shp2 == index)
-      break;
-  }
-  return i;
 }
 
 function plotInfFnd() {
@@ -209,9 +215,9 @@ function resetPoint(el) {
 function updateMap(el) {
   document.getElementById(lastMap).setAttribute('stroke-width', 1)
   el.target.setAttribute('stroke-width', 3)
-  let index = parseInt(el.target.getAttribute('index'))
-  lastMap = 'map' + index
-  index = getRowByshpId(index)
+  let shape = parseInt(el.target.getAttribute('shape'))
+  lastMap = 'map' + shape
+  let index = shpidx[shape]
   if (index >=0 && index < data.length)
     updateReport(index)
 }
@@ -221,13 +227,7 @@ function resetMap(el) {
 }
 
 function updateMun(el) {
-  let index;
-  for (let i = 0; i < data.length; i++) {
-    if (data[i]['mun'] == el.target.value) {
-      index = i
-      break
-    }
-  }
+  let index = parseInt(el.target.options[el.target.selectedIndex].getAttribute('value'));
   updateReport(index)
   document.getElementById(lastCircle).setAttribute('r', 3)
   document.getElementById(lastMap).setAttribute('stroke-width', 1)
@@ -238,35 +238,15 @@ function updateMun(el) {
 }
 
 function updateReport(index) {
-  let row = data[index]
-  document.getElementById('datTransf').value = d3.format(",.0f")(row.funding)
-  document.getElementById('datFndPop').value = d3.format(",.2f")(row.trfpop)
-  document.getElementById('datInfec').value = d3.format(',.0f')(row.cases)
-  document.getElementById('datInfPop').value = d3.format(',.1f')(row.infpop)
-  objs.selDep.value = row.dep
-  populateMunicipalities(); 
-  objs.selMun.value = row.mun
-}
-
-function lm(d, ya, xa) {
-  var lr = {};
-  let n = d.length;
-  let sum_x = 0;
-  let sum_y = 0;
-  let sum_xy = 0;
-  let sum_xx = 0;
-  let sum_yy = 0;
-  for (let i = 0; i < d.length; i++) {
-    let x = +(d[i][xa]);
-    let y = +(d[i][ya]);
-    sum_x += x
-    sum_y += y
-    sum_xy += x * y
-    sum_xx += x * x
-    sum_yy += y * y
+  if (index >= 0) {
+    let row = data[index]
+    document.getElementById('datTransf').value = d3.format(",.0f")(row.funding)
+    document.getElementById('datFndPop').value = d3.format(",.2f")(row.trfpop)
+    document.getElementById('datInfec').value = d3.format(',.0f')(row.cases)
+    document.getElementById('datInfPop').value = d3.format(',.1f')(row.infpop)
+    objs.selDep.value = row.dep
+    populateMunicipalities(); 
+    objs.selMun.value = row.index
   }
-  lr['slope'] = (n * sum_xy - sum_x * sum_y) / (n * sum_xx - sum_x * sum_x);
-  lr['intercept'] = (sum_y - lr.slope * sum_x) / n;
-  return lr;
 }
 
