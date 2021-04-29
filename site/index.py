@@ -207,10 +207,11 @@ if __name__ == '__main__':
         else:
             assert False, "unhandled option"
     # Interface between Dash & Tornado
-    # tr = WSGIContainer(app.server)
+    tr = WSGIContainer(app.server)
     # Tornado server
     application = Application([
         # (r"/app/(.*)", FallbackHandler, dict(fallback=tr)),
+        # (r"/app/(.*)", FallbackHandler, dict(fallback=WSGIContainer(app))),
         (r"/api/(.*)", FallbackHandler, dict(fallback=WSGIContainer(api.app))),
         (r"/(.*)", StaticFileHandler, {'path': 'public', "default_filename": "index.html"}),
     ], debug=debug, autoreload=debug)
