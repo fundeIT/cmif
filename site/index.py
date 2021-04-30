@@ -210,7 +210,7 @@ if __name__ == '__main__':
     tr = WSGIContainer(app.server)
     # Tornado server
     application = Application([
-        # (r"/app/(.*)", FallbackHandler, dict(fallback=tr)),
+        (r"/app/(.*)", FallbackHandler, dict(fallback=tr)),
         # (r"/app/(.*)", FallbackHandler, dict(fallback=WSGIContainer(app))),
         (r"/api/(.*)", FallbackHandler, dict(fallback=WSGIContainer(api.app))),
         (r"/(.*)", StaticFileHandler, {'path': 'public', "default_filename": "index.html"}),

@@ -14,5 +14,8 @@ def name_month(month_number):
         'JUL', 'AGO', 'SEP',
         'OCT', 'NOV', 'DIC'
     ]
-    return months[int(month_number) - 1]
+    try: 
+        return months[int(month_number) - 1]
+    except:
+        return "ND"
 

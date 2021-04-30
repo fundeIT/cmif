@@ -50,6 +50,7 @@ MarkupSafe = "==1.1.1"
 Pillow = "==8.0.1"
 Shapely = "==1.7.1"
 Werkzeug = "==1.0.1"
+pandas = "*"
 
 [dev-packages]
 

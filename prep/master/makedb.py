@@ -32,6 +32,8 @@ if __name__ == "__main__":
             data = data[fields]
         except:
             print('Invalid fields')
+            print(set(data.columns).differente(set(fields)))
+            print(set(fields).difference(set(data.columns)))
             continue
         data['shifted'] = data['modified'] - data['approved']
         if flag_first:
